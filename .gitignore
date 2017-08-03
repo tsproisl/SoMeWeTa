@@ -1,0 +1,4 @@
+/dist/
+/NLP4Py.egg-info/
+__pycache__/
+*~
