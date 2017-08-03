@@ -13,6 +13,8 @@ def read_lexicon(filename):
                 continue
             word, wc = line.split("\t")
             lexicon[word.lower()].add(wc)
+    for k, v in lexicon.items():
+        lexicon[k] = list(v)
     return lexicon
 
 
@@ -84,3 +86,10 @@ def read_corpus(fh, tagged=True):
         return words, tags, lengths
     else:
         return words, lengths
+
+
+def evaluate(gold, predicted):
+    """Evaluate accuracy of predicted against gold."""
+    total = len(gold)
+    correct = sum(1 for gt, pt in zip(gold, predicted) if gt == pt)
+    return correct / total
