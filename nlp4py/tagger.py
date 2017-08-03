@@ -25,13 +25,13 @@ class ASPTagger(AveragedStructuredPerceptron):
 
     def train(self, words, tags, lengths):
         """"""
-        self.latent_features = functools.partial(self._get_latent_features, words)
+        self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in words])
         X = self._get_static_features(words, lengths)
         self.fit(X, tags, lengths)
 
     def tag(self, words, lengths):
         """"""
-        self.latent_features = functools.partial(self._get_latent_features, words)
+        self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in words])
         X = self._get_static_features(words, lengths)
         tags = super().predict(X, lengths)
         start = 0
@@ -42,14 +42,13 @@ class ASPTagger(AveragedStructuredPerceptron):
 
     def evaluate(self, words, tags, lengths):
         """"""
-        self.latent_features = functools.partial(self._get_latent_features, words)
+        self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in words])
         X = self._get_static_features(words, lengths)
         accuracy = super().score(X, tags, lengths)
         return accuracy
 
     def crossvalidate(self, words, tags, lengths):
         """"""
-        self.latent_features = functools.partial(self._get_latent_features, words)
         sentence_ranges = list(zip((a - b for a, b in zip(itertools.accumulate(lengths), lengths)), lengths))
         X = self._get_static_features(words, lengths)
         div, mod = divmod(len(sentence_ranges), 10)
@@ -90,10 +89,10 @@ class ASPTagger(AveragedStructuredPerceptron):
         train_X = X[:test_start] + X[test_end:]
         train_y = y[:test_start] + y[test_end:]
         # train
-        self.latent_features = functools.partial(self._get_latent_features, train_words)
+        self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in train_words])
         self.fit(train_X, train_y, train_lengths)
         # evaluate
-        self.latent_features = functools.partial(self._get_latent_features, test_words)
+        self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in test_words])
         accuracy = self.score(test_X, test_y, test_lengths)
         logging.info("Accuracy: %.2f%%" % (accuracy * 100,))
         return accuracy
@@ -179,16 +178,17 @@ class ASPTagger(AveragedStructuredPerceptron):
         tags = ["<START-2>", "<START-1>"] + beam
         j = i + 2
         if i >= 1:
-            features.add("P1_word, P1_pos: %s, %s" % (words[global_i - 1].lower(), tags[j - 1]))
+            features.add("P1_word, P1_pos: %s, %s" % (words[global_i - 1], tags[j - 1]))
         if i >= 2:
-            features.add("P2_word, P2_pos: %s, %s" % (words[global_i - 2].lower(), tags[j - 2]))
+            features.add("P2_word, P2_pos: %s, %s" % (words[global_i - 2], tags[j - 2]))
         features.add("P1_pos: %s" % tags[j - 1])
         features.add("P2_pos: %s" % tags[j - 2])
         features.add("P2_pos, P1_pos: %s, %s" % (tags[j - 2], tags[j - 1]))
-        features.add("P1_pos, W_word: %s, %s" % (tags[j - 1], words[global_i].lower()))
+        features.add("P1_pos, W_word: %s, %s" % (tags[j - 1], words[global_i]))
         return features
 
     @staticmethod
+    @functools.lru_cache(maxsize=10240)
     def _word_shape(word):
         if len(word) >= 100:
             return "LONG"
@@ -216,6 +216,7 @@ class ASPTagger(AveragedStructuredPerceptron):
         return "".join(shape)
 
     @staticmethod
+    @functools.lru_cache(maxsize=10240)
     def _word_flags(word, prefix):
         """"""
         email = re.compile(r"^[[:alnum:].%+-]+(?:@| \[?at\]? )[[:alnum:].-]+(?:\.| \[?dot\]? )[[:alpha:]]{2,}$", re.IGNORECASE)
