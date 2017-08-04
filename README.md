@@ -26,6 +26,10 @@ tiger+decow+empirist.model_wl
 CMC: 87.58
 Web: 93.39
 
+tiger+decow+empirist.model_ll
+CMC: 87.91
+Web: 93.38
+
 tiger+decow+morphy+empirist.model
 CMC: 87.87
 Web: 93.39
@@ -41,3 +45,15 @@ Web: 93.50
 tiger+decow+morphy+empirist.model_wl
 CMC: 88.23
 Web: 93.29
+
+tiger+decow+morphy+empirist.model_ll
+CMC: 88.14
+Web: 93.31
+
+tiger+dewiki+empirist.model
+CMC: 87.29
+Web: 92.81
+
+tiger+dewiki+morphy+empirist.model
+CMC: 87.60
+Web: 93.43
