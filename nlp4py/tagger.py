@@ -5,6 +5,7 @@ import gzip
 import itertools
 import json
 import logging
+import math
 import multiprocessing
 import re
 import statistics
@@ -118,8 +119,8 @@ class ASPTagger(AveragedStructuredPerceptron):
                 n2 = tokens[j + 2]
                 # constant bias feature acts like a prior
                 local_features.add("bias")
-                # word length
-                # local_features.add("W_length: %d" % len(word))
+                # rounded logarithm of word length
+                local_features.add("W_loglength: %d" % round(math.log(len(word))))
                 # current word
                 local_features.add("W_word: %s" % w)
                 # next words
