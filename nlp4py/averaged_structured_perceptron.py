@@ -59,7 +59,13 @@ class AveragedStructuredPerceptron:
         if self.prior_weights is not None:
             for feat in self.prior_weights:
                 for cls, weight in self.prior_weights[feat].items():
-                    self.weights[feat][cls] += weight
+                    try:
+                        self.weights[feat][cls] += weight
+                    except KeyError:
+                        if feat not in self.weights:
+                            self.weights[feat] = {}
+                        if cls not in self.weights[feat]:
+                            self.weights[feat][cls] = weight
 
     def predict(self, X, lengths):
         """"""
