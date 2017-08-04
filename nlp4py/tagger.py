@@ -148,16 +148,21 @@ class ASPTagger(AveragedStructuredPerceptron):
                 # Brown clusters
                 if brown_clusters is not None:
                     # P2, P1, W, N1, N2
-                    if i >= 2 and p2 in brown_clusters:
-                        local_features.add("P2_brown: %s" % brown_clusters[p2])
-                    if i >= 1 and p1 in brown_clusters:
-                        local_features.add("P1_brown: %s" % brown_clusters[p1])
-                    if w in brown_clusters:
-                        local_features.add("W_brown: %s" % brown_clusters[w])
-                    if length - i > 1 and n1 in brown_clusters:
-                        local_features.add("N1_brown: %s" % brown_clusters[n1])
-                    if length - i > 2 and n2 in brown_clusters:
-                        local_features.add("N2_brown: %s" % brown_clusters[n2])
+                    if i >= 2:
+                        bc, freq = brown_clusters.get(p2, ("N/A", 0))
+                        local_features.add("P2_brown: %s" % bc)
+                    if i >= 1:
+                        bc, freq = brown_clusters.get(p1, ("N/A", 0))
+                        local_features.add("P1_brown: %s" % bc)
+                    bc, freq = brown_clusters.get(w, ("N/A", 0))
+                    local_features.add("W_brown: %s" % bc)
+                    local_features.add("W_logfreq: %d" % freq)
+                    if length - i > 1:
+                        bc, freq = brown_clusters.get(n1, ("N/A", 0))
+                        local_features.add("N1_brown: %s" % bc)
+                    if length - i > 2:
+                        bc, freq = brown_clusters.get(n2, ("N/A", 0))
+                        local_features.add("N2_brown: %s" % bc)
                 if word_to_vec is not None:
                     # if w in word_to_vec:
                     #     for i, d in enumerate(word_to_vec[w]):
@@ -168,6 +173,8 @@ class ASPTagger(AveragedStructuredPerceptron):
                     if w in lexicon:
                         for feat in lexicon[w]:
                             local_features.add("W_lex: %s" % feat)
+                    else:
+                        local_features.add("W_lex: N/A")
                 features.append(local_features)
         return features
 
