@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import collections
+import math
 
 
 def read_lexicon(filename):
@@ -23,7 +24,7 @@ def read_brown_clusters(fh):
     brown_clusters = {}
     for line in fh:
         cluster, word, freq = line.rstrip().split("\t")
-        brown_clusters[word] = cluster
+        brown_clusters[word] = (cluster, round(math.log(int(freq))))
     return brown_clusters
 
 
