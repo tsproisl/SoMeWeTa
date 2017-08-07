@@ -31,6 +31,12 @@ Avg: 90.94
 decow+morphy+mapping
 CMC: 88.46
 Web: 93.47
+Avg: 90.97
+
+decow+morcap
+CMC: 88.25
+Web: 93.79
+Avg: 91.02
 
 dewikismall
 CMC: 87.70
