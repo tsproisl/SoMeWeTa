@@ -18,11 +18,14 @@ class ASPTagger(AveragedStructuredPerceptron):
     perceptron.
 
     """
-    def __init__(self, beam_size, iterations, lexicon=None, brown_clusters=None, word_to_vec=None, prior_weights=None):
+    def __init__(self, beam_size, iterations, lexicon=None, mapping=None, brown_clusters=None, word_to_vec=None, prior_weights=None):
         super().__init__(beam_size=beam_size, iterations=iterations, latent_features=None, prior_weights=prior_weights)
         self.lexicon = lexicon
+        self.mapping = mapping
         self.brown_clusters = brown_clusters
         self.word_to_vec = word_to_vec
+        self.mapping["<START-2>"] = "<START>"
+        self.mapping["<START-1>"] = "<START>"
 
     def train(self, words, tags, lengths):
         """"""
@@ -67,17 +70,16 @@ class ASPTagger(AveragedStructuredPerceptron):
         """"""
         with gzip.open(filename, 'wb') as f:
             # f.write(json.dumps((self.lexicon, self.brown_clusters, self.word_to_vec, self.weights), ensure_ascii=False, indent=4).encode())
-            f.write(json.dumps((self.lexicon, self.brown_clusters, self.word_to_vec, self.weights), ensure_ascii=False, indent=4).encode())
+            f.write(json.dumps((self.lexicon, self.mapping, self.brown_clusters, self.word_to_vec, self.weights), ensure_ascii=False, indent=4).encode())
 
     def load(self, filename):
         """"""
         with gzip.open(filename, 'rb') as f:
             model = json.loads(f.read().decode())
-            self.lexicon, self.brown_clusters, self.word_to_vec, self.weights = model
+            self.lexicon, self.mapping, self.brown_clusters, self.word_to_vec, self.weights = model
 
     def _cross_val_iteration(self, i, words, X, y, lengths, sentence_ranges, div, mod):
         """"""
-        logging.info("Fold no. %d" % i)
         test_ranges = sentence_ranges[i * div + min(i, mod):(i + 1) * div + min(i + 1, mod)]
         test_start = test_ranges[0][0]
         test_end = test_ranges[-1][0] + test_ranges[-1][1]
@@ -178,21 +180,30 @@ class ASPTagger(AveragedStructuredPerceptron):
                 features.append(local_features)
         return features
 
-    @staticmethod
-    def _get_latent_features(words, start, beam, i):
+    def _get_latent_features(self, words, start, beam, i):
         """"""
         features = set()
         global_i = start + i
         tags = ["<START-2>", "<START-1>"] + beam
+        mapping = self.mapping
         j = i + 2
         if i >= 1:
             features.add("P1_word, P1_pos: %s, %s" % (words[global_i - 1], tags[j - 1]))
+            if mapping is not None:
+                features.add("P1_word, P1_wc: %s, %s" % (words[global_i - 1], mapping[tags[j - 1]]))
         if i >= 2:
             features.add("P2_word, P2_pos: %s, %s" % (words[global_i - 2], tags[j - 2]))
+            if mapping is not None:
+                features.add("P2_word, P2_wc: %s, %s" % (words[global_i - 2], mapping[tags[j - 2]]))
         features.add("P1_pos: %s" % tags[j - 1])
         features.add("P2_pos: %s" % tags[j - 2])
         features.add("P2_pos, P1_pos: %s, %s" % (tags[j - 2], tags[j - 1]))
         features.add("P1_pos, W_word: %s, %s" % (tags[j - 1], words[global_i]))
+        if mapping is not None:
+            features.add("P1_wc: %s" % mapping[tags[j - 1]])
+            features.add("P2_wc: %s" % mapping[tags[j - 2]])
+            features.add("P2_wc, P1_wc: %s, %s" % (mapping[tags[j - 2]], mapping[tags[j - 1]]))
+            features.add("P1_wc, W_word: %s, %s" % (mapping[tags[j - 1]], words[global_i]))
         return features
 
     @staticmethod

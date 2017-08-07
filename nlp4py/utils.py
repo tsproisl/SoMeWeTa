@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import collections
+import json
 import math
 
 
@@ -26,6 +27,13 @@ def read_brown_clusters(fh):
         cluster, word, freq = line.rstrip().split("\t")
         brown_clusters[word] = (cluster, round(math.log(int(freq))))
     return brown_clusters
+
+
+def read_mapping(filename):
+    """"""
+    with open(filename) as fh:
+        mapping = json.load(fh)
+    return mapping
 
 
 def read_word2vec_vectors(fh):
