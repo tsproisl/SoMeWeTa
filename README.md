@@ -28,6 +28,10 @@ CMC: 88.25
 Web: 93.62
 Avg: 90.94
 
+decow+morphy+mapping
+CMC: 88.46
+Web: 93.47
+
 dewikismall
 CMC: 87.70
 Web: 93.12
