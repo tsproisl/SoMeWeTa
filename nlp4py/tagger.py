@@ -24,8 +24,9 @@ class ASPTagger(AveragedStructuredPerceptron):
         self.mapping = mapping
         self.brown_clusters = brown_clusters
         self.word_to_vec = word_to_vec
-        self.mapping["<START-2>"] = "<START>"
-        self.mapping["<START-1>"] = "<START>"
+        if self.mapping is not None:
+            self.mapping["<START-2>"] = "<START>"
+            self.mapping["<START-1>"] = "<START>"
 
     def train(self, words, tags, lengths):
         """"""
