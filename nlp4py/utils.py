@@ -97,6 +97,20 @@ def read_corpus(fh, tagged=True):
         return words, lengths
 
 
+def iter_corpus(fh, tagged=True):
+    """"""
+    words, tags, length = [], [], 0
+    for sentence in get_sentences(fh, tagged):
+        if tagged:
+            words, tags = sentence
+            length = len(words)
+            yield words, tags, length
+        else:
+            length = len(sentence)
+            words = sentence
+            yield words, length
+
+
 def evaluate(gold, predicted):
     """Evaluate accuracy of predicted against gold."""
     total = len(gold)
