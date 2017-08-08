@@ -77,8 +77,7 @@ class ASPTagger(AveragedStructuredPerceptron):
         """"""
         with gzip.open(filename, 'rb') as f:
             model = json.loads(f.read().decode())
-            # self.lexicon, self.mapping, self.brown_clusters, self.word_to_vec, self.weights = model
-            self.lexicon, self.brown_clusters, self.word_to_vec, self.weights = model
+            self.lexicon, self.mapping, self.brown_clusters, self.word_to_vec, self.weights = model
 
     def _cross_val_iteration(self, i, words, X, y, lengths, sentence_ranges, div, mod):
         """"""
