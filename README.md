@@ -4,46 +4,46 @@ Web: 93.55
 Avg: 90.44
 
 morphy
-CMC: 86.66
-Web: 93.23
-Avg: 89.95
+CMC: 86.86
+Web: 93.08
+Avg: 89.97
 
 dewikiall
-CMC: 87.50
-Web: 93.75
-Avg: 90.63
+CMC: 87.03
+Web: 93.62
+Avg: 90.33
 
 dewikiall+morphy
-CMC: 87.91
-Web: 93.58
-Avg: 90.75
+CMC: 87.70
+Web: 93.84
+Avg: 90.64
 
 decow
-CMC: 88.46
-Web: 93.59
-Avg: 91.03
+CMC: 88.02
+Web: 93.57
+Avg: 90.80
 
 decow+morphy
-CMC: 88.25
-Web: 93.62
-Avg: 90.94
+CMC: 88.21
+Web: 93.59
+Avg: 90.90
 
 decow+morphy+mapping
-CMC: 88.46
-Web: 93.47
-Avg: 90.97
+CMC: 88.12
+Web: 93.62
+Avg: 90.87
 
 decow+morcap
-CMC: 88.25
-Web: 93.79
+CMC: 88.21
+Web: 93.82
 Avg: 91.02
 
 dewikismall
-CMC: 87.70
-Web: 93.12
-Avg: 90.41
+CMC: 
+Web: 
+Avg: 
 
 dewikismall+morphy
-CMC: 87.81
-Web: 93.96
-Avg: 90.89
+CMC: 
+Web: 
+Avg: 
