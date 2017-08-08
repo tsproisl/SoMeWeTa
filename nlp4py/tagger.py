@@ -38,7 +38,7 @@ class ASPTagger(AveragedStructuredPerceptron):
         """"""
         self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in words])
         X = self._get_static_features(words, lengths)
-        tags = super().predict(X, lengths)
+        tags = self.predict(X, lengths)
         start = 0
         for length, local_tags in zip(lengths, tags):
             local_words = words[start:start + length]
@@ -49,7 +49,7 @@ class ASPTagger(AveragedStructuredPerceptron):
         """"""
         self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in words])
         X = self._get_static_features(words, lengths)
-        accuracy = super().score(X, tags, lengths)
+        accuracy = self.score(X, tags, lengths)
         return accuracy
 
     def crossvalidate(self, words, tags, lengths):
@@ -77,7 +77,8 @@ class ASPTagger(AveragedStructuredPerceptron):
         """"""
         with gzip.open(filename, 'rb') as f:
             model = json.loads(f.read().decode())
-            self.lexicon, self.mapping, self.brown_clusters, self.word_to_vec, self.weights = model
+            # self.lexicon, self.mapping, self.brown_clusters, self.word_to_vec, self.weights = model
+            self.lexicon, self.brown_clusters, self.word_to_vec, self.weights = model
 
     def _cross_val_iteration(self, i, words, X, y, lengths, sentence_ranges, div, mod):
         """"""
@@ -275,12 +276,10 @@ class ASPTagger(AveragedStructuredPerceptron):
                               r"|" +
                               r"\^3"
                               r"|" +
-                              r"emojiQ[[:alpha:]][3,}"
-                              r"|" +
-                              r"[\u2600-\u27BF\U0001F300-\U0001f64f\U0001F680-\U0001F6FF\U0001F900-\U0001F9FF]" +  # Unicode emoticons and other symbols
-                              r"|" +
                               r"|".join([re.escape(_) for _ in emoticon_list]) +
                               r"$", re.VERBOSE)
+        # Unicode emoticons and other symbols
+        emoji = re.compile(r"^[\u2600-\u27BF\U0001F300-\U0001f64f\U0001F680-\U0001F6FF\U0001F900-\U0001F9FF]$")
         flags = set()
         if word.isalpha():
             flags.add("%s_isalpha" % prefix)
@@ -306,6 +305,8 @@ class ASPTagger(AveragedStructuredPerceptron):
             flags.add("%s_isactword" % prefix)
         if emoticon.search(word):
             flags.add("%s_isemoticon" % prefix)
+        if emoji.search(word):
+            flags.add("%s_isemoji" % prefix)
         if punctuation.search(word):
             flags.add("%s_ispunct" % prefix)
         if ordinal.search(word):
