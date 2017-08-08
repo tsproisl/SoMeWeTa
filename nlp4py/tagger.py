@@ -27,6 +27,47 @@ class ASPTagger(AveragedStructuredPerceptron):
         if self.mapping is not None:
             self.mapping["<START-2>"] = "<START>"
             self.mapping["<START-1>"] = "<START>"
+        self.email = re.compile(r"^[[:alnum:].%+-]+(?:@| \[?at\]? )[[:alnum:].-]+(?:\.| \[?dot\]? )[[:alpha:]]{2,}$", re.IGNORECASE)
+        self.xmltag = re.compile(r"^</?[^>]+>$")
+        self.url = re.compile(r"^(?:(?:(?:https?|ftp|svn)://|(?:https?://)?www\.).+)|(?:[\w./-]+\.(?:de|com|org|net|edu|info|jpg|png|gif|log|txt)(?:-\w+)?)$", re.IGNORECASE)
+        self.mention = re.compile(r"^@\w+$")
+        self.hashtag = re.compile(r"^#\w+$")
+        self.action_word = re.compile(r"^[*+][^*]+[*]$")
+        self.punctuation = re.compile(r'^[](){}.!?…<>%‰€$£₤¥°@~*„“”‚‘"\'`´»«›‹,;:/*+=&%§~#^−–-]+$')
+        self.ordinal = re.compile(r"^(?:\d+\.)+$")
+        self.number = re.compile(r"""(?<!\w)
+                                (?:[−+-]?              # optional sign
+                                  \d*                  # optional digits before decimal point
+                                  [.,]?                # optional decimal point
+                                  \d+                  # digits
+                                  (?:[eE][−+-]?\d+)?   # optional exponent
+                                  |
+                                  \d+[\d.,]*\d+)
+                                (?![.,]?\d)""", re.VERBOSE)
+        emoticon_set = set(["(-.-)", "(T_T)", "(♥_♥)", ")':", ")-:",
+                            "(-:", ")=", ")o:", ")x", ":'C", ":/", ":<",
+                            ":C", ":[", "=(", "=)", "=D", "=P", ">:",
+                            "D':", "D:", "\:", "]:", "x(", "^^", "o.O",
+                            "oO", "\O/", "\m/", ":;))", "_))", "*_*",
+                            "._.", ":wink:", ">_<", "*<:-)", ":!:",
+                            ":;-))"])
+        emoticon_list = sorted(emoticon_set, key=len, reverse=True)
+        self.emoticon = re.compile(r"""^(?:(?:[:;]|(?<!\d)8)           # a variety of eyes, alt.: [:;8]
+                                    [-'oO]?                       # optional nose or tear
+                                    (?: \)+ | \(+ | [*] | ([DPp])\1*(?!\w)))   # a variety of mouths
+                               """ +
+                              r"|" +
+                              r"(?:xD+|XD+)" +
+                              r"|" +
+                              r"([:;])[ ]+([()])" +
+                              r"|" +
+                              r"\^3"
+                              r"|" +
+                              r"|".join([re.escape(_) for _ in emoticon_list]) +
+                              r"$", re.VERBOSE)
+        # Unicode emoticons and other symbols
+        self.emoji = re.compile(r"^[\u2600-\u27BF\U0001F300-\U0001f64f\U0001F680-\U0001F6FF\U0001F900-\U0001F9FF]$")
+
 
     def train(self, words, tags, lengths):
         """"""
@@ -235,50 +276,9 @@ class ASPTagger(AveragedStructuredPerceptron):
                 shape.append(shape_char)
         return "".join(shape)
 
-    @staticmethod
     @functools.lru_cache(maxsize=10240)
-    def _word_flags(word, prefix):
+    def _word_flags(self, word, prefix):
         """"""
-        email = re.compile(r"^[[:alnum:].%+-]+(?:@| \[?at\]? )[[:alnum:].-]+(?:\.| \[?dot\]? )[[:alpha:]]{2,}$", re.IGNORECASE)
-        tag = re.compile(r"^</?[^>]+>$")
-        url = re.compile(r"^(?:(?:(?:https?|ftp|svn)://|(?:https?://)?www\.).+)|(?:[\w./-]+\.(?:de|com|org|net|edu|info|jpg|png|gif|log|txt)(?:-\w+)?)$", re.IGNORECASE)
-        mention = re.compile(r"^@\w+$")
-        hashtag = re.compile(r"^#\w+$")
-        action_word = re.compile(r"^[*+][^*]+[*]$")
-        punctuation = re.compile(r'^[](){}.!?…<>%‰€$£₤¥°@~*„“”‚‘"\'`´»«›‹,;:/*+=&%§~#^−–-]+$')
-        ordinal = re.compile(r"^(?:\d+\.)+$")
-        number = re.compile(r"""(?<!\w)
-                                (?:[−+-]?              # optional sign
-                                  \d*                  # optional digits before decimal point
-                                  [.,]?                # optional decimal point
-                                  \d+                  # digits
-                                  (?:[eE][−+-]?\d+)?   # optional exponent
-                                  |
-                                  \d+[\d.,]*\d+)
-                                (?![.,]?\d)""", re.VERBOSE)
-        emoticon_set = set(["(-.-)", "(T_T)", "(♥_♥)", ")':", ")-:",
-                            "(-:", ")=", ")o:", ")x", ":'C", ":/", ":<",
-                            ":C", ":[", "=(", "=)", "=D", "=P", ">:",
-                            "D':", "D:", "\:", "]:", "x(", "^^", "o.O",
-                            "oO", "\O/", "\m/", ":;))", "_))", "*_*",
-                            "._.", ":wink:", ">_<", "*<:-)", ":!:",
-                            ":;-))"])
-        emoticon_list = sorted(emoticon_set, key=len, reverse=True)
-        emoticon = re.compile(r"""^(?:(?:[:;]|(?<!\d)8)           # a variety of eyes, alt.: [:;8]
-                                    [-'oO]?                       # optional nose or tear
-                                    (?: \)+ | \(+ | [*] | ([DPp])\1*(?!\w)))   # a variety of mouths
-                               """ +
-                              r"|" +
-                              r"(?:xD+|XD+)" +
-                              r"|" +
-                              r"([:;])[ ]+([()])" +
-                              r"|" +
-                              r"\^3"
-                              r"|" +
-                              r"|".join([re.escape(_) for _ in emoticon_list]) +
-                              r"$", re.VERBOSE)
-        # Unicode emoticons and other symbols
-        emoji = re.compile(r"^[\u2600-\u27BF\U0001F300-\U0001f64f\U0001F680-\U0001F6FF\U0001F900-\U0001F9FF]$")
         flags = set()
         if word.isalpha():
             flags.add("%s_isalpha" % prefix)
@@ -290,26 +290,26 @@ class ASPTagger(AveragedStructuredPerceptron):
             flags.add("%s_isupper" % prefix)
         if word.istitle():
             flags.add("%s_istitle" % prefix)
-        if email.search(word):
+        if self.email.search(word):
             flags.add("%s_isemail" % prefix)
-        if tag.search(word):
+        if self.xmltag.search(word):
             flags.add("%s_istag" % prefix)
-        if url.search(word):
+        if self.url.search(word):
             flags.add("%s_isurl" % prefix)
-        if mention.search(word):
+        if self.mention.search(word):
             flags.add("%s_ismention" % prefix)
-        if hashtag.search(word):
+        if self.hashtag.search(word):
             flags.add("%s_ishashtag" % prefix)
-        if action_word.search(word):
+        if self.action_word.search(word):
             flags.add("%s_isactword" % prefix)
-        if emoticon.search(word):
+        if self.emoticon.search(word):
             flags.add("%s_isemoticon" % prefix)
-        if emoji.search(word):
+        if self.emoji.search(word):
             flags.add("%s_isemoji" % prefix)
-        if punctuation.search(word):
+        if self.punctuation.search(word):
             flags.add("%s_ispunct" % prefix)
-        if ordinal.search(word):
+        if self.ordinal.search(word):
             flags.add("%s_isordinal" % prefix)
-        if number.search(word):
+        if self.number.search(word):
             flags.add("%s_isnumber" % prefix)
         return flags
