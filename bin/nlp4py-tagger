@@ -2,6 +2,7 @@
 
 import argparse
 import gzip
+import itertools
 import json
 import logging
 import os
@@ -62,10 +63,15 @@ def main():
         asptagger.save(args.train)
     elif args.tag:
         asptagger.load(args.tag)
-        words, lengths = utils.read_corpus(args.CORPUS, tagged=False)
-        tagged_corpus = asptagger.tag(words, lengths)
-        for sentence in tagged_corpus:
-            print("\n".join(["\t".join(t) for t in sentence]), "\n")
+        corpus = utils.iter_corpus(args.CORPUS, tagged=False)
+        slc = list(itertools.islice(corpus, 100))
+        while slc:
+            words, lengths = zip(*slc)
+            words = list(itertools.chain.from_iterable(words))
+            tagged_corpus = asptagger.tag(words, lengths)
+            for sentence in tagged_corpus:
+                print("\n".join(["\t".join(t) for t in sentence]), "\n")
+            slc = list(itertools.islice(corpus, 100))
     elif args.evaluate:
         asptagger.load(args.evaluate)
         words, tags, lengths = utils.read_corpus(args.CORPUS, tagged=True)
