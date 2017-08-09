@@ -13,6 +13,11 @@ CMC: 87.03
 Web: 93.62
 Avg: 90.33
 
+dewikiall+capit
+CMC: 87.47
+Web: 93.18
+Avg: 90.33
+
 dewikiall+morphy
 CMC: 87.70
 Web: 93.84 *
@@ -33,8 +38,13 @@ CMC: 88.14
 Web: 93.38
 Avg: 90.76
 
+decow+capit
+CMC: 88.61 *
+Web: 93.43
+Avg: 91.02 *
+
 decow+morphy
-CMC: 88.21 *
+CMC: 88.21
 Web: 93.59
 Avg: 90.90
 
@@ -44,7 +54,7 @@ Web: 93.62
 Avg: 90.87
 
 decow+morcap
-CMC: 88.21 *
+CMC: 88.21
 Web: 93.82
 Avg: 91.02 *
 
