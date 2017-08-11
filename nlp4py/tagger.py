@@ -18,7 +18,7 @@ class ASPTagger(AveragedStructuredPerceptron):
     perceptron.
 
     """
-    def __init__(self, beam_size, iterations, vocabulary=None, lexicon=None, mapping=None, brown_clusters=None, word_to_vec=None, prior_weights=None, prior_vocabulary=None):
+    def __init__(self, beam_size, iterations, lexicon=None, mapping=None, brown_clusters=None, word_to_vec=None, prior_weights=None, prior_vocabulary=None):
         super().__init__(beam_size=beam_size, iterations=iterations, latent_features=None, prior_weights=prior_weights)
         if prior_vocabulary is None:
             self.vocabulary = set()
