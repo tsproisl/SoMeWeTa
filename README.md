@@ -32,73 +32,73 @@ Avg: 90.44
 
 | dat |  acc  |  iv   |  oov  |
 |-----|-------|-------|-------|
-| CMC | xx.xx | xx.xx | xx.xx |
-| Web | xx.xx | xx.xx | xx.xx |
-| Avg | xx.xx | xx.xx | xx.xx |
+| CMC | 87.03 | 89.50 | 71.70 |
+| Web | 93.62 | 94.99 | 84.60 |
+| Avg | 90.33 | 92.25 | 78.15 |
 
 ## tiger+dewikiall+capit+empirist ##
 
 | dat |  acc  |  iv   |  oov  |
 |-----|-------|-------|-------|
-| CMC | xx.xx | xx.xx | xx.xx |
-| Web | xx.xx | xx.xx | xx.xx |
-| Avg | xx.xx | xx.xx | xx.xx |
+| CMC | 87.47 | 90.01 | 71.70 |
+| Web | 93.18 | 94.78 | 82.70 |
+| Avg | 90.33 | 92.40 | 77.20 |
 
 ## tiger+dewikiall+morphy+empirist ##
 
 | dat |  acc  |  iv   |  oov  |
 |-----|-------|-------|-------|
 | CMC | 87.68 | 90.08 | 72.80 |
-| Web | 93.97 | 95.23 | 85.70 |
+| Web | *93.97* | 95.23 | 85.70 |
 | Avg | 90.83 | 92.66 | 79.25 |
 
 ## tiger+dewikiall+morcap+empirist ##
 
 | dat |  acc  |  iv   |  oov  |
 |-----|-------|-------|-------|
-| CMC | xx.xx | xx.xx | xx.xx |
-| Web | xx.xx | xx.xx | xx.xx |
-| Avg | xx.xx | xx.xx | xx.xx |
+| CMC | 88.08 | 90.61 | 72.39 |
+| Web | 93.78 | 95.08 | 85.20 |
+| Avg | 90.93 | 92.85 | 78.80 |
 
 ## tiger+decow+empirist ##
 
 | dat |  acc  |  iv   |  oov  |
 |-----|-------|-------|-------|
-| CMC | xx.xx | xx.xx | xx.xx |
-| Web | xx.xx | xx.xx | xx.xx |
-| Avg | xx.xx | xx.xx | xx.xx |
+| CMC | 88.17 | 90.32 | 74.86 |
+| Web | 93.62 | 95.26 | 82.80 |
+| Avg | 90.90 | 92.79 | 78.83 |
 
 ## tiger+decow+capit+empirist ##
 
 | dat |  acc  |  iv   |  oov  |
 |-----|-------|-------|-------|
-| CMC | xx.xx | xx.xx | xx.xx |
-| Web | xx.xx | xx.xx | xx.xx |
-| Avg | xx.xx | xx.xx | xx.xx |
+| CMC | 87.73 | 89.90 | 74.31 |
+| Web | 93.51 | 95.05 | 83.40 |
+| Avg | 90.62 | 92.48 | 78.86 |
 
 ## tiger+decow+morphy+empirist ##
 
 | dat |  acc  |  iv   |  oov  |
 |-----|-------|-------|-------|
-| CMC | xx.xx | xx.xx | xx.xx |
-| Web | xx.xx | xx.xx | xx.xx |
-| Avg | xx.xx | xx.xx | xx.xx |
+| CMC | 88.21 | 90.21 | 75.82 |
+| Web | 93.59 | 95.23 | 82.80 |
+| Avg | 90.90 | 92.72 | 79.31 |
 
 ## tiger+decow+morcap+empirist ##
 
 | dat |  acc  |  iv   |  oov  |
 |-----|-------|-------|-------|
-| CMC | xx.xx | xx.xx | xx.xx |
-| Web | xx.xx | xx.xx | xx.xx |
-| Avg | xx.xx | xx.xx | xx.xx |
+| CMC | 88.27 | 90.21 | 76.24 |
+| Web | 93.75 | 95.28 | 83.70 |
+| Avg | 91.01 | 92.75 | 79.97 |
 
 ## tiger+decow+morcap+empirist+extra ##
 
 | dat |  acc  |  iv   |  oov  |
 |-----|-------|-------|-------|
-| CMC | xx.xx | xx.xx | xx.xx |
-| Web | xx.xx | xx.xx | xx.xx |
-| Avg | xx.xx | xx.xx | xx.xx |
+| CMC | *88.77* | 90.61 | 77.34 |
+| Web | 93.84 | 95.37 | 83.80 |
+| Avg | *91.31* | 92.99 | 80.57 |
 
 
 
