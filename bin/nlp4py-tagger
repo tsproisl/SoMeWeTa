@@ -43,7 +43,7 @@ def arguments():
 
 def main():
     args = arguments()
-    lexicon, mapping, brown_clusters, word_to_vec, prior_weights = None, None, None, None, None
+    lexicon, mapping, brown_clusters, word_to_vec, prior_weights, prior_vocabulary = None, None, None, None, None, None
     if args.mapping and (args.train or args.crossvalidate):
         mapping = utils.read_mapping(args.mapping)
     if args.lexicon and (args.train or args.crossvalidate):
@@ -55,8 +55,9 @@ def main():
     if args.prior and (args.train or args.crossvalidate):
         with gzip.open(args.prior, 'rb') as f:
             model = json.loads(f.read().decode())
-        prior_weights = model[4]
-    asptagger = ASPTagger(args.beam_size, args.iterations, lexicon, mapping, brown_clusters, word_to_vec, prior_weights)
+        prior_weights = model[5]
+        prior_vocabulary = model[0]
+    asptagger = ASPTagger(args.beam_size, args.iterations, lexicon, mapping, brown_clusters, word_to_vec, prior_weights, prior_vocabulary)
     if args.train:
         words, tags, lengths = utils.read_corpus(args.CORPUS, tagged=True)
         asptagger.train(words, tags, lengths)
@@ -75,8 +76,8 @@ def main():
     elif args.evaluate:
         asptagger.load(args.evaluate)
         words, tags, lengths = utils.read_corpus(args.CORPUS, tagged=True)
-        accuracy = asptagger.evaluate(words, tags, lengths)
-        print("Accuracy: %.2f%%" % (accuracy * 100,))
+        accuracy, accuracy_iv, accuracy_oov = asptagger.evaluate(words, tags, lengths)
+        print("Accuracy: %.2f%%; IV: %.2f%%; OOV: %.2f%%" % (accuracy * 100, accuracy_iv * 100, accuracy_oov * 100))
     elif args.crossvalidate:
         words, tags, lengths = utils.read_corpus(args.CORPUS)
         mean_accuracy, double_stdev = asptagger.crossvalidate(words, tags, lengths)
