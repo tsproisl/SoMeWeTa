@@ -24,9 +24,9 @@ Avg: 90.44
 
 | dat |  acc  |  iv   |  oov  |
 |-----|-------|-------|-------|
-| CMC | xx.xx | xx.xx | xx.xx |
-| Web | xx.xx | xx.xx | xx.xx |
-| Avg | xx.xx | xx.xx | xx.xx |
+| CMC | 87.18 | 89.79 | 71.02 |
+| Web | 92.96 | 94.53 | 82.60 |
+| Avg | 90.07 | 92.16 | 76.81 |
 
 ## tiger+dewikiall+empirist ##
 
