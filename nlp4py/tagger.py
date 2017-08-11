@@ -18,8 +18,14 @@ class ASPTagger(AveragedStructuredPerceptron):
     perceptron.
 
     """
-    def __init__(self, beam_size, iterations, lexicon=None, mapping=None, brown_clusters=None, word_to_vec=None, prior_weights=None):
+    def __init__(self, beam_size, iterations, vocabulary=None, lexicon=None, mapping=None, brown_clusters=None, word_to_vec=None, prior_weights=None, prior_vocabulary=None):
         super().__init__(beam_size=beam_size, iterations=iterations, latent_features=None, prior_weights=prior_weights)
+        if prior_vocabulary is None:
+            self.vocabulary = set()
+        elif isinstance(prior_vocabulary, set):
+            self.vocabulary = prior_vocabulary
+        else:
+            self.vocabulary = set(prior_vocabulary)
         self.lexicon = lexicon
         self.mapping = mapping
         self.brown_clusters = brown_clusters
@@ -55,22 +61,22 @@ class ASPTagger(AveragedStructuredPerceptron):
         self.emoticon = re.compile(r"""^(?:(?:[:;]|(?<!\d)8)           # a variety of eyes, alt.: [:;8]
                                     [-'oO]?                       # optional nose or tear
                                     (?: \)+ | \(+ | [*] | ([DPp])\1*(?!\w)))   # a variety of mouths
-                               """ +
-                              r"|" +
-                              r"(?:xD+|XD+)" +
-                              r"|" +
-                              r"([:;])[ ]+([()])" +
-                              r"|" +
-                              r"\^3"
-                              r"|" +
-                              r"|".join([re.escape(_) for _ in emoticon_list]) +
-                              r"$", re.VERBOSE)
+                                    """ +
+                                   r"|" +
+                                   r"(?:xD+|XD+)" +
+                                   r"|" +
+                                   r"([:;])[ ]+([()])" +
+                                   r"|" +
+                                   r"\^3"
+                                   r"|" +
+                                   r"|".join([re.escape(_) for _ in emoticon_list]) +
+                                   r"$", re.VERBOSE)
         # Unicode emoticons and other symbols
         self.emoji = re.compile(r"^[\u2600-\u27BF\U0001F300-\U0001f64f\U0001F680-\U0001F6FF\U0001F900-\U0001F9FF]$")
 
-
     def train(self, words, tags, lengths):
         """"""
+        self.vocabulary.update(set(words))
         self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in words])
         X = self._get_static_features(words, lengths)
         self.fit(X, tags, lengths)
@@ -90,8 +96,29 @@ class ASPTagger(AveragedStructuredPerceptron):
         """"""
         self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in words])
         X = self._get_static_features(words, lengths)
-        accuracy = self.score(X, tags, lengths)
-        return accuracy
+        # accuracy = self.score(X, tags, lengths)
+        # return accuracy
+        predicted = self.predict(X, lengths)
+        correct, correct_iv, correct_oov = 0, 0, 0
+        total, total_iv, total_oov = 0, 0, 0
+        start = 0
+        for length, local_pred in zip(lengths, predicted):
+            local_words = words[start:start + length]
+            local_gold = tags[start:start + length]
+            start += length
+            for w, g, p in zip(local_words, local_gold, local_pred):
+                total += 1
+                if w in self.vocabulary:
+                    total_iv += 1
+                    if g == p:
+                        correct += 1
+                        correct_iv += 1
+                else:
+                    total_oov += 1
+                    if g == p:
+                        correct += 1
+                        correct_oov += 1
+        return correct / total, correct_iv / total_iv, correct_oov / total_oov
 
     def crossvalidate(self, words, tags, lengths):
         """"""
@@ -112,13 +139,13 @@ class ASPTagger(AveragedStructuredPerceptron):
         """"""
         with gzip.open(filename, 'wb') as f:
             # f.write(json.dumps((self.lexicon, self.brown_clusters, self.word_to_vec, self.weights), ensure_ascii=False, indent=4).encode())
-            f.write(json.dumps((self.lexicon, self.mapping, self.brown_clusters, self.word_to_vec, self.weights), ensure_ascii=False, indent=4).encode())
+            f.write(json.dumps((list(self.vocabulary), self.lexicon, self.mapping, self.brown_clusters, self.word_to_vec, self.weights), ensure_ascii=False, indent=4).encode())
 
     def load(self, filename):
         """"""
         with gzip.open(filename, 'rb') as f:
             model = json.loads(f.read().decode())
-            self.lexicon, self.mapping, self.brown_clusters, self.word_to_vec, self.weights = model
+            self.vocabulary, self.lexicon, self.mapping, self.brown_clusters, self.word_to_vec, self.weights = model
 
     def _cross_val_iteration(self, i, words, X, y, lengths, sentence_ranges, div, mod):
         """"""
