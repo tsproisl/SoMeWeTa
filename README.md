@@ -1,29 +1,98 @@
-State of the art
+## State of the art ##
+
 CMC: 87.33
 Web: 93.55
 Avg: 90.44
 
-tiger+empirist
+## tiger+empirist ##
 
-tiger+morphy+empirist
+| dat |  acc  |  iv   |  oov  |
+|-----|-------|-------|-------|
+| CMC | 85.50 | 88.50 | 66.90 |
+| Web | 92.24 | 94.18 | 79.50 |
+| Avg | 88.87 | 91.34 | 73.20 |
 
-tiger+dewikiall+empirist
+## tiger+morphy+empirist ##
 
-tiger+dewikiall+capit+empirist
+| dat |  acc  |  iv   |  oov  |
+|-----|-------|-------|-------|
+| CMC | xx.xx | xx.xx | xx.xx |
+| Web | xx.xx | xx.xx | xx.xx |
+| Avg | xx.xx | xx.xx | xx.xx |
 
-tiger+dewikiall+morphy+empirist
+## tiger+dewikiall+empirist ##
 
-tiger+dewikiall+morcap+empirist
+| dat |  acc  |  iv   |  oov  |
+|-----|-------|-------|-------|
+| CMC | xx.xx | xx.xx | xx.xx |
+| Web | xx.xx | xx.xx | xx.xx |
+| Avg | xx.xx | xx.xx | xx.xx |
 
-tiger+decow+empirist
+## tiger+dewikiall+capit+empirist ##
 
-tiger+decow+capit+empirist
+| dat |  acc  |  iv   |  oov  |
+|-----|-------|-------|-------|
+| CMC | xx.xx | xx.xx | xx.xx |
+| Web | xx.xx | xx.xx | xx.xx |
+| Avg | xx.xx | xx.xx | xx.xx |
 
-tiger+decow+morphy+empirist
+## tiger+dewikiall+morphy+empirist ##
 
-tiger+decow+morcap+empirist
+| dat |  acc  |  iv   |  oov  |
+|-----|-------|-------|-------|
+| CMC | 87.68 | 90.08 | 72.80 |
+| Web | 93.97 | 95.23 | 85.70 |
+| Avg | 90.83 | 92.66 | 79.25 |
 
-tiger+decow+morcap+empirist+extra
+## tiger+dewikiall+morcap+empirist ##
+
+| dat |  acc  |  iv   |  oov  |
+|-----|-------|-------|-------|
+| CMC | xx.xx | xx.xx | xx.xx |
+| Web | xx.xx | xx.xx | xx.xx |
+| Avg | xx.xx | xx.xx | xx.xx |
+
+## tiger+decow+empirist ##
+
+| dat |  acc  |  iv   |  oov  |
+|-----|-------|-------|-------|
+| CMC | xx.xx | xx.xx | xx.xx |
+| Web | xx.xx | xx.xx | xx.xx |
+| Avg | xx.xx | xx.xx | xx.xx |
+
+## tiger+decow+capit+empirist ##
+
+| dat |  acc  |  iv   |  oov  |
+|-----|-------|-------|-------|
+| CMC | xx.xx | xx.xx | xx.xx |
+| Web | xx.xx | xx.xx | xx.xx |
+| Avg | xx.xx | xx.xx | xx.xx |
+
+## tiger+decow+morphy+empirist ##
+
+| dat |  acc  |  iv   |  oov  |
+|-----|-------|-------|-------|
+| CMC | xx.xx | xx.xx | xx.xx |
+| Web | xx.xx | xx.xx | xx.xx |
+| Avg | xx.xx | xx.xx | xx.xx |
+
+## tiger+decow+morcap+empirist ##
+
+| dat |  acc  |  iv   |  oov  |
+|-----|-------|-------|-------|
+| CMC | xx.xx | xx.xx | xx.xx |
+| Web | xx.xx | xx.xx | xx.xx |
+| Avg | xx.xx | xx.xx | xx.xx |
+
+## tiger+decow+morcap+empirist+extra ##
+
+| dat |  acc  |  iv   |  oov  |
+|-----|-------|-------|-------|
+| CMC | xx.xx | xx.xx | xx.xx |
+| Web | xx.xx | xx.xx | xx.xx |
+| Avg | xx.xx | xx.xx | xx.xx |
+
+
 
 morphy
 CMC: 86.86
@@ -94,15 +163,3 @@ dewikismall+morphy
 CMC: 87.52
 Web: 93.71
 Avg: 90.62
-
-
-
-Tagging of colon (:):
-- Tiger:
-  2962 $.
-  89 $(
-- Web:
-  81 $.
-- CMC:
-  29 $.
-  64 $(
