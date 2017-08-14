@@ -42,7 +42,6 @@ def arguments():
 
 
 def main():
-    logging.info("branch: numpy")
     args = arguments()
     lexicon, mapping, brown_clusters, word_to_vec, prior_weights, prior_vocabulary = None, None, None, None, None, None
     if args.mapping and (args.train or args.crossvalidate):
