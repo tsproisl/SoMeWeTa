@@ -31,6 +31,7 @@ class AveragedStructuredPerceptron:
         # self.weights = collections.defaultdict(lambda: collections.defaultdict(float))
         # self.weights_c = collections.defaultdict(lambda: collections.defaultdict(float))
         self.target_mapping = {}
+        self.reverse_mapping = None
         self.target_size = 0
         self.weights = {}
         self.weights_c = {}
@@ -73,19 +74,25 @@ class AveragedStructuredPerceptron:
 
     def predict(self, X, lengths):
         """"""
+        if self.reverse_mapping is None:
+            self.reverse_mapping = {v: k for k, v in self.target_mapping.items()}
         ranges = list(zip((a - b for a, b in zip(itertools.accumulate(lengths), lengths)), lengths))
         for start, length in ranges:
             local_X = X[start:start + length]
             predicted, features = self._beam_search(local_X, start)
+            predicted = [self.reverse_mapping[p] for p in predicted]
             yield predicted
 
     def score(self, X, y, lengths):
         """"""
+        if self.reverse_mapping is None:
+            self.reverse_mapping = {v: k for k, v in self.target_mapping.items()}
         predicted = []
         ranges = list(zip((a - b for a, b in zip(itertools.accumulate(lengths), lengths)), lengths))
         for start, length in ranges:
             local_X = X[start:start + length]
             local_pred, features = self._beam_search(local_X, start)
+            local_pred = [self.reverse_mapping[p] for p in local_pred]
             predicted.extend(local_pred)
         return utils.evaluate(y, predicted)
 
