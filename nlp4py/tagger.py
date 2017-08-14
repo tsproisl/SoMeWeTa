@@ -221,97 +221,97 @@ class ASPTagger(AveragedStructuredPerceptron):
             tokens = ["<START-2>", "<START-1>"] + [w.lower() for w in sentence] + ["<END+1>", "<END+2>"]
             for i, word in enumerate(sentence):
                 j = i + 2
-                local_features = set()
+                local_features = []
                 w = tokens[j]
                 p1 = tokens[j - 1]
                 p2 = tokens[j - 2]
                 n1 = tokens[j + 1]
                 n2 = tokens[j + 2]
                 # constant bias feature acts like a prior
-                local_features.add("bias")
+                local_features.append("bias")
                 # rounded logarithm of word length
-                local_features.add("W_loglength: %d" % round(math.log(len(word))))
+                local_features.append("W_loglength: %d" % round(math.log(len(word))))
                 # current word
-                local_features.add("W_word: %s" % w)
+                local_features.append("W_word: %s" % w)
                 # next words
-                local_features.add("N1_word: %s" % n1)
-                local_features.add("N2_word: %s" % n2)
+                local_features.append("N1_word: %s" % n1)
+                local_features.append("N2_word: %s" % n2)
                 # affixes
-                local_features.add("W_prefix: %s" % w[:3])
-                local_features.add("W_suffix: %s" % w[-3:])
+                local_features.append("W_prefix: %s" % w[:3])
+                local_features.append("W_suffix: %s" % w[-3:])
                 if i >= 1:
-                    local_features.add("P1_suffix: %s" % p1[-3:])
+                    local_features.append("P1_suffix: %s" % p1[-3:])
                 if length - i > 1:
-                    local_features.add("N1_suffix: %s" % n1[-3:])
+                    local_features.append("N1_suffix: %s" % n1[-3:])
                 # word shape
-                local_features.add("W_shape: %s" % self._word_shape(word))
+                local_features.append("W_shape: %s" % self._word_shape(word))
                 # Flags
                 if i >= 2:
-                    local_features.update(self._word_flags(p2, "P2"))
+                    local_features.extend(self._word_flags(p2, "P2"))
                 if i >= 1:
-                    local_features.update(self._word_flags(p1, "P1"))
-                local_features.update(self._word_flags(w, "W"))
+                    local_features.extend(self._word_flags(p1, "P1"))
+                local_features.extend(self._word_flags(w, "W"))
                 if length - i > 1:
-                    local_features.update(self._word_flags(n1, "N1"))
+                    local_features.extend(self._word_flags(n1, "N1"))
                 if length - i > 2:
-                    local_features.update(self._word_flags(n2, "N2"))
+                    local_features.extend(self._word_flags(n2, "N2"))
                 # Brown clusters
                 if brown_clusters is not None:
                     # P2, P1, W, N1, N2
                     if i >= 2:
                         bc, freq = brown_clusters.get(p2, ("N/A", 0))
-                        local_features.add("P2_brown: %s" % bc)
+                        local_features.append("P2_brown: %s" % bc)
                     if i >= 1:
                         bc, freq = brown_clusters.get(p1, ("N/A", 0))
-                        local_features.add("P1_brown: %s" % bc)
+                        local_features.append("P1_brown: %s" % bc)
                     bc, freq = brown_clusters.get(w, ("N/A", 0))
-                    local_features.add("W_brown: %s" % bc)
-                    local_features.add("W_logfreq: %d" % freq)
+                    local_features.append("W_brown: %s" % bc)
+                    local_features.append("W_logfreq: %d" % freq)
                     if length - i > 1:
                         bc, freq = brown_clusters.get(n1, ("N/A", 0))
-                        local_features.add("N1_brown: %s" % bc)
+                        local_features.append("N1_brown: %s" % bc)
                     if length - i > 2:
                         bc, freq = brown_clusters.get(n2, ("N/A", 0))
-                        local_features.add("N2_brown: %s" % bc)
+                        local_features.append("N2_brown: %s" % bc)
                 if word_to_vec is not None:
                     # if w in word_to_vec:
                     #     for i, d in enumerate(word_to_vec[w]):
-                    #         local_features.add("W_w2v_%d: %d" % (i, round(float(d))))
+                    #         local_features.append("W_w2v_%d: %d" % (i, round(float(d))))
                     if w in word_to_vec:
-                        local_features.add("W_w2v: %s" % word_to_vec[w])
+                        local_features.append("W_w2v: %s" % word_to_vec[w])
                 if lexicon is not None:
                     if w in lexicon:
                         for feat in lexicon[w]:
-                            local_features.add("W_lex: %s" % feat)
+                            local_features.append("W_lex: %s" % feat)
                     else:
-                        local_features.add("W_lex: N/A")
+                        local_features.append("W_lex: N/A")
                 features.append(local_features)
         return features
 
     def _get_latent_features(self, words, start, beam, i):
         """"""
-        features = set()
+        features = []
         global_i = start + i
         tags = ["<START-2>", "<START-1>"] + beam
         mapping = self.mapping
         j = i + 2
         if i >= 1:
-            features.add("P1_word, P1_pos: %s, %s" % (words[global_i - 1], tags[j - 1]))
+            features.append("P1_word, P1_pos: %s, %s" % (words[global_i - 1], tags[j - 1]))
             if mapping is not None:
-                features.add("P1_word, P1_wc: %s, %s" % (words[global_i - 1], mapping[tags[j - 1]]))
+                features.append("P1_word, P1_wc: %s, %s" % (words[global_i - 1], mapping[tags[j - 1]]))
         if i >= 2:
-            features.add("P2_word, P2_pos: %s, %s" % (words[global_i - 2], tags[j - 2]))
+            features.append("P2_word, P2_pos: %s, %s" % (words[global_i - 2], tags[j - 2]))
             if mapping is not None:
-                features.add("P2_word, P2_wc: %s, %s" % (words[global_i - 2], mapping[tags[j - 2]]))
-        features.add("P1_pos: %s" % tags[j - 1])
-        features.add("P2_pos: %s" % tags[j - 2])
-        features.add("P2_pos, P1_pos: %s, %s" % (tags[j - 2], tags[j - 1]))
-        features.add("P1_pos, W_word: %s, %s" % (tags[j - 1], words[global_i]))
+                features.append("P2_word, P2_wc: %s, %s" % (words[global_i - 2], mapping[tags[j - 2]]))
+        features.append("P1_pos: %s" % tags[j - 1])
+        features.append("P2_pos: %s" % tags[j - 2])
+        features.append("P2_pos, P1_pos: %s, %s" % (tags[j - 2], tags[j - 1]))
+        features.append("P1_pos, W_word: %s, %s" % (tags[j - 1], words[global_i]))
         if mapping is not None:
-            features.add("P1_wc: %s" % mapping[tags[j - 1]])
-            features.add("P2_wc: %s" % mapping[tags[j - 2]])
-            features.add("P2_wc, P1_wc: %s, %s" % (mapping[tags[j - 2]], mapping[tags[j - 1]]))
-            features.add("P1_wc, W_word: %s, %s" % (mapping[tags[j - 1]], words[global_i]))
+            features.append("P1_wc: %s" % mapping[tags[j - 1]])
+            features.append("P2_wc: %s" % mapping[tags[j - 2]])
+            features.append("P2_wc, P1_wc: %s, %s" % (mapping[tags[j - 2]], mapping[tags[j - 1]]))
+            features.append("P1_wc, W_word: %s, %s" % (mapping[tags[j - 1]], words[global_i]))
         return features
 
     @staticmethod
@@ -345,37 +345,37 @@ class ASPTagger(AveragedStructuredPerceptron):
     @functools.lru_cache(maxsize=10240)
     def _word_flags(self, word, prefix):
         """"""
-        flags = set()
+        flags = []
         if word.isalpha():
-            flags.add("%s_isalpha" % prefix)
+            flags.append("%s_isalpha" % prefix)
         if word.isnumeric():
-            flags.add("%s_isnumeric" % prefix)
+            flags.append("%s_isnumeric" % prefix)
         if word.islower():
-            flags.add("%s_islower" % prefix)
+            flags.append("%s_islower" % prefix)
         if word.isupper():
-            flags.add("%s_isupper" % prefix)
+            flags.append("%s_isupper" % prefix)
         if word.istitle():
-            flags.add("%s_istitle" % prefix)
+            flags.append("%s_istitle" % prefix)
         if self.email.search(word):
-            flags.add("%s_isemail" % prefix)
+            flags.append("%s_isemail" % prefix)
         if self.xmltag.search(word):
-            flags.add("%s_istag" % prefix)
+            flags.append("%s_istag" % prefix)
         if self.url.search(word):
-            flags.add("%s_isurl" % prefix)
+            flags.append("%s_isurl" % prefix)
         if self.mention.search(word):
-            flags.add("%s_ismention" % prefix)
+            flags.append("%s_ismention" % prefix)
         if self.hashtag.search(word):
-            flags.add("%s_ishashtag" % prefix)
+            flags.append("%s_ishashtag" % prefix)
         if self.action_word.search(word):
-            flags.add("%s_isactword" % prefix)
+            flags.append("%s_isactword" % prefix)
         if self.emoticon.search(word):
-            flags.add("%s_isemoticon" % prefix)
+            flags.append("%s_isemoticon" % prefix)
         if self.emoji.search(word):
-            flags.add("%s_isemoji" % prefix)
+            flags.append("%s_isemoji" % prefix)
         if self.punctuation.search(word):
-            flags.add("%s_ispunct" % prefix)
+            flags.append("%s_ispunct" % prefix)
         if self.ordinal.search(word):
-            flags.add("%s_isordinal" % prefix)
+            flags.append("%s_isordinal" % prefix)
         if self.number.search(word):
-            flags.add("%s_isnumber" % prefix)
+            flags.append("%s_isnumber" % prefix)
         return flags
