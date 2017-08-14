@@ -6,6 +6,8 @@ import logging
 import operator
 import random
 
+import numpy as np
+
 from nlp4py import utils
 
 Beam = collections.namedtuple("Beam", ["tags", "weight_sum", "features"])
@@ -28,11 +30,18 @@ class AveragedStructuredPerceptron:
         self.prior_weights = prior_weights
         # self.weights = collections.defaultdict(lambda: collections.defaultdict(float))
         # self.weights_c = collections.defaultdict(lambda: collections.defaultdict(float))
+        self.target_mapping = {}
+        self.target_size = 0
         self.weights = {}
         self.weights_c = {}
 
     def fit(self, X, y, lengths):
         """"""
+        targets = collections.Counter(y)
+        self.target_size = len(targets)
+        for i, (target, freq) in enumerate(targets.most_common()):
+            self.target_mapping[target] = self.target_size - (i + 1)
+        y = [self.target_mapping[target] for target in y]
         counter = 0
         ranges = list(zip((a - b for a, b in zip(itertools.accumulate(lengths), lengths)), lengths))
         for it in range(self.iterations):
@@ -54,18 +63,13 @@ class AveragedStructuredPerceptron:
             correct = total - incorrect
             logging.info("Iteration %d: %d/%d = %.2f%% (%d early update)" % (it, correct, total, (correct / total) * 100, early_update))
         for feat in self.weights:
-            for cls in self.weights[feat]:
-                self.weights[feat][cls] -= self.weights_c[feat][cls] / counter
+            self.weights[feat] -= self.weights_c[feat] / counter
         if self.prior_weights is not None:
             for feat in self.prior_weights:
-                for cls, weight in self.prior_weights[feat].items():
-                    try:
-                        self.weights[feat][cls] += weight
-                    except KeyError:
-                        if feat not in self.weights:
-                            self.weights[feat] = {}
-                        if cls not in self.weights[feat]:
-                            self.weights[feat][cls] = weight
+                if feat not in self.weights:
+                    self.weights[feat] = self.prior_weights[feat]
+                else:
+                    self.weights[feat] += self.prior_weights[feat]
 
     def predict(self, X, lengths):
         """"""
@@ -108,63 +112,32 @@ class AveragedStructuredPerceptron:
 
     def _predict_static(self, features):
         """"""
-        weight_sum = collections.defaultdict(float)
-        weights = self.weights
-        prior_weights = self.prior_weights
-        for feat in features:
-            if feat in weights:
-                for cls, weight in weights[feat].items():
-                    weight_sum[cls] += weight
-            if prior_weights is not None and feat in prior_weights:
-                for cls, weight in prior_weights[feat].items():
-                    weight_sum[cls] += weight
+        weight_sum = np.zeros(self.target_size)
+        weight_sum += np.sum([self.weights[feat] for feat in features if feat in self.weights], axis=0)
+        if self.prior_weights is not None:
+            weight_sum += np.sum([self.prior_weights[feat] for feat in features if feat in self.prior_weights], axis=0)
         return weight_sum
 
     def _predict_latent(self, features, static_weights):
         """"""
-        weight_sum = collections.defaultdict(float)
-        for cls, weight in static_weights.items():
-            weight_sum[cls] = weight
-        weights = self.weights
-        prior_weights = self.prior_weights
-        for feat in features:
-            if feat in weights:
-                for cls, weight in weights[feat].items():
-                    weight_sum[cls] += weight
-            if prior_weights is not None and feat in prior_weights:
-                for cls, weight in prior_weights[feat].items():
-                    weight_sum[cls] += weight
-        if len(weight_sum) > 0:
-            # Add class labels to break ties
-            return [_ for _ in sorted(weight_sum.items(), key=operator.itemgetter(1, 0), reverse=True)][:self.beam_size]
-        else:
-            return [(None, 0)]
+        weight_sum = np.sum([self.weights[feat] for feat in features if feat in self.weights], axis=0)
+        if self.prior_weights is not None:
+            weight_sum += np.sum([self.prior_weights[feat] for feat in features if feat in self.prior_weights], axis=0)
+        weight_sum += static_weights
+        return reversed(list(zip(np.argsort(weight_sum), np.sort(weight_sum)))[-self.beam_size:])
 
     def _update(self, y, predicted, features, counter):
         """"""
-        weights = self.weights
-        weights_c = self.weights_c
         for feature_set, true_cls, predicted_cls in zip(features, y, predicted):
             if true_cls != predicted_cls:
                 for feat in feature_set:
-                    try:
-                        weights[feat][true_cls] += 1
-                    except KeyError:
-                        if feat not in weights:
-                            weights[feat] = {}
-                            weights_c[feat] = {}
-                        if true_cls not in weights[feat]:
-                            weights[feat][true_cls] = 1
-                            weights_c[feat][true_cls] = 0
-                    weights_c[feat][true_cls] += counter
-                    if predicted_cls is not None:
-                        try:
-                            weights[feat][predicted_cls] -= 1
-                        except KeyError:
-                            if predicted_cls not in weights[feat]:
-                                weights[feat][predicted_cls] = -1
-                                weights_c[feat][predicted_cls] = 0
-                        weights_c[feat][predicted_cls] -= counter
+                    if feat not in self.weights:
+                        self.weights[feat] = np.zeros(self.target_size)
+                        self.weights_c[feat] = np.zeros(self.target_size)
+                    self.weights[feat][true_cls] += 1
+                    self.weights_c[feat][true_cls] += counter
+                    self.weights[feat][predicted_cls] -= 1
+                    self.weights_c[feat][predicted_cls] -= counter
             counter += 1
 
 # def train_by_iterative_parameter_mixing(training_data, iterations=10, beam_size=5, n_shards=5):
