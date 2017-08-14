@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import base64
 import functools
 import gzip
 import itertools
@@ -9,6 +10,8 @@ import math
 import multiprocessing
 import re
 import statistics
+
+import numpy as np
 
 from nlp4py.averaged_structured_perceptron import AveragedStructuredPerceptron
 
@@ -138,14 +141,41 @@ class ASPTagger(AveragedStructuredPerceptron):
     def save(self, filename):
         """"""
         with gzip.open(filename, 'wb') as f:
-            # f.write(json.dumps((self.lexicon, self.brown_clusters, self.word_to_vec, self.weights), ensure_ascii=False, indent=4).encode())
-            f.write(json.dumps((list(self.vocabulary), self.lexicon, self.mapping, self.brown_clusters, self.word_to_vec, self.weights), ensure_ascii=False, indent=4).encode())
+            features = sorted(self.weights.keys())
+            f.write("[\n".encode())
+            f.write(json.dumps(list(self.vocabulary), ensure_ascii=False, indent=4).encode())
+            f.write(",\n".encode())
+            f.write(json.dumps(self.lexicon, ensure_ascii=False, indent=4).encode())
+            f.write(",\n".encode())
+            f.write(json.dumps(self.mapping, ensure_ascii=False, indent=4).encode())
+            f.write(",\n".encode())
+            f.write(json.dumps(self.brown_clusters, ensure_ascii=False, indent=4).encode())
+            f.write(",\n".encode())
+            f.write(json.dumps(self.word_to_vec, ensure_ascii=False, indent=4).encode())
+            f.write(",\n".encode())
+            f.write(json.dumps(self.target_mapping, ensure_ascii=False, indent=4).encode())
+            f.write(",\n".encode())
+            f.write(str(self.target_size).encode())
+            f.write(",\n".encode())
+            f.write(json.dumps(features, ensure_ascii=False, indent=4).encode())
+            f.write(",\n".encode())
+            f.write("[\n".encode())
+            for feat in features[:-1]:
+                f.write('"'.encode())
+                f.write(base64.b85encode(self.weights[feat].tostring()))
+                f.write('",\n'.encode())
+            f.write('"'.encode())
+            f.write(base64.b85encode(self.weights[features[-1]].tostring()))
+            f.write('"\n]\n'.encode())
+            f.write("]\n".encode())
 
     def load(self, filename):
         """"""
         with gzip.open(filename, 'rb') as f:
             model = json.loads(f.read().decode())
-            self.vocabulary, self.lexicon, self.mapping, self.brown_clusters, self.word_to_vec, self.weights = model
+            vocabulary, self.lexicon, self.mapping, self.brown_clusters, self.word_to_vec, self.target_mapping, self.target_size, features, weights = model
+            self.vocabulary = set(vocabulary)
+            self.weights = {f: np.fromstring(base64.b85decode(w), np.float64) for f, w in zip(features, weights)}
 
     def _cross_val_iteration(self, i, words, X, y, lengths, sentence_ranges, div, mod):
         """"""
