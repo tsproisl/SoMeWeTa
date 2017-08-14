@@ -121,7 +121,16 @@ class ASPTagger(AveragedStructuredPerceptron):
                     if g == p:
                         correct += 1
                         correct_oov += 1
-        return correct / total, correct_iv / total_iv, correct_oov / total_oov
+        accuracy = correct / total
+        try:
+            accuracy_iv = correct_iv / total_iv
+        except ZeroDivisionError:
+            accuracy_iv = 0
+        try:
+            accuracy_oov = correct_oov / total_oov
+        except ZeroDivisionError:
+            accuracy_oov = 0
+        return accuracy, accuracy_iv, accuracy_oov
 
     def crossvalidate(self, words, tags, lengths):
         """"""
