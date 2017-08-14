@@ -105,7 +105,7 @@ class AveragedStructuredPerceptron:
             weight_sum = self._predict_static(static_features)
             for beam in beams:
                 latent_features = self.latent_features(start, beam.tags, i)
-                features = static_features | latent_features
+                features = static_features + latent_features
                 for prediction, weight in self._predict_latent(latent_features, weight_sum):
                     agenda.append(Beam(beam.tags + [prediction], beam.weight_sum + weight, beam.features + [features]))
             beams = sorted(agenda, key=operator.attrgetter("weight_sum"), reverse=True)[:self.beam_size]
