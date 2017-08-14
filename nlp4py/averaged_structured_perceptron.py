@@ -10,7 +10,7 @@ import numpy as np
 
 from nlp4py import utils
 
-Beam = collections.namedtuple("Beam", ["tags", "weight_sum", "features"])
+Beam = collections.namedtuple("Beam", ["tags", "weight_sum", "features", "previous"])
 
 
 class AveragedStructuredPerceptron:
@@ -96,9 +96,18 @@ class AveragedStructuredPerceptron:
             predicted.extend(local_pred)
         return utils.evaluate(y, predicted)
 
+    @staticmethod
+    def _extract_feature_sequence(beam):
+        """"""
+        sequence = [beam.features]
+        while beam.previous is not None:
+            sequence.append(beam.features)
+            beam = beam.previous
+        return sequence[::-1]
+
     def _beam_search(self, X, start, y=None):
         """"""
-        beams = [Beam([], 0, [])]
+        beams = [Beam([], 0, [], None)]
         gold_tags = []
         for i, static_features in enumerate(X):
             agenda = []
@@ -107,15 +116,13 @@ class AveragedStructuredPerceptron:
                 latent_features = self.latent_features(start, beam.tags, i)
                 features = static_features + latent_features
                 for prediction, weight in self._predict_latent(latent_features, weight_sum):
-                    agenda.append(Beam(beam.tags + [prediction], beam.weight_sum + weight, beam.features + [features]))
+                    agenda.append(Beam(beam.tags + [prediction], beam.weight_sum + weight, features, beam))
             beams = sorted(agenda, key=operator.attrgetter("weight_sum"), reverse=True)[:self.beam_size]
             if y is not None:
                 gold_tags.append(y[i])
-                beam_tags = [beam.tags for beam in beams]
-                if all(bt != gold_tags for bt in beam_tags):
+                if all(beam.tags != gold_tags for beam in beams):
                     break
-        prediction, weights, features = beams[0]
-        return prediction, features
+        return beams[0].tags, self._extract_feature_sequence(beams[0])
 
     def _predict_static(self, features):
         """"""
