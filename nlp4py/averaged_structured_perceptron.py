@@ -39,10 +39,15 @@ class AveragedStructuredPerceptron:
     def fit(self, X, y, lengths):
         """"""
         targets = collections.Counter(y)
-        self.target_size = len(targets)
-        for i, (target, freq) in enumerate(targets.most_common()):
-            self.target_mapping[target] = self.target_size - (i + 1)
+        former_target_size = self.target_size
+        for target, freq in reversed(targets.most_common()):
+            if target not in self.target_mapping:
+                self.target_mapping[target] = self.target_size
+                self.target_size += 1
         y = [self.target_mapping[target] for target in y]
+        if self.target_size > former_target_size and self.prior_weights is not None:
+            for feat in self.prior_weights:
+                self.prior_weights[feat].resize((self.target_size,))
         counter = 0
         ranges = list(zip((a - b for a, b in zip(itertools.accumulate(lengths), lengths)), lengths))
         for it in range(self.iterations):

@@ -21,14 +21,15 @@ class ASPTagger(AveragedStructuredPerceptron):
     perceptron.
 
     """
-    def __init__(self, beam_size, iterations, lexicon=None, mapping=None, brown_clusters=None, word_to_vec=None, prior_weights=None, prior_vocabulary=None):
-        super().__init__(beam_size=beam_size, iterations=iterations, latent_features=None, prior_weights=prior_weights)
-        if prior_vocabulary is None:
-            self.vocabulary = set()
-        elif isinstance(prior_vocabulary, set):
-            self.vocabulary = prior_vocabulary
-        else:
-            self.vocabulary = set(prior_vocabulary)
+    def __init__(self, beam_size, iterations, lexicon=None, mapping=None, brown_clusters=None, word_to_vec=None):
+        super().__init__(beam_size=beam_size, iterations=iterations, latent_features=None)
+        # if prior_vocabulary is None:
+        #     self.vocabulary = set()
+        # elif isinstance(prior_vocabulary, set):
+        #     self.vocabulary = prior_vocabulary
+        # else:
+        #     self.vocabulary = set(prior_vocabulary)
+        self.vocabulary = set()
         self.lexicon = lexicon
         self.mapping = mapping
         self.brown_clusters = brown_clusters
@@ -185,6 +186,17 @@ class ASPTagger(AveragedStructuredPerceptron):
             vocabulary, self.lexicon, self.mapping, self.brown_clusters, self.word_to_vec, self.target_mapping, self.target_size, features, weights = model
             self.vocabulary = set(vocabulary)
             self.weights = {f: np.fromstring(base64.b85decode(w), np.float64) for f, w in zip(features, weights)}
+
+    def load_prior_model(self, prior):
+        """"""
+        with gzip.open(prior, 'rb') as f:
+            model = json.loads(f.read().decode())
+            self.vocabulary = set(model[0])
+            self.target_mapping = model[5]
+            self.target_size = model[6]
+            features = model[7]
+            weights = model[8]
+            self.prior_weights = {f: np.fromstring(base64.b85decode(w), np.float64) for f, w in zip(features, weights)}
 
     def _cross_val_iteration(self, i, words, X, y, lengths, sentence_ranges, div, mod):
         """"""
