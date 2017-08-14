@@ -131,7 +131,8 @@ class AveragedStructuredPerceptron:
         if self.prior_weights is not None:
             weight_sum += np.sum([self.prior_weights[feat] for feat in features if feat in self.prior_weights], axis=0)
         weight_sum += static_weights
-        return reversed(list(zip(np.argsort(weight_sum), np.sort(weight_sum)))[-self.beam_size:])
+        predictions = np.argsort(weight_sum)[-self.beam_size:]
+        return reversed(list(zip(predictions, weight_sum[predictions])))
 
     def _update(self, y, predicted, features, counter):
         """"""
