@@ -2,6 +2,11 @@
 
 RUN=$1
 
+echo "empirist"
+time ../bin/nlp4py-tagger --train empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt
+../bin/nlp4py-tagger --evaluate empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
+../bin/nlp4py-tagger --evaluate empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
+
 echo "tiger"
 time ../bin/nlp4py-tagger --train tiger.$RUN.model <(cut -f1,3 /data/Thomas/tiger_release_aug07.txt)
 ../bin/nlp4py-tagger --evaluate tiger.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
@@ -18,29 +23,29 @@ time ../bin/nlp4py-tagger --train tiger+morphy+empirist.$RUN.model --prior tiger
 ../bin/nlp4py-tagger --evaluate tiger+morphy+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
 ../bin/nlp4py-tagger --evaluate tiger+morphy+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
 
-echo "tiger+dewikiall+empirist"
-time ../bin/nlp4py-tagger --train tiger+dewikiall.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt <(cut -f1,3 /data/Thomas/tiger_release_aug07.txt)
-time ../bin/nlp4py-tagger --train tiger+dewikiall+empirist.$RUN.model --prior tiger+dewikiall.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt
-../bin/nlp4py-tagger --evaluate tiger+dewikiall+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
-../bin/nlp4py-tagger --evaluate tiger+dewikiall+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
+# echo "tiger+dewikiall+empirist"
+# time ../bin/nlp4py-tagger --train tiger+dewikiall.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt <(cut -f1,3 /data/Thomas/tiger_release_aug07.txt)
+# time ../bin/nlp4py-tagger --train tiger+dewikiall+empirist.$RUN.model --prior tiger+dewikiall.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt
+# ../bin/nlp4py-tagger --evaluate tiger+dewikiall+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
+# ../bin/nlp4py-tagger --evaluate tiger+dewikiall+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
 
-echo "tiger+dewikiall+capit+empirist"
-time ../bin/nlp4py-tagger --train tiger+dewikiall+capit.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt --lexicon /data/Thomas/dewiki-20170620_all_capitalization_features.txt <(cut -f1,3 /data/Thomas/tiger_release_aug07.txt)
-time ../bin/nlp4py-tagger --train tiger+dewikiall+capit+empirist.$RUN.model --prior tiger+dewikiall+capit.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt --lexicon /data/Thomas/dewiki-20170620_all_capitalization_features.txt ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt
-../bin/nlp4py-tagger --evaluate tiger+dewikiall+capit+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
-../bin/nlp4py-tagger --evaluate tiger+dewikiall+capit+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
+# echo "tiger+dewikiall+capit+empirist"
+# time ../bin/nlp4py-tagger --train tiger+dewikiall+capit.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt --lexicon /data/Thomas/dewiki-20170620_all_capitalization_features.txt <(cut -f1,3 /data/Thomas/tiger_release_aug07.txt)
+# time ../bin/nlp4py-tagger --train tiger+dewikiall+capit+empirist.$RUN.model --prior tiger+dewikiall+capit.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt --lexicon /data/Thomas/dewiki-20170620_all_capitalization_features.txt ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt
+# ../bin/nlp4py-tagger --evaluate tiger+dewikiall+capit+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
+# ../bin/nlp4py-tagger --evaluate tiger+dewikiall+capit+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
 
-echo "tiger+dewikiall+morphy+empirist"
-time ../bin/nlp4py-tagger --train tiger+dewikiall+morphy.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt --lexicon /data/Thomas/morphy_wc.txt <(cut -f1,3 /data/Thomas/tiger_release_aug07.txt)
-time ../bin/nlp4py-tagger --train tiger+dewikiall+morphy+empirist.$RUN.model --prior tiger+dewikiall+morphy.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt --lexicon /data/Thomas/morphy_wc.txt ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt
-../bin/nlp4py-tagger --evaluate tiger+dewikiall+morphy+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
-../bin/nlp4py-tagger --evaluate tiger+dewikiall+morphy+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
+# echo "tiger+dewikiall+morphy+empirist"
+# time ../bin/nlp4py-tagger --train tiger+dewikiall+morphy.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt --lexicon /data/Thomas/morphy_wc.txt <(cut -f1,3 /data/Thomas/tiger_release_aug07.txt)
+# time ../bin/nlp4py-tagger --train tiger+dewikiall+morphy+empirist.$RUN.model --prior tiger+dewikiall+morphy.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt --lexicon /data/Thomas/morphy_wc.txt ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt
+# ../bin/nlp4py-tagger --evaluate tiger+dewikiall+morphy+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
+# ../bin/nlp4py-tagger --evaluate tiger+dewikiall+morphy+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
 
-echo "tiger+dewikiall+morcap+empirist"
-time ../bin/nlp4py-tagger --train tiger+dewikiall+morcap.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt --lexicon morphy+dewikiall_capitalization.txt <(cut -f1,3 /data/Thomas/tiger_release_aug07.txt)
-time ../bin/nlp4py-tagger --train tiger+dewikiall+morcap+empirist.$RUN.model --prior tiger+dewikiall+morcap.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt --lexicon morphy+dewikiall_capitalization.txt ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt
-../bin/nlp4py-tagger --evaluate tiger+dewikiall+morcap+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
-../bin/nlp4py-tagger --evaluate tiger+dewikiall+morcap+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
+# echo "tiger+dewikiall+morcap+empirist"
+# time ../bin/nlp4py-tagger --train tiger+dewikiall+morcap.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt --lexicon morphy+dewikiall_capitalization.txt <(cut -f1,3 /data/Thomas/tiger_release_aug07.txt)
+# time ../bin/nlp4py-tagger --train tiger+dewikiall+morcap+empirist.$RUN.model --prior tiger+dewikiall+morcap.$RUN.model --brown /data/Thomas/dewiki_all_brown.txt --lexicon morphy+dewikiall_capitalization.txt ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt
+# ../bin/nlp4py-tagger --evaluate tiger+dewikiall+morcap+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
+# ../bin/nlp4py-tagger --evaluate tiger+dewikiall+morcap+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
 
 echo "tiger+decow+empirist"
 time ../bin/nlp4py-tagger --train tiger+decow.$RUN.model --brown /data/Thomas/decow14_brown.txt <(cut -f1,3 /data/Thomas/tiger_release_aug07.txt)
@@ -65,6 +70,11 @@ time ../bin/nlp4py-tagger --train tiger+decow+morcap.$RUN.model --brown /data/Th
 time ../bin/nlp4py-tagger --train tiger+decow+morcap+empirist.$RUN.model --prior tiger+decow+morcap.$RUN.model --brown /data/Thomas/decow14_brown.txt --lexicon morphy+decow14_capitalization.txt ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt
 ../bin/nlp4py-tagger --evaluate tiger+decow+morcap+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
 ../bin/nlp4py-tagger --evaluate tiger+decow+morcap+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
+
+echo "tiger+decow+morphy+empirist+extra"
+time ../bin/nlp4py-tagger --train tiger+decow+morphy+empirist+extra.$RUN.model --prior tiger+decow+morphy.$RUN.model --brown /data/Thomas/decow14_brown.txt --lexicon /data/Thomas/morphy_wc.txt <(cat ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt additional_training.txt)
+../bin/nlp4py-tagger --evaluate tiger+decow+morphy+empirist+extra.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
+../bin/nlp4py-tagger --evaluate tiger+decow+morphy+empirist+extra.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
 
 echo "tiger+decow+morcap+empirist+extra"
 time ../bin/nlp4py-tagger --train tiger+decow+morcap+empirist+extra.$RUN.model --prior tiger+decow+morcap.$RUN.model --brown /data/Thomas/decow14_brown.txt --lexicon morphy+decow14_capitalization.txt <(cat ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt additional_training.txt)
