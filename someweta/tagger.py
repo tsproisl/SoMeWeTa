@@ -13,7 +13,7 @@ import statistics
 
 import numpy as np
 
-from nlp4py.averaged_structured_perceptron import AveragedStructuredPerceptron
+from someweta.averaged_structured_perceptron import AveragedStructuredPerceptron
 
 
 class ASPTagger(AveragedStructuredPerceptron):

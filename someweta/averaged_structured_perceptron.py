@@ -8,7 +8,7 @@ import random
 
 import numpy as np
 
-from nlp4py import utils
+from someweta import utils
 
 Beam = collections.namedtuple("Beam", ["tags", "weight_sum", "features", "previous"])
 
