@@ -64,7 +64,7 @@ class AveragedStructuredPerceptron:
                     self._update(local_y, predicted, features, counter)
                 counter += len(predicted)
                 total += 1
-            random.seed(it)
+            # random.seed(it)
             random.shuffle(ranges)
             correct = total - incorrect
             logging.info("Iteration %d: %d/%d = %.2f%% (%d early update)" % (it, correct, total, (correct / total) * 100, early_update))
