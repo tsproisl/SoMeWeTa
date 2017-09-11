@@ -1,5 +1,5 @@
-from nlp4py import averaged_structured_perceptron
-from nlp4py import tagger
+from someweta import averaged_structured_perceptron
+from someweta import tagger
 
 AveragedStructuredPerceptron = averaged_structured_perceptron.AveragedStructuredPerceptron
 ASPTagger = tagger.ASPTagger
