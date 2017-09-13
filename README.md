@@ -1,54 +1,135 @@
-## State of the art ##
+# SoMeWeTa #
 
-CMC: 87.33
-Web: 93.55
-Avg: 90.44
+## Introduction ##
 
-tiger 81.59
-| 71.74 ±0.30 | 83.37 ±0.30 | 33.24 ±0.81 |
-| 91.43 ±0.30 | 93.86 ±0.21 | 77.52 ±1.09 |
-tiger+empirist 88.93
-| 85.58 ±0.36 | 88.80 ±0.37 | 65.73 ±1.45 |
-| 92.27 ±0.36 | 94.18 ±0.31 | 79.71 ±1.01 |
-tiger+morphy+empirist 90.20
-| 87.31 ±0.33 | 90.10 ±0.33 | 70.05 ±2.05 |
-| 93.08 ±0.22 | 94.72 ±0.21 | 82.34 ±1.08 |
-tiger+dewikiall+empirist 90.28
-| 87.23 ±0.29 | 89.72 ±0.22 | 71.88 ±0.86 |
-| 93.32 ±0.34 | 94.89 ±0.31 | 83.05 ±0.85 |
-tiger+dewikiall+capit+empirist 90.34
-| 87.37 ±0.54 | 89.75 ±0.64 | 72.61 ±0.98 |
-| 93.31 ±0.22 | 94.81 ±0.24 | 83.51 ±0.92 |
-tiger+dewikiall+morphy+empirist 90.77
-| 87.82 ±0.60 | 90.31 ±0.58 | 72.47 ±1.79 |
-| 93.71 ±0.16 | 95.10 ±0.20 | 84.56 ±1.15 |
-tiger+dewikiall+morcap+empirist 90.88
-| 87.96 ±0.52 | 90.36 ±0.46 | 73.09 ±1.35 |
-| 93.80 ±0.14 | 95.13 ±0.16 | 85.02 ±0.75 |
-tiger+decow+empirist 90.80
-| 88.02 ±0.50 | 90.15 ±0.40 | 74.78 ±1.99 |
-| 93.58 ±0.30 | 95.11 ±0.29 | 83.55 ±0.98 |
-tiger+decow+capit+empirist 90.78
-| 88.06 ±0.46 | 90.06 ±0.39 | 75.74 ±1.60 |
-| 93.50 ±0.13 | 95.03 ±0.09 | 83.48 ±0.66 |
-tiger+decow+morphy+empirist 91.02
-| 88.38 ±0.54 | 90.36 ±0.49 | 76.10 ±1.35 |
-| 93.65 ±0.29 | 95.24 ±0.40 | 83.16 ±0.76 |
-tiger+decow+morcap+empirist 90.96
-| 88.14 ±0.27 | 90.24 ±0.34 | 75.16 ±1.34 |
-| 93.78 ±0.24 | 95.34 ±0.23 | 83.58 ±0.86 |
-tiger+decow+morcap+empirist+extra *91.20*
-| 88.69 ±0.27 | 90.71 ±0.33 | 76.21 ±1.43 |
-| 93.71 ±0.27 | 95.26 ±0.29 | 83.52 ±0.69 |
-tiger+decow+morcap+cmc 90.73
-| 88.55 ±0.46 | 90.76 ±0.42 | 75.14 ±1.51 |
-| 92.90 ±0.19 | 94.47 ±0.19 | 83.23 ±0.77 |
-tiger+decow+morcap+web 84.85
-| 76.22 ±0.63 | 85.19 ±0.55 | 44.74 ±1.73 |
-| 93.48 ±0.27 | 95.11 ±0.24 | 82.95 ±1.15 |
-tiger+decow+morcap+cmc+extra 90.90
-| 88.84 ±0.37 | 91.00 ±0.42 | 75.69 ±1.06 |
-| 92.96 ±0.18 | 94.50 ±0.18 | 83.48 ±0.67 |
-tiger+decow+morcap+web+extra 85.22
-| 76.86 ±0.50 | 85.18 ±0.46 | 47.69 ±1.51 |
-| 93.57 ±0.30 | 95.16 ±0.30 | 83.34 ±0.69 |
+SoMeWeTa is a state-of-the-art part-of-speech tagger for German web
+and social media texts that follows the guidelines of the [EmpiriST
+2015 shared task](https://sites.google.com/site/empirist2015/) on
+automatic linguistic annotation of computer-mediated communication /
+social media. SoMeWeTa is particularly well-suited to tag all kinds of
+written discourse, for example chats, forums, wiki talk pages, tweets,
+blog comments, social networks, SMS and WhatsApp dialogues.
+
+
+## Installation ##
+
+SoMeWeTa can be easily installed using pip:
+
+    pip install SoMeWeTa
+
+
+## Usage ##
+
+You can use the tagger as a standalone program from the command line.
+General usage information is available via the `-h` option:
+
+    somewe-tagger -h
+
+
+### Tagging a text ###
+
+SoMeWeTa requires that the input texts are tokenized and split into
+sentences. Tokenization and sentence splitting have to be consistent
+with the corpora the tagger model has been trained on. For German
+texts, we recommend [SoMaJo](https://github.com/tsproisl/SoMaJo), a
+tokenizer and sentence splitter with state-of-the-art performance on
+German web and social media texts. The expected input format is one
+token per line with an empty line after each sentence.
+
+To tag a file, run the following command:
+
+    somewe-tagger --tag <model> <file>
+
+
+### Training the tagger ###
+
+The expected input format for training the tagger is one token-pos
+pair per line, where token and pos are seperated by a tab character,
+and an empty line after each sentence. To train a model, run the
+following command:
+
+    somewe-tagger --train <model> <file>
+
+SoMeWeTa supports domain adaptation. First train a model on the
+background corpus, then use this model as prior when training the
+in-domain model:
+
+    somewe-tagger --train <model> --prior <background_model> <file>
+	
+SoMeWeTa can make use of additional sources of information. You can
+use the `--brown` option to provide a file with Brown clusters (the
+`paths` file produced by
+[wcluster](https://github.com/percyliang/brown-cluster)) and the
+`--lexicon` option to provide a lexicon with additional token-level
+information. The lexicon should consist of lines with tab-separated
+token-value pairs, e.g.:
+
+    welcome	ADJ
+	welcome	INTJ
+	welcome	NOUN
+	welcome	VERB
+	work	NOUN
+	work	VERB
+
+
+### Evaluating a model ###
+
+To evaluate a model, you need an annotated input file in the same
+format as for training. Then you can run the following command:
+
+    somewe-tagger --evaluate <model> <file>
+
+
+### Performing cross-validation ###
+
+You can also perform a 10-fold cross-validation on a training corpus:
+
+    somewe-tagger --crossvalidate <file>
+
+
+## Model files ##
+
+### German newspaper texts ###
+
+This model has been trained on the entire [TIGER
+corpus](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/tiger.html)
+and uses Brown clusters extracted from
+[DECOW14](http://corporafromtheweb.org/decow14/) and coarse
+wordclasses [extracted](http://www.danielnaber.de/morphologie/) from
+[Morphy](http://morphy.wolfganglezius.de/) as additional information.
+
+Note that according to the [TIGER Corpus License
+agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCorpus/license/htmlicense.html)
+“use of data derived from the corpus for any commercial purposes
+requires explicit written agreement of Licenser.”
+
+TODO: cross-validation results
+
+TODO: download link
+
+
+### German web and social media texts ###
+
+This model uses the above model as prior and is trained on the entire
+[data from the EmpiriST 2015 shared
+task](https://sites.google.com/site/empirist2015/home/gold), i.e. both
+the training and the test data. It uses the same additional sources of
+information as the prior model.
+
+Note that according to the [TIGER Corpus License
+agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCorpus/license/htmlicense.html)
+“use of data derived from the corpus for any commercial purposes
+requires explicit written agreement of Licenser.”
+
+TODO: cross-validation results
+
+TODO: download link
+
+A variant of this model that was not trained on the EmpiriST 2015 test
+data achieves a mean accuracy of 91.20% on those test sets:
+
+| Corpus | all words   | known words | unknown words |
+|--------|-------------|-------------|---------------|
+| CMC    | 88.69 ±0.40 | 90.62 ±0.35 | 76.74 ±1.51   |
+| Web    | 93.71 ±0.19 | 95.28 ±0.23 | 83.36 ±0.81   |
+
