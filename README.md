@@ -103,7 +103,10 @@ agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCor
 “use of data derived from the corpus for any commercial purposes
 requires explicit written agreement of Licenser.”
 
-TODO: cross-validation results
+To estimate the accuracy of this model, we performed a 10-fold
+cross-validation on the TIGER corpus with the same settings, resulting
+in a mean accuracy plus or minus two standard deviations of 97.98%
+±0.32.
 
 TODO: download link
 
@@ -121,7 +124,7 @@ agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCor
 “use of data derived from the corpus for any commercial purposes
 requires explicit written agreement of Licenser.”
 
-TODO: cross-validation results
+TODO: cross-validation results 88.19% ±1.72, 88.24% ±1.93, 88.26% ±2.29
 
 TODO: download link
 
