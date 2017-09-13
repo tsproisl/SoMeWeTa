@@ -72,12 +72,12 @@ time ../bin/somewe-tagger --train tiger+decow+morcap+empirist.$RUN.model --prior
 ../bin/somewe-tagger --evaluate tiger+decow+morcap+empirist.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
 
 echo "tiger+decow+morphy+empirist+extra"
-time ../bin/somewe-tagger --train tiger+decow+morphy+empirist+extra.$RUN.model --prior tiger+decow+morphy.$RUN.model --brown /data/Thomas/decow14_brown.txt --lexicon /data/Thomas/morphy_wc.txt <(cat ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt additional_training.txt)
+time ../bin/somewe-tagger --train tiger+decow+morphy+empirist+extra.$RUN.model --prior tiger+decow+morphy.$RUN.model --brown /data/Thomas/decow14_brown.txt --lexicon /data/Thomas/morphy_wc.txt <(cat ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt .../data/additional_training.txt)
 ../bin/somewe-tagger --evaluate tiger+decow+morphy+empirist+extra.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
 ../bin/somewe-tagger --evaluate tiger+decow+morphy+empirist+extra.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
 
 echo "tiger+decow+morcap+empirist+extra"
-time ../bin/somewe-tagger --train tiger+decow+morcap+empirist+extra.$RUN.model --prior tiger+decow+morcap.$RUN.model --brown /data/Thomas/decow14_brown.txt --lexicon morphy+decow14_capitalization.txt <(cat ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt additional_training.txt)
+time ../bin/somewe-tagger --train tiger+decow+morcap+empirist+extra.$RUN.model --prior tiger+decow+morcap.$RUN.model --brown /data/Thomas/decow14_brown.txt --lexicon morphy+decow14_capitalization.txt <(cat ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_all_sent_emo.txt .../data/additional_training.txt)
 ../bin/somewe-tagger --evaluate tiger+decow+morcap+empirist+extra.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
 ../bin/somewe-tagger --evaluate tiger+decow+morcap+empirist+extra.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
 
@@ -92,11 +92,11 @@ time ../bin/somewe-tagger --train tiger+decow+morcap+web.$RUN.model --prior tige
 ../bin/somewe-tagger --evaluate tiger+decow+morcap+web.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
 
 echo "tiger+decow+morcap+cmc+extra"
-time ../bin/somewe-tagger --train tiger+decow+morcap+cmc+extra.$RUN.model --prior tiger+decow+morcap.$RUN.model --brown /data/Thomas/decow14_brown.txt --lexicon morphy+decow14_capitalization.txt <(cat ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_cmc_sent_emo.txt additional_training.txt)
+time ../bin/somewe-tagger --train tiger+decow+morcap+cmc+extra.$RUN.model --prior tiger+decow+morcap.$RUN.model --brown /data/Thomas/decow14_brown.txt --lexicon morphy+decow14_capitalization.txt <(cat ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_cmc_sent_emo.txt .../data/additional_training.txt)
 ../bin/somewe-tagger --evaluate tiger+decow+morcap+cmc+extra.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
 ../bin/somewe-tagger --evaluate tiger+decow+morcap+cmc+extra.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
 
 echo "tiger+decow+morcap+web+extra"
-time ../bin/somewe-tagger --train tiger+decow+morcap+web+extra.$RUN.model --prior tiger+decow+morcap.$RUN.model --brown /data/Thomas/decow14_brown.txt --lexicon morphy+decow14_capitalization.txt <(cat ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_web_sent_emo.txt additional_training.txt)
+time ../bin/somewe-tagger --train tiger+decow+morcap+web+extra.$RUN.model --prior tiger+decow+morcap.$RUN.model --brown /data/Thomas/decow14_brown.txt --lexicon morphy+decow14_capitalization.txt <(cat ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/train_web_sent_emo.txt .../data/additional_training.txt)
 ../bin/somewe-tagger --evaluate tiger+decow+morcap+web+extra.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_cmc_sent_emo.txt
 ../bin/somewe-tagger --evaluate tiger+decow+morcap+web+extra.$RUN.model ~/Documents/Arbeit/nlp4py/data/empirist_gold_standard/test_web_sent_emo.txt
