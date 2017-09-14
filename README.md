@@ -120,7 +120,7 @@ in a mean accuracy plus or minus two standard deviations of 97.98%
 ±0.32.
 
 [Download
-model](http://corpora.linguistik.uni-erlangen.de/someweta/tiger+brown+mor.model)
+model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper.model)
 (115 MB)
 
 
@@ -146,5 +146,5 @@ training data achieves a mean accuracy of 91.20% on the two test sets:
 | Web    | 93.71 ±0.19 | 95.28 ±0.23 | 83.36 ±0.81   |
 
 [Download
-model](http://corpora.linguistik.uni-erlangen.de/someweta/tiger+empirist+add+brown+mor.model)
+model](http://corpora.linguistik.uni-erlangen.de/someweta/german_web_social_media.model)
 (115 MB)
