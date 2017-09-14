@@ -14,7 +14,7 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.rst')) as fh:
     long_description = fh.read()
 
-version = "0.8.0"
+version = "0.9.0"
 
 setup(
     name='SoMeWeTa',
@@ -37,8 +37,8 @@ setup(
     ],
     python_requires='>=3.4',
     classifiers=[
-        'Development Status :: 3 - Alpha',
-        # 'Development Status :: 4 - Beta',
+        # 'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
