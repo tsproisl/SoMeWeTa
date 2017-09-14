@@ -99,7 +99,13 @@ class AveragedStructuredPerceptron:
             local_pred, features = self._beam_search(local_X, start)
             local_pred = [self.reverse_mapping[p] for p in local_pred]
             predicted.extend(local_pred)
-        return utils.evaluate(y, predicted)
+        accuracy = utils.evaluate(y, predicted)
+        coarse_accuracy = None
+        if self.mapping is not None:
+            coarse_y = [self.mapping[t] for t in y]
+            coarse_predicted = [self.mapping[t] for t in predicted]
+            coarse_accuracy = utils.evaluate(coarse_y, coarse_predicted)
+        return accuracy, coarse_accuracy
 
     @staticmethod
     def _extract_feature_sequence(beam):

@@ -34,9 +34,6 @@ class ASPTagger(AveragedStructuredPerceptron):
         self.mapping = mapping
         self.brown_clusters = brown_clusters
         self.word_to_vec = word_to_vec
-        if self.mapping is not None:
-            self.mapping["<START-2>"] = "<START>"
-            self.mapping["<START-1>"] = "<START>"
         self.email = re.compile(r"^[[:alnum:].%+-]+(?:@| \[?at\]? )[[:alnum:].-]+(?:\.| \[?dot\]? )[[:alpha:]]{2,}$", re.IGNORECASE)
         self.xmltag = re.compile(r"^</?[^>]+>$")
         self.url = re.compile(r"^(?:(?:(?:https?|ftp|svn)://|(?:https?://)?www\.).+)|(?:[\w./-]+\.(?:de|com|org|net|edu|info|jpg|png|gif|log|txt)(?:-\w+)?)$", re.IGNORECASE)
@@ -94,7 +91,10 @@ class ASPTagger(AveragedStructuredPerceptron):
         for length, local_tags in zip(lengths, tags):
             local_words = words[start:start + length]
             start += length
-            yield zip(local_words, local_tags)
+            if self.mapping is not None:
+                yield zip(local_words, local_tags, (self.mapping[lt] for lt in local_tags))
+            else:
+                yield zip(local_words, local_tags)
 
     def evaluate(self, words, tags, lengths):
         """"""
@@ -104,6 +104,7 @@ class ASPTagger(AveragedStructuredPerceptron):
         # return accuracy
         predicted = self.predict(X, lengths)
         correct, correct_iv, correct_oov = 0, 0, 0
+        coarse_correct, coarse_correct_iv, coarse_correct_oov = 0, 0, 0
         total, total_iv, total_oov = 0, 0, 0
         start = 0
         for length, local_pred in zip(lengths, predicted):
@@ -117,11 +118,20 @@ class ASPTagger(AveragedStructuredPerceptron):
                     if g == p:
                         correct += 1
                         correct_iv += 1
+                    if self.mapping is not None:
+                        if self.mapping[g] == self.mapping[p]:
+                            coarse_correct += 1
+                            coarse_correct_iv += 1
                 else:
                     total_oov += 1
                     if g == p:
                         correct += 1
                         correct_oov += 1
+                    if self.mapping is not None:
+                        if self.mapping[g] == self.mapping[p]:
+                            coarse_correct += 1
+                            coarse_correct_oov += 1
+
         accuracy = correct / total
         try:
             accuracy_iv = correct_iv / total_iv
@@ -131,7 +141,18 @@ class ASPTagger(AveragedStructuredPerceptron):
             accuracy_oov = correct_oov / total_oov
         except ZeroDivisionError:
             accuracy_oov = 0
-        return accuracy, accuracy_iv, accuracy_oov
+        coarse_accuracy, coarse_accuracy_iv, coarse_accuracy_oov = None, None, None
+        if self.mapping is not None:
+            coarse_accuracy = coarse_correct / total
+            try:
+                coarse_accuracy_iv = coarse_correct_iv / total_iv
+            except ZeroDivisionError:
+                coarse_accuracy_iv = 0
+            try:
+                coarse_accuracy_oov = coarse_correct_oov / total_oov
+            except ZeroDivisionError:
+                coarse_accuracy_oov = 0
+        return accuracy, accuracy_iv, accuracy_oov, coarse_accuracy, coarse_accuracy_iv, coarse_accuracy_oov
 
     def crossvalidate(self, words, tags, lengths):
         """"""
@@ -144,9 +165,16 @@ class ASPTagger(AveragedStructuredPerceptron):
                                 sentence_ranges=sentence_ranges,
                                 div=div, mod=mod)
         with multiprocessing.Pool() as pool:
-            accuracies = pool.map(cvi, range(10))
+            accs = pool.map(cvi, range(10))
+        accuracies, coarse_accuracies = zip(*accs)
+        mean_accuracy = statistics.mean(accuracies)
+        double_stdev = 2 * statistics.stdev(accuracies)
+        coarse_mean_accuracy, coarse_double_stdev = None, None
+        if coarse_accuracies[0] is not None:
+            coarse_mean_accuracy = statistics.mean(coarse_accuracies)
+            coarse_double_stdev = 2 * statistics.stdev(coarse_accuracies)
         # accuracies = list(map(cvi, range(10)))
-        return statistics.mean(accuracies), 2 * statistics.stdev(accuracies)
+        return mean_accuracy, double_stdev, coarse_mean_accuracy, coarse_double_stdev
 
     def save(self, filename):
         """"""
@@ -156,8 +184,6 @@ class ASPTagger(AveragedStructuredPerceptron):
             f.write(json.dumps(list(self.vocabulary), ensure_ascii=False, indent=4).encode())
             f.write(",\n".encode())
             f.write(json.dumps(self.lexicon, ensure_ascii=False, indent=4).encode())
-            f.write(",\n".encode())
-            f.write(json.dumps(self.mapping, ensure_ascii=False, indent=4).encode())
             f.write(",\n".encode())
             f.write(json.dumps(self.brown_clusters, ensure_ascii=False, indent=4).encode())
             f.write(",\n".encode())
@@ -183,7 +209,7 @@ class ASPTagger(AveragedStructuredPerceptron):
         """"""
         with gzip.open(filename, 'rb') as f:
             model = json.loads(f.read().decode())
-            vocabulary, self.lexicon, self.mapping, self.brown_clusters, self.word_to_vec, self.target_mapping, self.target_size, features, weights = model
+            vocabulary, self.lexicon, self.brown_clusters, self.word_to_vec, self.target_mapping, self.target_size, features, weights = model
             self.vocabulary = set(vocabulary)
             self.weights = {f: np.fromstring(base64.b85decode(w), np.float64) for f, w in zip(features, weights)}
 
@@ -216,9 +242,11 @@ class ASPTagger(AveragedStructuredPerceptron):
         self.fit(train_X, train_y, train_lengths)
         # evaluate
         self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in test_words])
-        accuracy = self.score(test_X, test_y, test_lengths)
+        accuracy, coarse_accuracy = self.score(test_X, test_y, test_lengths)
         logging.info("Accuracy: %.2f%%" % (accuracy * 100,))
-        return accuracy
+        if coarse_accuracy is not None:
+            logging.info("Accuracy on mapped tagset: %.2f%%" % (coarse_accuracy * 100,))
+        return accuracy, coarse_accuracy
 
     def _get_static_features(self, words, lengths):
         """"""
@@ -305,25 +333,15 @@ class ASPTagger(AveragedStructuredPerceptron):
         features = []
         global_i = start + i
         tags = ["<START-2>", "<START-1>"] + beam
-        mapping = self.mapping
         j = i + 2
         if i >= 1:
             features.append("P1_word, P1_pos: %s, %s" % (words[global_i - 1], tags[j - 1]))
-            if mapping is not None:
-                features.append("P1_word, P1_wc: %s, %s" % (words[global_i - 1], mapping[tags[j - 1]]))
         if i >= 2:
             features.append("P2_word, P2_pos: %s, %s" % (words[global_i - 2], tags[j - 2]))
-            if mapping is not None:
-                features.append("P2_word, P2_wc: %s, %s" % (words[global_i - 2], mapping[tags[j - 2]]))
         features.append("P1_pos: %s" % tags[j - 1])
         features.append("P2_pos: %s" % tags[j - 2])
         features.append("P2_pos, P1_pos: %s, %s" % (tags[j - 2], tags[j - 1]))
         features.append("P1_pos, W_word: %s, %s" % (tags[j - 1], words[global_i]))
-        if mapping is not None:
-            features.append("P1_wc: %s" % mapping[tags[j - 1]])
-            features.append("P2_wc: %s" % mapping[tags[j - 2]])
-            features.append("P2_wc, P1_wc: %s, %s" % (mapping[tags[j - 2]], mapping[tags[j - 1]]))
-            features.append("P1_wc, W_word: %s, %s" % (mapping[tags[j - 1]], words[global_i]))
         return features
 
     @staticmethod
