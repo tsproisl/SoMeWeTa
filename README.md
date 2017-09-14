@@ -10,6 +10,11 @@ social media. SoMeWeTa is particularly well-suited to tag all kinds of
 written discourse, for example chats, forums, wiki talk pages, tweets,
 blog comments, social networks, SMS and WhatsApp dialogues.
 
+The tagger is based on the averaged structured perceptron and uses
+beam search and an early update strategy. It supports domain
+adaptation and external sources of information such as Brown clusters
+and lexica.
+
 
 ## Installation ##
 
@@ -124,15 +129,12 @@ agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCor
 “use of data derived from the corpus for any commercial purposes
 requires explicit written agreement of Licenser.”
 
-TODO: cross-validation results 88.19% ±1.72, 88.24% ±1.93, 88.26% ±2.29
-
-TODO: download link
-
-A variant of this model that was not trained on the EmpiriST 2015 test
-data achieves a mean accuracy of 91.20% on those test sets:
+A variant of this model that was trained only on the EmpiriST 2015
+training data achieves a mean accuracy of 91.20% on the two test sets:
 
 | Corpus | all words   | known words | unknown words |
 |--------|-------------|-------------|---------------|
 | CMC    | 88.69 ±0.40 | 90.62 ±0.35 | 76.74 ±1.51   |
 | Web    | 93.71 ±0.19 | 95.28 ±0.23 | 83.36 ±0.81   |
 
+TODO: download link
