@@ -3,13 +3,10 @@
 import base64
 import functools
 import gzip
-import itertools
 import json
 import logging
 import math
-import multiprocessing
 import re
-import statistics
 
 import numpy as np
 
@@ -154,28 +151,6 @@ class ASPTagger(AveragedStructuredPerceptron):
                 coarse_accuracy_oov = 0
         return accuracy, accuracy_iv, accuracy_oov, coarse_accuracy, coarse_accuracy_iv, coarse_accuracy_oov
 
-    def crossvalidate(self, words, tags, lengths):
-        """"""
-        sentence_ranges = list(zip((a - b for a, b in zip(itertools.accumulate(lengths), lengths)), lengths))
-        X = self._get_static_features(words, lengths)
-        div, mod = divmod(len(sentence_ranges), 10)
-        cvi = functools.partial(self._cross_val_iteration,
-                                words=words, X=X, y=tags,
-                                lengths=lengths,
-                                sentence_ranges=sentence_ranges,
-                                div=div, mod=mod)
-        with multiprocessing.Pool() as pool:
-            accs = pool.map(cvi, range(10))
-        accuracies, coarse_accuracies = zip(*accs)
-        mean_accuracy = statistics.mean(accuracies)
-        double_stdev = 2 * statistics.stdev(accuracies)
-        coarse_mean_accuracy, coarse_double_stdev = None, None
-        if coarse_accuracies[0] is not None:
-            coarse_mean_accuracy = statistics.mean(coarse_accuracies)
-            coarse_double_stdev = 2 * statistics.stdev(coarse_accuracies)
-        # accuracies = list(map(cvi, range(10)))
-        return mean_accuracy, double_stdev, coarse_mean_accuracy, coarse_double_stdev
-
     def save(self, filename):
         """"""
         with gzip.open(filename, 'wb') as f:
@@ -223,30 +198,6 @@ class ASPTagger(AveragedStructuredPerceptron):
             features = model[6]
             weights = model[7]
             self.prior_weights = {f: np.fromstring(base64.b85decode(w), np.float64) for f, w in zip(features, weights)}
-
-    def _cross_val_iteration(self, i, words, X, y, lengths, sentence_ranges, div, mod):
-        """"""
-        test_ranges = sentence_ranges[i * div + min(i, mod):(i + 1) * div + min(i + 1, mod)]
-        test_start = test_ranges[0][0]
-        test_end = test_ranges[-1][0] + test_ranges[-1][1]
-        test_lengths = lengths[i * div + min(i, mod):(i + 1) * div + min(i + 1, mod)]
-        train_lengths = lengths[:i * div + min(i, mod)] + lengths[(i + 1) * div + min(i + 1, mod):]
-        test_words = words[test_start:test_end]
-        test_X = X[test_start:test_end]
-        test_y = y[test_start:test_end]
-        train_words = words[:test_start] + words[test_end:]
-        train_X = X[:test_start] + X[test_end:]
-        train_y = y[:test_start] + y[test_end:]
-        # train
-        self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in train_words])
-        self.fit(train_X, train_y, train_lengths)
-        # evaluate
-        self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in test_words])
-        accuracy, coarse_accuracy = self.score(test_X, test_y, test_lengths)
-        logging.info("Accuracy: %.2f%%" % (accuracy * 100,))
-        if coarse_accuracy is not None:
-            logging.info("Accuracy on mapped tagset: %.2f%%" % (coarse_accuracy * 100,))
-        return accuracy, coarse_accuracy
 
     def _get_static_features(self, words, lengths):
         """"""

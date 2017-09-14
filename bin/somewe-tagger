@@ -3,7 +3,9 @@
 import argparse
 import itertools
 import logging
+import multiprocessing
 import os
+import statistics
 
 from someweta import utils
 from someweta import ASPTagger
@@ -37,6 +39,26 @@ def arguments():
                              line; sentences delimited by an empty
                              line.""")
     return parser.parse_args()
+
+
+def evaluate_fold(args):
+    i, beam_size, iterations, lexicon, mapping, brown_clusters, word_to_vec, words, tags, lengths, sentence_ranges, div, mod = args
+    asptagger = ASPTagger(beam_size, iterations, lexicon, mapping, brown_clusters, word_to_vec)
+    test_ranges = sentence_ranges[i * div + min(i, mod):(i + 1) * div + min(i + 1, mod)]
+    test_start = test_ranges[0][0]
+    test_end = test_ranges[-1][0] + test_ranges[-1][1]
+    test_lengths = lengths[i * div + min(i, mod):(i + 1) * div + min(i + 1, mod)]
+    train_lengths = lengths[:i * div + min(i, mod)] + lengths[(i + 1) * div + min(i + 1, mod):]
+    test_words = words[test_start:test_end]
+    test_tags = tags[test_start:test_end]
+    train_words = words[:test_start] + words[test_end:]
+    train_tags = tags[:test_start] + tags[test_end:]
+    asptagger.train(train_words, train_tags, train_lengths)
+    accuracy, accuracy_iv, accuracy_oov, coarse_accuracy, coarse_accuracy_iv, coarse_accuracy_oov = asptagger.evaluate(test_words, test_tags, test_lengths)
+    logging.info("Accuracy: %.2f%%" % (accuracy * 100,))
+    if coarse_accuracy is not None:
+        logging.info("Accuracy on mapped tagset: %.2f%%" % (coarse_accuracy * 100,))
+    return accuracy, accuracy_iv, accuracy_oov, coarse_accuracy, coarse_accuracy_iv, coarse_accuracy_oov
 
 
 def main():
@@ -77,9 +99,17 @@ def main():
             print("Accuracy on mapped tagset: %.2f%%; IV: %.2f%%; OOV: %.2f%%" % (coarse_accuracy * 100, coarse_accuracy_iv * 100, coarse_accuracy_oov * 100))
     elif args.crossvalidate:
         words, tags, lengths = utils.read_corpus(args.CORPUS)
-        mean_accuracy, double_stdev, coarse_mean_accuracy, coarse_double_stdev = asptagger.crossvalidate(words, tags, lengths)
+        sentence_ranges = list(zip((a - b for a, b in zip(itertools.accumulate(lengths), lengths)), lengths))
+        div, mod = divmod(len(sentence_ranges), 10)
+        with multiprocessing.Pool() as pool:
+            accs = pool.map(evaluate_fold, zip(range(10), itertools.repeat(args.beam_size), itertools.repeat(args.iterations), itertools.repeat(lexicon), itertools.repeat(mapping), itertools.repeat(brown_clusters), itertools.repeat(word_to_vec), itertools.repeat(words), itertools.repeat(tags), itertools.repeat(lengths), itertools.repeat(sentence_ranges), itertools.repeat(div), itertools.repeat(mod)))
+        accuracies, accuracies_iv, accuracies_oov, coarse_accuracies, coarse_accuracies_iv, coarse_accuracies_oov = zip(*accs)
+        mean_accuracy = statistics.mean(accuracies)
+        double_stdev = 2 * statistics.stdev(accuracies)
         print("Mean accuracy: %.2f%% ±%.2f" % (mean_accuracy * 100, double_stdev * 100))
-        if coarse_mean_accuracy is not None:
+        if coarse_accuracies[0] is not None:
+            coarse_mean_accuracy = statistics.mean(coarse_accuracies)
+            coarse_double_stdev = 2 * statistics.stdev(coarse_accuracies)
             print("Mean accuracy on mapped tagset: %.2f%% ±%.2f" % (coarse_mean_accuracy * 100, coarse_double_stdev * 100))
 
 
