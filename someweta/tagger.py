@@ -218,10 +218,10 @@ class ASPTagger(AveragedStructuredPerceptron):
         with gzip.open(prior, 'rb') as f:
             model = json.loads(f.read().decode())
             self.vocabulary = set(model[0])
-            self.target_mapping = model[5]
-            self.target_size = model[6]
-            features = model[7]
-            weights = model[8]
+            self.target_mapping = model[4]
+            self.target_size = model[5]
+            features = model[6]
+            weights = model[7]
             self.prior_weights = {f: np.fromstring(base64.b85decode(w), np.float64) for f, w in zip(features, weights)}
 
     def _cross_val_iteration(self, i, words, X, y, lengths, sentence_ranges, div, mod):
