@@ -147,4 +147,4 @@ training data achieves a mean accuracy of 91.20% on the two test sets:
 
 [Download
 model](http://corpora.linguistik.uni-erlangen.de/someweta/german_web_social_media.model)
-(115 MB)
+(116 MB)
