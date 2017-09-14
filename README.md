@@ -94,7 +94,13 @@ You can also perform a 10-fold cross-validation on a training corpus:
 
 ## Model files ##
 
-### German newspaper texts ###
+| Model                                      | tagset   | est. accuracy |
+|--------------------------------------------|----------|---------------|
+| [German newspaper](#german_newspaper)      | STTS     |        97.98% |
+| [German web and social media](#german_wsm) | STTS_IBK |        91.20% |
+
+
+### German newspaper texts <a id="german_newspaper"/> ###
 
 This model has been trained on the entire [TIGER
 corpus](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/tiger.html)
@@ -118,7 +124,7 @@ model](http://corpora.linguistik.uni-erlangen.de/someweta/tiger+brown+mor.model)
 (115 MB)
 
 
-### German web and social media texts ###
+### German web and social media texts <a id="german_wsm"> ###
 
 This model uses the above model as prior and is trained on the entire
 [data from the EmpiriST 2015 shared
