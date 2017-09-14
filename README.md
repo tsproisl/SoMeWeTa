@@ -113,7 +113,9 @@ cross-validation on the TIGER corpus with the same settings, resulting
 in a mean accuracy plus or minus two standard deviations of 97.98%
 ±0.32.
 
-TODO: download link
+[Download
+model](http://corpora.linguistik.uni-erlangen.de/someweta/tiger+brown+mor.model)
+(115 MB)
 
 
 ### German web and social media texts ###
@@ -137,4 +139,6 @@ training data achieves a mean accuracy of 91.20% on the two test sets:
 | CMC    | 88.69 ±0.40 | 90.62 ±0.35 | 76.74 ±1.51   |
 | Web    | 93.71 ±0.19 | 95.28 ±0.23 | 83.36 ±0.81   |
 
-TODO: download link
+[Download
+model](http://corpora.linguistik.uni-erlangen.de/someweta/tiger+empirist+add+brown+mor.model)
+(115 MB)
