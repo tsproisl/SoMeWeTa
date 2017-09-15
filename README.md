@@ -178,10 +178,10 @@ A variant of this model that was trained only on sections 0–18 of the
 Wall Street Journal achieves the following results on the usual
 development and test sets:
 
-| Data set     | all words | known words | unknown words |
-|--------------|-----------|-------------|---------------|
-| dev (19–21)  | 97.16     | 97.41       | 89.89         |
-| test (22–24) | 97.28     | 97.45       | 91.14         |
+| Data set     | all words   | known words | unknown words |
+|--------------|-------------|-------------|---------------|
+| dev (19–21)  | 97.15 ±0.02 | 97.41 ±0.03 | 89.59 ±0.28   |
+| test (22–24) | 97.25 ±0.02 | 97.42 ±0.03 | 91.05 ±0.29   |
 
 [Download
 model](http://corpora.linguistik.uni-erlangen.de/someweta/english_newspaper.model)
