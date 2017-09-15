@@ -30,7 +30,7 @@ setup(
     url="https://github.com/tsproisl/SoMeWeTa",
     download_url='https://github.com/tsproisl/SoMeWeTa/archive/v%s.tar.gz' % version,
     license='GNU General Public License v3 or later (GPLv3+)',
-    description='A part-of-speech tagger for German web and social media texts.',
+    description='A part-of-speech tagger with support for domain adaptation and external resources.',
     long_description=long_description,
     install_requires=[
         "numpy",
