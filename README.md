@@ -99,10 +99,11 @@ You can also perform a 10-fold cross-validation on a training corpus:
 
 ## Model files ##
 
-| Model                                      | tagset   | est. accuracy |
-|--------------------------------------------|----------|---------------|
-| [German newspaper](#german_newspaper)      | STTS     |        97.98% |
-| [German web and social media](#german_wsm) | STTS_IBK |        91.20% |
+| Model                                      | tagset    | est. accuracy |
+|--------------------------------------------|-----------|---------------|
+| [German newspaper](#german_newspaper)      | STTS      |        97.98% |
+| [German web and social media](#german_wsm) | STTS\_IBK |        91.20% |
+| [English newspaper](#english_newspaper)    | Penn      |        97.28% |
 
 
 ### German newspaper texts <a id="german_newspaper"/> ###
@@ -156,3 +157,32 @@ the EmpiriST data.
 [Download
 model](http://corpora.linguistik.uni-erlangen.de/someweta/german_web_social_media.model)
 (116 MB)
+
+
+### English newspaper texts <a id="english_newspaper"> ###
+
+This model has been trained on all sections of the Wall Street Journal
+part of the [Penn Treebank](https://catalog.ldc.upenn.edu/ldc99t42)
+and uses Brown clusters extracted from
+[ENCOW14](http://corporafromtheweb.org/encow14/) and part-of-speech
+data extracted from the [English DELA
+dictionary](http://infolingu.univ-mlv.fr/DonneesLinguistiques/Dictionnaires/telechargement.html)
+as additional information.
+
+You can use this model for research purposes if you have a license for
+the Penn Treebank. If you want to use it for commercial applications,
+please contact the Linguistic Data Consortium to find out which
+conditions apply.
+
+A variant of this model that was trained only on sections 0–18 of the
+Wall Street Journal achieves the following results on the usual
+development and test sets:
+
+| Data set     | all words | known words | unknown words |
+|--------------|-----------|-------------|---------------|
+| dev (19–21)  | 97.16     | 97.41       | 89.89         |
+| test (22–24) | 97.28     | 97.45       | 91.14         |
+
+[Download
+model](http://corpora.linguistik.uni-erlangen.de/someweta/english_newspaper.model)
+(38 MB)
