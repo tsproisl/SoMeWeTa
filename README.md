@@ -2,18 +2,23 @@
 
 ## Introduction ##
 
-SoMeWeTa is a state-of-the-art part-of-speech tagger for German web
-and social media texts that follows the guidelines of the [EmpiriST
-2015 shared task](https://sites.google.com/site/empirist2015/) on
-automatic linguistic annotation of computer-mediated communication /
-social media. SoMeWeTa is particularly well-suited to tag all kinds of
-written discourse, for example chats, forums, wiki talk pages, tweets,
-blog comments, social networks, SMS and WhatsApp dialogues.
+SoMeWeTa is a part-of-speech tagger that supports domain adaptation
+and that can incorporate external sources of information such as Brown
+clusters and lexica. It is based on the averaged structured perceptron
+and uses beam search and an early update strategy.
 
-The tagger is based on the averaged structured perceptron and uses
-beam search and an early update strategy. It supports domain
-adaptation and external sources of information such as Brown clusters
-and lexica.
+SoMeWeTa achieves state-of-the-art results on the German web and
+social media texts from the [EmpiriST 2015 shared
+task](https://sites.google.com/site/empirist2015/) on automatic
+linguistic annotation of computer-mediated communication / social
+media. Therefore, SoMeWeTa is particularly well-suited to tag all
+kinds of written German discourse, for example chats, forums, wiki
+talk pages, tweets, blog comments, social networks, SMS and WhatsApp
+dialogues.
+
+In addition, we also provide models trained on German and English
+newspaper texts. For both languages, SoMeWeTa achieves highly
+competitive results close to the current state of the art.
 
 
 ## Installation ##
@@ -144,6 +149,9 @@ training data achieves a mean accuracy of 91.20% on the two test sets:
 |--------|-------------|-------------|---------------|
 | CMC    | 88.69 ±0.40 | 90.62 ±0.35 | 76.74 ±1.51   |
 | Web    | 93.71 ±0.19 | 95.28 ±0.23 | 83.36 ±0.81   |
+
+As of September 2017, those figures represent the state of the art on
+the EmpiriST data.
 
 [Download
 model](http://corpora.linguistik.uni-erlangen.de/someweta/german_web_social_media.model)
