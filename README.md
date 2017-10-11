@@ -25,7 +25,17 @@ competitive results close to the current state of the art.
 
 SoMeWeTa can be easily installed using pip:
 
-    pip install SoMeWeTa
+    pip3 install SoMeWeTa
+
+Alternatively, you can download and decompress the
+[latest release](https://github.com/tsproisl/SoMeWeTa/releases/latest)
+or clone the git repository:
+
+    git clone https://github.com/tsproisl/SoMeWeTa.git
+
+In the new directory, run the following command:
+
+    python3 setup.py install
 
 
 ## Usage ##
@@ -115,11 +125,6 @@ and uses Brown clusters extracted from
 wordclasses [extracted](http://www.danielnaber.de/morphologie/) from
 [Morphy](http://morphy.wolfganglezius.de/) as additional information.
 
-Note that according to the [TIGER Corpus License
-agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCorpus/license/htmlicense.html)
-“use of data derived from the corpus for any commercial purposes
-requires explicit written agreement of Licenser.”
-
 To estimate the accuracy of this model, we performed a 10-fold
 cross-validation on the TIGER corpus with the same settings, resulting
 in a mean accuracy plus or minus two standard deviations of 97.98%
@@ -129,6 +134,11 @@ in a mean accuracy plus or minus two standard deviations of 97.98%
 model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_v1.0.0.model)
 (115 MB)
 
+Note that according to the [TIGER Corpus License
+agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCorpus/license/htmlicense.html)
+“use of data derived from the corpus for any commercial purposes
+requires explicit written agreement of Licenser.”
+
 
 ### German web and social media texts <a id="german_wsm"> ###
 
@@ -137,11 +147,6 @@ This model uses the above model as prior and is trained on the entire
 task](https://sites.google.com/site/empirist2015/home/gold), i.e. both
 the training and the test data. It uses the same additional sources of
 information as the prior model.
-
-Note that according to the [TIGER Corpus License
-agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCorpus/license/htmlicense.html)
-“use of data derived from the corpus for any commercial purposes
-requires explicit written agreement of Licenser.”
 
 A variant of this model that was trained only on the EmpiriST 2015
 training data achieves a mean accuracy of 91.20% on the two test sets:
@@ -158,6 +163,11 @@ the EmpiriST data.
 model](http://corpora.linguistik.uni-erlangen.de/someweta/german_web_social_media_v1.0.0.model)
 (116 MB)
 
+Note that according to the [TIGER Corpus License
+agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCorpus/license/htmlicense.html)
+“use of data derived from the corpus for any commercial purposes
+requires explicit written agreement of Licenser.”
+
 
 ### English newspaper texts <a id="english_newspaper"> ###
 
@@ -168,11 +178,6 @@ and uses Brown clusters extracted from
 data extracted from the [English DELA
 dictionary](http://infolingu.univ-mlv.fr/DonneesLinguistiques/Dictionnaires/telechargement.html)
 as additional information.
-
-You can use this model for research purposes if you have a license for
-the Penn Treebank. If you want to use it for commercial applications,
-please contact the Linguistic Data Consortium to find out which
-conditions apply.
 
 A variant of this model that was trained only on sections 0–18 of the
 Wall Street Journal achieves the following results on the usual
@@ -186,3 +191,8 @@ development and test sets:
 [Download
 model](http://corpora.linguistik.uni-erlangen.de/someweta/english_newspaper_v1.0.0.model)
 (38 MB)
+
+You can use this model for research purposes if you have a license for
+the Penn Treebank. If you want to use it for commercial applications,
+please contact the Linguistic Data Consortium to find out which
+conditions apply.
