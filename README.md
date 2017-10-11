@@ -132,9 +132,7 @@ in a mean accuracy plus or minus two standard deviations of 97.98%
 
 [Download
 model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_v1.0.0.model)
-(115 MB)
-
-Note that according to the [TIGER Corpus License
+(115 MB) – Note that according to the [TIGER Corpus License
 agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCorpus/license/htmlicense.html)
 “use of data derived from the corpus for any commercial purposes
 requires explicit written agreement of Licenser.”
@@ -161,9 +159,7 @@ the EmpiriST data.
 
 [Download
 model](http://corpora.linguistik.uni-erlangen.de/someweta/german_web_social_media_v1.0.0.model)
-(116 MB)
-
-Note that according to the [TIGER Corpus License
+(116 MB) – Note that according to the [TIGER Corpus License
 agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCorpus/license/htmlicense.html)
 “use of data derived from the corpus for any commercial purposes
 requires explicit written agreement of Licenser.”
@@ -190,9 +186,7 @@ development and test sets:
 
 [Download
 model](http://corpora.linguistik.uni-erlangen.de/someweta/english_newspaper_v1.0.0.model)
-(38 MB)
-
-You can use this model for research purposes if you have a license for
-the Penn Treebank. If you want to use it for commercial applications,
-please contact the Linguistic Data Consortium to find out which
-conditions apply.
+(38 MB) – You can use this model for research purposes if you have a
+license for the Penn Treebank. If you want to use it for commercial
+applications, please contact the Linguistic Data Consortium to find
+out which conditions apply.
