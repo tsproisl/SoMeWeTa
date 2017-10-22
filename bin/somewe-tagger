@@ -6,6 +6,7 @@ import logging
 import multiprocessing
 import os
 import statistics
+import time
 
 from someweta import utils
 from someweta import ASPTagger
@@ -68,10 +69,13 @@ def evaluate_fold(args):
 
 def fill_input_queue(input_queue, corpus, processes, sentinel):
     """"""
+    corpus_size = 0
     for words, length in utils.iter_corpus(corpus, tagged=False):
+        corpus_size += length
         input_queue.put(words)
     for proc in range(processes):
         input_queue.put(sentinel)
+    input_queue.put(corpus_size)
 
 
 def process_input_queue(func, input_queue, output_queue, sentinel):
@@ -104,7 +108,9 @@ def parallel_tagging(args, asptagger):
                 else:
                     continue
             print("\n".join(["\t".join(t) for t in data]), "\n")
+        corpus_size = input_queue.get()
         producer.join()
+        return corpus_size
 
 
 def main():
@@ -126,13 +132,18 @@ def main():
         asptagger.train(words, tags, lengths)
         asptagger.save(args.train)
     elif args.tag:
+        t0 = time.perf_counter()
         asptagger.load(args.tag)
         if args.parallel > 1:
-            parallel_tagging(args, asptagger)
+            corpus_size = parallel_tagging(args, asptagger)
         else:
+            corpus_size = 0
             for words, length in utils.iter_corpus(args.CORPUS, tagged=False):
+                corpus_size += length
                 sentence = asptagger.tag_sentence(words)
                 print("\n".join(["\t".join(t) for t in sentence]), "\n")
+        t1 = time.perf_counter()
+        logging.info("Tagged %d tokens in %d seconds (%d tokens/s)" % (corpus_size, t1 - t0, corpus_size / (t1 - t0)))
     elif args.evaluate:
         asptagger.load(args.evaluate)
         words, tags, lengths = utils.read_corpus(args.CORPUS, tagged=True)
