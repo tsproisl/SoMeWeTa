@@ -1,5 +1,11 @@
 # CHANGELOG #
 
+## Version 1.1.0, 2017-??-?? ##
+
+The new option --parallel makes it possible to use a pool of worker
+processes to speed up tagging. We also print a log message that
+indicates tagging speed.
+
 ## Version 1.0.0, 2017-09-15 ##
 
 First release.
