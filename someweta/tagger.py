@@ -93,6 +93,17 @@ class ASPTagger(AveragedStructuredPerceptron):
             else:
                 yield zip(local_words, local_tags)
 
+    def tag_sentence(self, sentence):
+        """"""
+        sentence_length = [len(sentence)]
+        self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in sentence])
+        X = self._get_static_features(sentence, sentence_length)
+        tags = list(self.predict(X, sentence_length))[0]
+        if self.mapping is not None:
+            return list(zip(sentence, tags, (self.mapping[lt] for lt in tags)))
+        else:
+            return list(zip(sentence, tags))
+
     def evaluate(self, words, tags, lengths):
         """"""
         self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in words])
