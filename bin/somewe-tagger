@@ -107,7 +107,7 @@ def parallel_tagging(args, asptagger):
                     break
                 else:
                     continue
-            print("\n".join(["\t".join(t) for t in data]), "\n")
+            print("\n".join(["\t".join(t) for t in data]), "\n", sep="")
         corpus_size = input_queue.get()
         producer.join()
         return corpus_size
@@ -132,8 +132,8 @@ def main():
         asptagger.train(words, tags, lengths)
         asptagger.save(args.train)
     elif args.tag:
-        t0 = time.perf_counter()
         asptagger.load(args.tag)
+        t0 = time.perf_counter()
         if args.parallel > 1:
             corpus_size = parallel_tagging(args, asptagger)
         else:
@@ -141,7 +141,7 @@ def main():
             for words, length in utils.iter_corpus(args.CORPUS, tagged=False):
                 corpus_size += length
                 sentence = asptagger.tag_sentence(words)
-                print("\n".join(["\t".join(t) for t in sentence]), "\n")
+                print("\n".join(["\t".join(t) for t in sentence]), "\n", sep="")
         t1 = time.perf_counter()
         logging.info("Tagged %d tokens in %d seconds (%d tokens/s)" % (corpus_size, t1 - t0, corpus_size / (t1 - t0)))
     elif args.evaluate:
