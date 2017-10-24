@@ -1,6 +1,6 @@
 # CHANGELOG #
 
-## Version 1.1.0, 2017-??-?? ##
+## Version 1.1.0, 2017-10-24 ##
 
 - Bugfix: Removed trailing space from last tag in sentence.
 - The new option --parallel makes it possible to use a pool of worker
