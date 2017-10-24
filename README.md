@@ -2,10 +2,11 @@
 
 ## Introduction ##
 
-SoMeWeTa is a part-of-speech tagger that supports domain adaptation
-and that can incorporate external sources of information such as Brown
-clusters and lexica. It is based on the averaged structured perceptron
-and uses beam search and an early update strategy.
+SoMeWeTa (short for Social Media and Web Tagger) is a part-of-speech
+tagger that supports domain adaptation and that can incorporate
+external sources of information such as Brown clusters and lexica. It
+is based on the averaged structured perceptron and uses beam search
+and an early update strategy.
 
 SoMeWeTa achieves state-of-the-art results on the German web and
 social media texts from the [EmpiriST 2015 shared
@@ -59,6 +60,12 @@ token per line with an empty line after each sentence.
 To tag a file, run the following command:
 
     somewe-tagger --tag <model> <file>
+
+If your machine has multiple cores, you can use the `--parallel`
+option to speed up tagging. To tag a file using four cores, use this
+command:
+
+    somewe-tagger --parallel 4 --tag <model> <file>
 
 
 ### Training the tagger ###
