@@ -1,0 +1,201 @@
+😇	EMOIMG
+😇	EMOIMG
+
+😈	EMOIMG
+😈	EMOIMG
+😈	EMOIMG
+
+🙌	EMOIMG
+🙌	EMOIMG
+🙌	EMOIMG
+🙌	EMOIMG
+
+😲	EMOIMG
+😲	EMOIMG
+😲	EMOIMG
+😲	EMOIMG
+😲	EMOIMG
+
+🍵	EMOIMG
+🍵	EMOIMG
+🍵	EMOIMG
+🍵	EMOIMG
+🍵	EMOIMG
+🍵	EMOIMG
+
+🙈	EMOIMG
+🙉	EMOIMG
+🙊	EMOIMG
+🙈	EMOIMG
+🙉	EMOIMG
+🙊	EMOIMG
+💣	EMOIMG
+
+#CDU	HST
+#SPD	HST
+#Grüne	HST
+#linke	HST
+#FDP	HST
+
+#maischberger	HST
+#rtl	HST
+#zdf	HST
+#lanz	HST
+#illner	HST
+#merkel	HST
+#sterntv	HST
+
+Minister	NN
+#Dobrindt	HST
+teilt	VVFIN
+kräftig	ADJD
+aus	PTKVZ
+.	$.
+#maut	HST
+https://t.co/IIVaK5VOE2	URL
+
+Grundrecht	NN
+auf	APPR
+#Asyl	HST
+soll	VMFIN
+abgeschafft	VVPP
+werden	VAINF
+.	$.
+https://t.co/XFh7wSMWJi	URL
+
+Die	ART
+#Austeritätspolitik	HST
+von	APPR
+#sPD	HST
+#cdU	HST
+#csU	HST
+#fdP	HST
+und	KON
+#grüne	HST
+,	$,
+hat	VAFIN
+die	ART
+Idee	NN
+einer	ART
+positiven	ADJA
+#EU	HST
+zerstört	VVPP
+und	KON
+#Schulz	HST
+war	VAFIN
+dabei	PAV
+!	$.
+#maischberger	HST
+
+Die	ART
+@AfD_Bund	ADR
+will	VMFIN
+das	ART
+Grundgesetz	NN
+ändern	VVINF
+.	$.
+
+Jetzt	ADV
+an	APPR
+der	ART
+#PHBern	HST
+mit	APPR
+@barbarajosef	ADR
+und	KON
+@wissensfabrik	ADR
+https://t.co/gIEWmq0Dxl	URL
+#Schule	HST
+#Digitalisierung	HST
+
+Behörde	NN
+wollte	VMFIN
+#Sozialbetrug	HST
+vertuschen	VVINF
+-	$(
+exemplarisch	ADJD
+für	APPR
+Chaos	NN
+und	KON
+Überforderung	NN
+der	ART
+Behörden	NN
+.	$.
+
+Der	ART
+Kandidat	NN
+der	ART
+#AfD	HST
+für	APPR
+das	ART
+Bezirksamt	NN
+in	APPR
+#Pankow	HST
+,	$,
+Nicolas	NE
+Seifert	NE
+,	$,
+ist	VAFIN
+wieder	ADV
+nicht	PTKNEG
+gewählt	VVPP
+worden	VAPP
+.	$.
+https://t.co/5HjBrPhCL2	URL
+@tagesspiegel	ADR
+
+#Bildung	HST
+#Schule	HST
+Veranstaltung	NN
+im	APPRART
+#BayerischenLandtag	HST
+vom	APPRART
+#Bildungsforum	HST
+der	ART
+#Sozialdemokratie	HST
+https://t.co/L5Df9DxsCW	URL
+
+Das	ART
+Erstarken	NN
+populistischer	ADJA
+Parteien	NN
+in	APPR
+ganz	PTKIFG
+#Europa	HST
+ist	VAFIN
+das	ART
+Ergebnis	NN
+der	ART
+von	APPR
+#Merkel	HST
+…	$(
+https://t.co/dkjrnMCmnm	URL
+
+Liebe	ADJA
+Frau	NN
+@dunjahayali	ADR
+
+Auch	ADV
+@MartinSchulz	ADR
+steht	VVFIN
+für	APPR
+Kungel	NN
+mit	APPR
+den	ART
+Rechten	NN
+
+SPD	NE
+Schulz	NE
+über	APPR
+Rechtspopulisten	NN
+"	$(
+Auf	APPR
+groben	ADJA
+Klotz	NN
+gehört	VVFIN
+grober	ADJA
+Keil	NN
+"	$(
+https://t.co/jWpXbXjODY	URL
+via	APPR
+@SPIEGELONLINE	ADR
+
