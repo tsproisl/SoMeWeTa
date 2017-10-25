@@ -6,6 +6,7 @@ import logging
 import multiprocessing
 import os
 import statistics
+import threading
 import time
 
 from someweta import utils
@@ -95,7 +96,7 @@ def parallel_tagging(args, asptagger):
     processes = min(args.parallel, multiprocessing.cpu_count())
     input_queue = multiprocessing.Queue(maxsize=processes * 100)
     output_queue = multiprocessing.Queue(maxsize=processes * 100)
-    producer = multiprocessing.Process(target=fill_input_queue, args=(input_queue, args.CORPUS, processes, sentinel))
+    producer = threading.Thread(target=fill_input_queue, args=(input_queue, args.CORPUS, processes, sentinel))
     with multiprocessing.Pool(processes=processes, initializer=process_input_queue, initargs=(asptagger.tag_sentence, input_queue, output_queue, sentinel)):
         producer.start()
         observed_sentinels = 0
