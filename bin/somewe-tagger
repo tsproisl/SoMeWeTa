@@ -71,9 +71,9 @@ def evaluate_fold(args):
 def fill_input_queue(input_queue, corpus, processes, sentinel):
     """"""
     corpus_size = 0
-    for words, length in utils.iter_corpus(corpus, tagged=False):
+    for i, (words, length) in enumerate(utils.iter_corpus(corpus, tagged=False)):
         corpus_size += length
-        input_queue.put(words)
+        input_queue.put((i, words))
     for proc in range(processes):
         input_queue.put(sentinel)
     input_queue.put(corpus_size)
@@ -85,8 +85,9 @@ def process_input_queue(func, input_queue, output_queue, sentinel):
         data = input_queue.get()
         if isinstance(data, Sentinel):
             break
-        result = func(data)
-        output_queue.put(result)
+        i, words = data
+        result = func(words)
+        output_queue.put((i, result))
     output_queue.put(sentinel)
 
 
@@ -100,6 +101,8 @@ def parallel_tagging(args, asptagger):
     with multiprocessing.Pool(processes=processes, initializer=process_input_queue, initargs=(asptagger.tag_sentence, input_queue, output_queue, sentinel)):
         producer.start()
         observed_sentinels = 0
+        current = 0
+        cached_results = {}
         while True:
             data = output_queue.get()
             if isinstance(data, Sentinel):
@@ -108,7 +111,16 @@ def parallel_tagging(args, asptagger):
                     break
                 else:
                     continue
-            print("\n".join(["\t".join(t) for t in data]), "\n", sep="")
+            i, results = data
+            if i == current:
+                print("\n".join(["\t".join(t) for t in results]), "\n", sep="")
+                current += 1
+            else:
+                cached_results[i] = results
+            while current in cached_results:
+                print("\n".join(["\t".join(t) for t in cached_results[current]]), "\n", sep="")
+                del cached_results[current]
+                current += 1
         corpus_size = input_queue.get()
         producer.join()
         return corpus_size
