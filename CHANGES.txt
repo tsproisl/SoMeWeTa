@@ -1,5 +1,10 @@
 # CHANGELOG #
 
+## Version 1.1.2, 2017-10-27 ##
+
+Bugfix: Using the --parallel option does no longer change the order of
+the sentences.
+
 ## Version 1.1.1, 2017-10-25 ##
 
 This version fixes a bug that made it impossible to use the --parallel
