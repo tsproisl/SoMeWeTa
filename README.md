@@ -116,11 +116,11 @@ You can also perform a 10-fold cross-validation on a training corpus:
 
 ## Model files ##
 
-| Model                                      | tagset    | est. accuracy |
-|--------------------------------------------|-----------|---------------|
-| [German newspaper](#german_newspaper)      | STTS      |        97.98% |
-| [German web and social media](#german_wsm) | STTS\_IBK |        91.20% |
-| [English newspaper](#english_newspaper)    | Penn      |        97.28% |
+| Model                                      | tagset       | est. accuracy |
+|--------------------------------------------|--------------|---------------|
+| [German newspaper](#german_newspaper)      | STTS (TIGER) |        97.98% |
+| [German web and social media](#german_wsm) | STTS\_IBK    |        91.20% |
+| [English newspaper](#english_newspaper)    | Penn         |        97.28% |
 
 
 ### German newspaper texts <a id="german_newspaper"/> ###
