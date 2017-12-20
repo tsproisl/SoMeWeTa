@@ -3,7 +3,7 @@
 import json
 import sys
 
-with open("stts_to_upos.json") as f:
+with open("../data/mapping_stts_to_ud_upos.json") as f:
     mapping = json.load(f)
 
 for line in sys.stdin:
