@@ -1,35 +1,78 @@
+Also	ADV
+sind	VAFIN
+jetzt	ADV
+alle	PIAT
+NGOs	NN
+auch	ADV
+Parteien	NN
+,	$,
+oder	KON
+alle	PIAT
+Parteien	NN
+auch	ADV
+NGOs	NN
+?	$.
+🤔	EMOIMG
+🤔	EMOIMG
+
+Euer	PPOSAT
+Ernst	NN
+!?	$.
+😃	EMOIMG
+😜	EMOIMG
+😂	EMOIMG
+
+Nice	FM
+bitte	ADV
+nur	PTKIFG
+Ärzte	NN
+^J^	EMOASC
+für	APPR
+Anbau	NN
+💘	EMOIMG
+🦄	EMOIMG
 😇	EMOIMG
-😇	EMOIMG
+💨	EMOIMG
+we	FM
+Love	FM
+legal	FM
+...	$.
 
-😈	EMOIMG
-😈	EMOIMG
-😈	EMOIMG
-
-🙌	EMOIMG
-🙌	EMOIMG
-🙌	EMOIMG
-🙌	EMOIMG
-
-😲	EMOIMG
-😲	EMOIMG
-😲	EMOIMG
-😲	EMOIMG
-😲	EMOIMG
-
-🍵	EMOIMG
-🍵	EMOIMG
-🍵	EMOIMG
-🍵	EMOIMG
-🍵	EMOIMG
-🍵	EMOIMG
-
+Das	PDS
+ist	VAFIN
+der	ART
+Niedrigzinsphase	NN
+Geschuldet	VVPP
+.	$.
 🙈	EMOIMG
-🙉	EMOIMG
 🙊	EMOIMG
-🙈	EMOIMG
 🙉	EMOIMG
-🙊	EMOIMG
-💣	EMOIMG
+👀	EMOIMG
+
+🏳	EMOIMG
+🌈	EMOIMG
+👩	EMOIMG
+❤	EMOIMG
+👩	EMOIMG
+👨	EMOIMG
+❤	EMOIMG
+👨	EMOIMG
+🏳	EMOIMG
+🌈	EMOIMG
+https://t.co/0C37OnNoCq	URL
+
+Malick	NE
+fdp	NE
+😹	EMOIMG
+😹	EMOIMG
+😭	EMOIMG
+😭	EMOIMG
+😭	EMOIMG
+😭	EMOIMG
+😹	EMOIMG
+😹	EMOIMG
+😹	EMOIMG
+😹	EMOIMG
 
 #CDU	HST
 #SPD	HST
