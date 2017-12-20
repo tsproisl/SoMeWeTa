@@ -1,0 +1,139 @@
+Also	ADV
+sind	AUX
+jetzt	ADV
+alle	DET
+NGOs	NOUN
+auch	ADV
+Parteien	NOUN
+,	PUNCT
+oder	CCONJ
+alle	DET
+Parteien	NOUN
+auch	ADV
+NGOs	NOUN
+?	PUNCT
+🤔	SYM
+🤔	SYM
+
+Euer	PRON
+Ernst	NOUN
+!?	PUNCT
+😃	SYM
+😜	SYM
+😂	SYM
+
+Nice	X
+bitte	ADV
+nur	ADV
+Ärzte	NOUN
+^J^	SYM
+für	ADP
+Anbau	NOUN
+💘	SYM
+🦄	SYM
+😇	SYM
+💨	SYM
+we	X
+Love	X
+legal	X
+...	PUNCT
+
+Das	PRON
+ist	AUX
+der	DET
+Niedrigzinsphase	NOUN
+Geschuldet	VERB
+.	PUNCT
+🙈	SYM
+🙊	SYM
+🙉	SYM
+👀	SYM
+
+🏳	SYM
+🌈	SYM
+👩	SYM
+❤	SYM
+👩	SYM
+👨	SYM
+❤	SYM
+👨	SYM
+🏳	SYM
+🌈	SYM
+https://t.co/0C37OnNoCq	SYM
+
+Malick	PROPN
+fdp	PROPN
+😹	SYM
+😹	SYM
+😭	SYM
+😭	SYM
+😭	SYM
+😭	SYM
+😹	SYM
+😹	SYM
+😹	SYM
+😹	SYM
+
+#CDU	NOUN
+#SPD	NOUN
+#Grüne	NOUN
+#Linke	NOUN
+#FDP	NOUN
+
+#maischberger	NOUN
+#rtl	NOUN
+#zdf	NOUN
+#lanz	NOUN
+#illner	NOUN
+#merkel	NOUN
+#sterntv	NOUN
+
+Die	DET
+@AfD_Bund	PROPN
+will	AUX
+das	DET
+Grundgesetz	NOUN
+ändern	VERB
+.	PUNCT
+
+Jetzt	ADV
+an	ADP
+der	DET
+#PHBern	PROPN
+mit	ADP
+@barbarajosef	PROPN
+und	CCONJ
+@wissensfabrik	PROPN
+https://t.co/gIEWmq0Dxl	SYM
+#Schule	NOUN
+#Digitalisierung	NOUN
+
+Liebe	ADJ
+Frau	NOUN
+@dunjahayali	PROPN
+
+Auch	ADV
+@MartinSchulz	PROPN
+steht	VERB
+für	ADP
+Kungel	NOUN
+mit	ADP
+den	DET
+Rechten	NOUN
+
+SPD	PROPN
+Schulz	PROPN
+über	ADP
+Rechtspopulisten	NOUN
+"	PUNCT
+Auf	ADP
+groben	ADJ
+Klotz	NOUN
+gehört	VERB
+grober	ADJ
+Keil	NOUN
+"	PUNCT
+https://t.co/jWpXbXjODY	SYM
+via	ADP
+@SPIEGELONLINE	PROPN
+
