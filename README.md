@@ -119,7 +119,7 @@ You can also perform a 10-fold cross-validation on a training corpus:
 | Model                                      | tagset       | est. accuracy |
 |--------------------------------------------|--------------|---------------|
 | [German newspaper](#german_newspaper)      | STTS (TIGER) |        97.98% |
-| [German web and social media](#german_wsm) | STTS\_IBK    |        91.20% |
+| [German web and social media](#german_wsm) | STTS\_IBK    |        91.42% |
 | [English newspaper](#english_newspaper)    | Penn         |        97.28% |
 
 
@@ -147,26 +147,29 @@ requires explicit written agreement of Licenser.”
 
 ### German web and social media texts <a id="german_wsm"> ###
 
-This model uses the above model as prior and is trained on the entire
-[data from the EmpiriST 2015 shared
-task](https://sites.google.com/site/empirist2015/home/gold), i.e. both
-the training and the test data. It uses the same additional sources of
-information as the prior model.
+This model uses a [variant of the above
+model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_for_empirist_2017-12-20.model)
+as prior and is trained on the entire [data from the EmpiriST 2015
+shared task](https://sites.google.com/site/empirist2015/home/gold),
+i.e. both the training and the test data, as well as a little bit of
+additional training data (cf. the data directory of this repository).
+It uses the same additional sources of information as the prior model.
 
-A variant of this model that was trained only on the EmpiriST 2015
-training data achieves a mean accuracy of 91.20% on the two test sets:
+A variant of this model that only uses the training part of the
+EmpiriST 2015 data achieves a mean accuracy of 91.42% on the two test
+sets:
 
 | Corpus | all words   | known words | unknown words |
 |--------|-------------|-------------|---------------|
-| CMC    | 88.69 ±0.40 | 90.62 ±0.35 | 76.74 ±1.51   |
-| Web    | 93.71 ±0.19 | 95.28 ±0.23 | 83.36 ±0.81   |
+| CMC    | 89.08 ±0.25 | 90.95 ±0.27 | 77.41 ±1.14   |
+| Web    | 93.77 ±0.26 | 95.34 ±0.25 | 83.31 ±0.63   |
 
-As of September 2017, those figures represent the state of the art on
+As of December 2017, those figures represent the state of the art on
 the EmpiriST data.
 
 [Download
-model](http://corpora.linguistik.uni-erlangen.de/someweta/german_web_social_media_2017-09-14.model)
-(116 MB) – Note that according to the [TIGER Corpus License
+model](http://corpora.linguistik.uni-erlangen.de/someweta/german_web_social_media_2017-12-20.model)
+(115 MB) – Note that according to the [TIGER Corpus License
 agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCorpus/license/htmlicense.html)
 “use of data derived from the corpus for any commercial purposes
 requires explicit written agreement of Licenser.”
