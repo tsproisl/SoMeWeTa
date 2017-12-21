@@ -120,7 +120,7 @@ You can also perform a 10-fold cross-validation on a training corpus:
 |--------------------------------------------|--------------|---------------|
 | [German newspaper](#german_newspaper)      | STTS (TIGER) |        97.98% |
 | [German web and social media](#german_wsm) | STTS\_IBK    |        91.42% |
-| [English newspaper](#english_newspaper)    | Penn         |        97.28% |
+| [English newspaper](#english_newspaper)    | Penn         |        97.25% |
 
 
 ### German newspaper texts <a id="german_newspaper"/> ###
