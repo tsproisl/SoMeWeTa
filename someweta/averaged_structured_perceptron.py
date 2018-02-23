@@ -34,6 +34,7 @@ class AveragedStructuredPerceptron:
         self.target_mapping = {}
         self.reverse_mapping = None
         self.target_size = 0
+        self.ignore_target_mapping = None
         self.weights = {}
         self.weights_c = {}
 
@@ -42,10 +43,12 @@ class AveragedStructuredPerceptron:
         targets = collections.Counter(y)
         former_target_size = self.target_size
         for target, freq in reversed(targets.most_common()):
-            if target not in self.target_mapping:
+            if target not in self.target_mapping and target != self.ignore_target:
                 self.target_mapping[target] = self.target_size
                 self.target_size += 1
-        y = [self.target_mapping[target] for target in y]
+        if self.ignore_target is not None:
+            self.ignore_target_mapping = self.target_size
+        y = [self.target_mapping.get(target, self.ignore_target_mapping) for target in y]
         if self.target_size > former_target_size and self.prior_weights is not None:
             for feat in self.prior_weights:
                 self.prior_weights[feat].resize((self.target_size,))
@@ -60,7 +63,11 @@ class AveragedStructuredPerceptron:
                 assert type(predicted) == type(y)
                 if len(predicted) != len(local_y):
                     early_update += 1
-                if predicted != local_y:
+                if self.ignore_target is not None:
+                    erroneous = any(p != g and g != self.ignore_target_mapping for p, g in zip(predicted, local_y))
+                else:
+                    erroneous = predicted != local_y
+                if erroneous:
                     incorrect += 1
                     self._update(local_y, predicted, features, counter)
                 counter += len(predicted)
