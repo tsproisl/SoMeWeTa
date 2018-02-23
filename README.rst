@@ -5,7 +5,8 @@ SoMeWeTa (short for Social Media and Web Tagger) is a part-of-speech
 tagger that supports domain adaptation and that can incorporate
 external sources of information such as Brown clusters and lexica. It
 is based on the averaged structured perceptron and uses beam search
-and an early update strategy.
+and an early update strategy. It is possible to train and evaluate the
+tagger on partially annotated data.
 
 SoMeWeTa achieves state-of-the-art results on the German web and
 social media texts from the `EmpiriST 2015 shared task
