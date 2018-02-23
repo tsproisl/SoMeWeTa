@@ -33,6 +33,7 @@ def arguments():
     parser.add_argument("--w2v", type=argparse.FileType("r"), help="Word2Vec vectors; optional and only for training or cross-validation")
     parser.add_argument("--lexicon", type=os.path.abspath, help="Additional full-form lexicon; optional and only for training or cross-validation")
     parser.add_argument("--mapping", type=os.path.abspath, help="Additional mapping to coarser tagset; optional and only for tagging, evaluating or cross-validation")
+    parser.add_argument("--ignore-tag", help="Ignore this tag (useful for partial annotation); optional and only for training, evaluating or cross-validation")
     parser.add_argument("--prior", type=os.path.abspath, help="Prior weights, i.e. a model trained on another corpus; optional and only for training or cross-validation")
     parser.add_argument("-i", "--iterations", type=int, default=10, help="Only for training or cross-validation: Number of iterations; default: 10")
     parser.add_argument("-b", "--beam-size", type=int, default=5, help="Size of the search beam; default: 5")
@@ -137,7 +138,7 @@ def main():
         brown_clusters = utils.read_brown_clusters(args.brown)
     if args.w2v and (args.train or args.crossvalidate):
         word_to_vec = utils.read_word2vec_vectors(args.w2v)
-    asptagger = ASPTagger(args.beam_size, args.iterations, lexicon, mapping, brown_clusters, word_to_vec)
+    asptagger = ASPTagger(args.beam_size, args.iterations, lexicon, mapping, brown_clusters, word_to_vec, args.ignore_tag)
     if args.prior and (args.train or args.crossvalidate):
         asptagger.load_prior_model(args.prior)
     if args.train:
