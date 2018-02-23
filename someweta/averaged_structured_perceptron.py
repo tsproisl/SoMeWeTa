@@ -23,11 +23,12 @@ class AveragedStructuredPerceptron:
     and Roark (2004) suggested the early update strategy.
 
     """
-    def __init__(self, beam_size, iterations, latent_features, prior_weights=None):
+    def __init__(self, beam_size, iterations, latent_features, prior_weights=None, ignore_target=None):
         self.beam_size = beam_size
         self.iterations = iterations
         self.latent_features = latent_features
         self.prior_weights = prior_weights
+        self.ignore_target = ignore_target
         # self.weights = collections.defaultdict(lambda: collections.defaultdict(float))
         # self.weights_c = collections.defaultdict(lambda: collections.defaultdict(float))
         self.target_mapping = {}
