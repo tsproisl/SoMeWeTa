@@ -29,6 +29,8 @@ class ASPTagger(AveragedStructuredPerceptron):
         self.vocabulary = set()
         self.lexicon = lexicon
         self.mapping = mapping
+        if self.mapping is not None and self.ignore_target is not None:
+            self.mapping[self.ignore_target] = self.ignore_target
         self.brown_clusters = brown_clusters
         self.word_to_vec = word_to_vec
         self.email = re.compile(r"^[[:alnum:].%+-]+(?:@| \[?at\]? )[[:alnum:].-]+(?:\.| \[?dot\]? )[[:alpha:]]{2,}$", re.IGNORECASE)
@@ -120,6 +122,8 @@ class ASPTagger(AveragedStructuredPerceptron):
             local_gold = tags[start:start + length]
             start += length
             for w, g, p in zip(local_words, local_gold, local_pred):
+                if self.ignore_target is not None and g == self.ignore_target:
+                    continue
                 total += 1
                 if w in self.vocabulary:
                     total_iv += 1
