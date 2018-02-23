@@ -139,7 +139,11 @@ class AveragedStructuredPerceptron:
             beams = sorted(agenda, key=operator.attrgetter("weight_sum"), reverse=True)[:self.beam_size]
             if y is not None:
                 gold_tags.append(y[i])
-                if all(beam.tags != gold_tags for beam in beams):
+                if self.ignore_target is not None:
+                    gold_not_in_beam = all(any(p != g and g != self.ignore_target_mapping for p, g in zip(beam.tags, gold_tags)) for beam in beams)
+                else:
+                    gold_not_in_beam = all(beam.tags != gold_tags for beam in beams)
+                if gold_not_in_beam:
                     break
         return beams[0].tags, self._extract_feature_sequence(beams[0])
 
@@ -164,6 +168,8 @@ class AveragedStructuredPerceptron:
         """"""
         for feature_set, true_cls, predicted_cls in zip(features, y, predicted):
             if true_cls != predicted_cls:
+                if self.ignore_target is not None and true_cls == self.ignore_target_mapping:
+                    continue
                 for feat in feature_set:
                     if feat not in self.weights:
                         self.weights[feat] = np.zeros(self.target_size)
