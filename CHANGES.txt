@@ -1,5 +1,12 @@
 # CHANGELOG #
 
+## Version 1.2.0, 2018-02-23 ##
+
+It is now possible to use the option --ignore-tag to specify a tag
+that will not be learned during training and that will be ignored
+during evaluation. Use case: Partially annotated data that use a
+pseudo-tag for tokens without annotation.
+
 ## Version 1.1.2, 2017-10-27 ##
 
 Bugfix: Using the --parallel option does no longer change the order of
