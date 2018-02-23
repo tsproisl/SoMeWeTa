@@ -111,8 +111,10 @@ def iter_corpus(fh, tagged=True):
             yield words, length
 
 
-def evaluate(gold, predicted):
+def evaluate(gold, predicted, ignore_tag=None):
     """Evaluate accuracy of predicted against gold."""
     total = len(gold)
     correct = sum(1 for gt, pt in zip(gold, predicted) if gt == pt)
+    if ignore_tag is not None:
+        total = sum(1 for gt in gold if gt != ignore_tag)
     return correct / total
