@@ -23,8 +23,9 @@ class AveragedStructuredPerceptron:
     and Roark (2004) suggested the early update strategy.
 
     """
-    def __init__(self, beam_size, iterations, latent_features, prior_weights=None, ignore_target=None):
+    def __init__(self, beam_size, beam_history, iterations, latent_features, prior_weights=None, ignore_target=None):
         self.beam_size = beam_size
+        self.beam_history = beam_history
         self.iterations = iterations
         self.latent_features = latent_features
         self.prior_weights = prior_weights
@@ -129,14 +130,18 @@ class AveragedStructuredPerceptron:
         beams = [Beam([], 0, [], None)]
         gold_tags = []
         for i, static_features in enumerate(X):
-            agenda = []
+            agenda = {}
             weight_sum = self._predict_static(static_features)
             for beam in beams:
                 latent_features = self.latent_features(start, beam.tags, i)
                 features = static_features + latent_features
                 for prediction, weight in self._predict_latent(latent_features, weight_sum):
-                    agenda.append(Beam(beam.tags + [prediction], beam.weight_sum + weight, features, beam))
-            beams = sorted(agenda, key=operator.attrgetter("weight_sum"), reverse=True)[:self.beam_size]
+                    tags = beam.tags + [prediction]
+                    history = tuple(tags[-self.beam_history:])
+                    weight_sum = beam.weight_sum + weight
+                    if weight_sum > agenda.get(history, -100):
+                        agenda[history] = Beam(tags, weight_sum, features, beam)
+            beams = sorted(agenda.values(), key=operator.attrgetter("weight_sum"), reverse=True)[:self.beam_size]
             if y is not None:
                 gold_tags.append(y[i])
                 if self.ignore_target is not None:
