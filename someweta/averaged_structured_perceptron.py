@@ -138,9 +138,10 @@ class AveragedStructuredPerceptron:
                 for prediction, weight in self._predict_latent(latent_features, weight_sum):
                     tags = beam.tags + [prediction]
                     history = tuple(tags[-self.beam_history:])
-                    weight_sum = beam.weight_sum + weight
-                    if weight_sum > agenda.get(history, -100):
-                        agenda[history] = Beam(tags, weight_sum, features, beam)
+                    new_weight_sum = beam.weight_sum + weight
+                    in_agenda = agenda.get(history)
+                    if in_agenda is None or new_weight_sum > in_agenda.weight_sum:
+                        agenda[history] = Beam(tags, new_weight_sum, features, beam)
             beams = sorted(agenda.values(), key=operator.attrgetter("weight_sum"), reverse=True)[:self.beam_size]
             if y is not None:
                 gold_tags.append(y[i])
