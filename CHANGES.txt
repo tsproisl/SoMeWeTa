@@ -1,5 +1,10 @@
 # CHANGELOG #
 
+## Version ?.?.?, ??? ##
+
+This release features a slightly improved implementation of the beam
+search algorithm.
+
 ## Version 1.2.0, 2018-02-23 ##
 
 It is now possible to use the option --ignore-tag to specify a tag
