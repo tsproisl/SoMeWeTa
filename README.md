@@ -4,9 +4,9 @@
   * [Installation](#installation)
   * [Usage](#usage)
       * [Tagging a text](#tagging-a-text)
-      * Training the tagger
-      * Evaluating a model
-      * Performing cross-validation
+      * [Training the tagger](#training-the-tagger)
+      * [Evaluating a model](#evaluating-a-model)
+      * [Performing cross-validation](#performing-cross-validation)
   * [Model files](#model-files)
       * [German newspaper texts](#german_newspaper)
       * [German web and social media texts](#german_wsm)
