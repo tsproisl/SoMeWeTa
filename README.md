@@ -1,5 +1,18 @@
 # SoMeWeTa #
 
+  * [Introduction](#introduction)
+  * [Installation](#installation)
+  * [Usage](#usage)
+      * [Tagging a text](#tagging-a-text)
+      * Training the tagger
+      * Evaluating a model
+      * Performing cross-validation
+  * [Model files](#model-files)
+      * [German newspaper texts](#german_newspaper)
+      * [German web and social media texts](#german_wsm)
+      * [English newspaper texts](#english_newspaper)
+
+
 ## Introduction ##
 
 SoMeWeTa (short for Social Media and Web Tagger) is a part-of-speech
@@ -18,9 +31,17 @@ kinds of written German discourse, for example chats, forums, wiki
 talk pages, tweets, blog comments, social networks, SMS and WhatsApp
 dialogues.
 
-In addition, we also provide models trained on German and English
-newspaper texts. For both languages, SoMeWeTa achieves highly
-competitive results close to the current state of the art.
+For tokenization and sentence splitting on these kinds of text, we
+recommend [SoMaJo](https://github.com/tsproisl/SoMaJo), a tokenizer
+and sentence splitter with state-of-the-art performance on German web
+and social media texts:
+
+    somajo-tokenizer --split_sentences <file> | somewe-tagger --tag <model> -
+
+In addition to the German web and social media model, we also provide
+models trained on German and English newspaper texts. For both
+languages, SoMeWeTa achieves highly competitive results close to the
+current state of the art.
 
 
 ## Installation ##
@@ -68,6 +89,11 @@ command:
 
     somewe-tagger --parallel 4 --tag <model> <file>
 
+Using the option `-x` or `--xml`, it is possible to tag an XML file.
+The tagger assumes that each XML tag is on a separate line:
+
+    somewe-tagger --xml --tag <model> <file>
+
 
 ### Training the tagger ###
 
@@ -105,6 +131,12 @@ SoMeWeTa to ignore this pseudo-tag:
 
     somewe-tagger --train <model> --ignore-tag <pseudo-tag> <file>
 
+Using the option `-x` or `--xml`, it is possible to train the tagger
+on an XML file. It is assumed that each XML tag is on a separate line:
+
+    somewe-tagger --xml --train <model> <file>
+
+
 ### Evaluating a model ###
 
 To evaluate a model, you need an annotated input file in the same
@@ -118,6 +150,13 @@ ignore this pseudo-tag:
 
     somewe-tagger --evaluate <model> --ignore-tag <pseudo-tag> <file>
 
+Using the option `-x` or `--xml`, it is possible to evaluate a model
+on an XML file. The tagger assumes that each XML tag is on a separate
+line:
+
+    somewe-tagger --xml --evaluate <model> <file>
+
+
 ### Performing cross-validation ###
 
 You can also perform a 10-fold cross-validation on a training corpus:
@@ -129,6 +168,13 @@ pseudo-tag to each unannotated token and tell SoMeWeTa to ignore this
 pseudo-tag:
 
     somewe-tagger --crossvalidate --ignore-tag <pseudo-tag> <file>
+
+Using the option `-x` or `--xml`, it is possible to perform a
+cross-validation on an XML file. The tagger assumes that each XML tag
+is on a separate line:
+
+    somewe-tagger --xml --crossvalidate <file>
+
 
 ## Model files ##
 
