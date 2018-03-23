@@ -155,10 +155,10 @@ def parse_xml(xml, is_file=True):
 
 def read_xml(xml, tagged=True, is_file=True):
     elements = parse_xml(xml, is_file)
-    whole_text = "".join((e.text for e in elements))
-    whole_text = re.sub(r"^\n+", "", whole_text)
-    whole_text = re.sub(r"\n+$", "\n", whole_text)
-    whole_text = re.sub(r"\n{3,}", "\n\n", whole_text)
+    elem_text = (e.text.split("\n") for e in elements)
+    elem_text = (e[1:] if e[0] == "" else e for e in elem_text)
+    elem_text = ("\n".join(e) for e in elem_text)
+    whole_text = "".join(elem_text)
     return read_corpus(whole_text.split("\n"), tagged), elements
 
 
