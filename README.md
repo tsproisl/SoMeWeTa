@@ -11,6 +11,7 @@
       * [German newspaper texts](#german_newspaper)
       * [German web and social media texts](#german_wsm)
       * [English newspaper texts](#english_newspaper)
+  * [References](#references)
 
 
 ## Introduction ##
@@ -30,6 +31,9 @@ media. Therefore, SoMeWeTa is particularly well-suited to tag all
 kinds of written German discourse, for example chats, forums, wiki
 talk pages, tweets, blog comments, social networks, SMS and WhatsApp
 dialogues.
+
+The system is described in greater detail in [Proisl
+(2018)](http://www.lrec-conf.org/proceedings/lrec2018/pdf/49.pdf).
 
 For tokenization and sentence splitting on these kinds of text, we
 recommend [SoMaJo](https://github.com/tsproisl/SoMaJo), a tokenizer
@@ -262,3 +266,13 @@ model](http://corpora.linguistik.uni-erlangen.de/someweta/english_newspaper_2017
 license for the Penn Treebank. If you want to use it for commercial
 applications, please contact the Linguistic Data Consortium to find
 out which conditions apply.
+
+
+## References ##
+
+  * Proisl, Thomas (2018): “SoMeWeTa: A Part-of-Speech Tagger for
+    German Social Media and Web Texts.” In: Proceedings of the
+    Eleventh International Conference on Language Resources and
+    Evaluation (LREC 2018). Miyazaki: European Language Resources
+    Association (ELRA), 665–670.
+    [PDF](http://www.lrec-conf.org/proceedings/lrec2018/pdf/49.pdf).
