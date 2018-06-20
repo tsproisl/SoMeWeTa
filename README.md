@@ -44,9 +44,9 @@ and social media texts:
     somajo-tokenizer --split_sentences <file> | somewe-tagger --tag <model> -
 
 In addition to the German web and social media model, we also provide
-models trained on German and English newspaper texts. For both
-languages, SoMeWeTa achieves highly competitive results close to the
-current state of the art.
+models trained on German, English and French newspaper texts. For all
+three languages, SoMeWeTa achieves highly competitive results close to
+the current state of the art.
 
 
 ## Installation ##
