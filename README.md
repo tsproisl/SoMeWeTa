@@ -11,6 +11,7 @@
       * [German newspaper texts](#german_newspaper)
       * [German web and social media texts](#german_wsm)
       * [English newspaper texts](#english_newspaper)
+	  * [French newspaper texts](#french_newspaper)
   * [References](#references)
 
 
