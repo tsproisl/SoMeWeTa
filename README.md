@@ -286,15 +286,13 @@ annotate a text with both tagsets:
 
     somewe-tagger --tag <model> --mapping <mapping> <file>
 
-To estimate the accuracy of this model, we performed a 10-fold
-cross-validation on the French Treebank with the same settings,
-resulting in a mean accuracy plus or minus two standard deviations of
-97.71% ±0.36.
+To estimate the accuracy of the model, we performed a 10-fold
+cross-validation on the French Treebank using the same settings:
 
-| tagset  | accuracy    |
-|---------|-------------|
-| 29 tags | 97.71 ±0.36 |
-| 15 tags | 98.21 ±0.30 |
+| tagset           | accuracy    |
+|------------------|-------------|
+| 29 tags          | 97.71 ±0.36 |
+| 15 tags (mapped) | 98.21 ±0.30 |
 
 
 [Download
