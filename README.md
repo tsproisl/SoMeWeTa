@@ -187,6 +187,7 @@ is on a separate line:
 | [German newspaper](#german_newspaper)      | STTS (TIGER) |        97.98% |
 | [German web and social media](#german_wsm) | STTS\_IBK    |        91.42% |
 | [English newspaper](#english_newspaper)    | Penn         |        97.25% |
+| [French newspaper](#french_newspaper)      | FTB-29       |        97.71% |
 
 
 ### German newspaper texts <a id="german_newspaper"/> ###
@@ -205,10 +206,9 @@ in a mean accuracy plus or minus two standard deviations of 97.98%
 
 [Download
 model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_2017-09-14.model)
-(115 MB) – Note that according to the [TIGER Corpus License
-agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCorpus/license/htmlicense.html)
-“use of data derived from the corpus for any commercial purposes
-requires explicit written agreement of Licenser.”
+(115 MB) – Note that the model is provided for research purposes only.
+For further information, please refer to the licenses of the
+individual resources that were used in the creation of the model.
 
 
 ### German web and social media texts <a id="german_wsm"> ###
@@ -235,10 +235,9 @@ the EmpiriST data.
 
 [Download
 model](http://corpora.linguistik.uni-erlangen.de/someweta/german_web_social_media_2017-12-20.model)
-(115 MB) – Note that according to the [TIGER Corpus License
-agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCorpus/license/htmlicense.html)
-“use of data derived from the corpus for any commercial purposes
-requires explicit written agreement of Licenser.”
+(115 MB) – Note that the model is provided for research purposes only.
+For further information, please refer to the licenses of the
+individual resources that were used in the creation of the model.
 
 
 ### English newspaper texts <a id="english_newspaper"> ###
@@ -262,10 +261,46 @@ development and test sets:
 
 [Download
 model](http://corpora.linguistik.uni-erlangen.de/someweta/english_newspaper_2017-09-15.model)
-(38 MB) – You can use this model for research purposes if you have a
-license for the Penn Treebank. If you want to use it for commercial
-applications, please contact the Linguistic Data Consortium to find
-out which conditions apply.
+(38 MB) – Note that the model is provided for research purposes only.
+For further information, please refer to the licenses of the
+individual resources that were used in the creation of the model.
+
+
+### French newspaper texts <a id="french_newspaper"> ###
+
+This model has been trained on the [French
+Treebank](http://ftb.linguist.univ-paris-diderot.fr/) and uses Brown
+clusters extracted from
+[FRCOW16](http://corporafromtheweb.org/frcow16/) and part-of-speech
+data extracted from the [French DELA
+dictionary](http://infolingu.univ-mlv.fr/DonneesLinguistiques/Dictionnaires/telechargement.html)
+as additional information.
+
+The French Treebank is annotated with two different tagsets: A
+coarse-grained tagset consisting of 15 tags and a more fine-grained
+tagset consisting of 29 tags. The model has been trained on the more
+fine-grained tagset. However, we provide a mapping to the smaller
+tagset (`data/mapping_french_29_to_15.json`) that can be used to
+annotate a text with both tagsets:
+
+    somewe-tagger --tag <model> --mapping <mapping> <file>
+
+To estimate the accuracy of this model, we performed a 10-fold
+cross-validation on the French Treebank with the same settings,
+resulting in a mean accuracy plus or minus two standard deviations of
+97.71% ±0.36.
+
+| tagset  | accuracy    |
+|---------|-------------|
+| 29 tags | 97.71 ±0.36 |
+| 15 tags | 98.21 ±0.30 |
+
+
+[Download
+model](http://corpora.linguistik.uni-erlangen.de/someweta/french_newspaper_2018-06-20.model)
+(28 MB) – Note that the model is provided for research purposes only.
+For further information, please refer to the licenses of the
+individual resources that were used in the creation of the model.
 
 
 ## References ##
