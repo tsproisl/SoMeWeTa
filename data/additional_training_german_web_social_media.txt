@@ -137,3 +137,25 @@ https://t.co/jWpXbXjODY	URL
 via	APPR
 @SPIEGELONLINE	ADR
 
+@leumund	ADR
+willste	VMPPER
+moderieren	VVINF
+?	$.
+;-)	EMOASC
+
+Schreib	VVIMP
+mir	PPER
+eine	ART
+Mail	NN
+an	APPR
+chicundschlau@gmail.com	EML
+
+@sillijo	ADR
+Kannst	VMFIN
+du	PPER
+hier	ADV
+per	APPR
+Mail	NN
+anfordern	VVINF
+akafwa@gmail.com	EML
+
