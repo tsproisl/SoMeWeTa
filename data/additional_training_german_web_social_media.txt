@@ -159,3 +159,30 @@ Mail	NN
 anfordern	VVINF
 akafwa@gmail.com	EML
 
+#Erdogan	HST
+#Köln	HST
+#Ditib	HST
+#Islamisten	HST
+#Salafisten	HST
+#Neuwahlen	HST
+#BTW18	HST
+#LtwHe	HST
+#ltwhe18	HST
+#ltwby	HST
+#ltwby18	HST
+#Flüchtlinge	HST
+#Asyl	HST
+#Migranten	HST
+#Polizei	HST
+#Bundespolizei	HST
+#CDU	HST
+#CSU	HST
+#AfD	HST
+#SPD	HST
+#Merkel HST
+#Einzelfall	HST
+#Abschiebung	HST
+#Erklärung2018	HST
+#120DB	HST
+https://t.co/gK8gO5H6hZ	URL
+
