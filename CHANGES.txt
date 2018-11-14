@@ -1,8 +1,10 @@
 # CHANGELOG #
 
-## Version ? ##
+## Version 1.4.0, 2018-11-14 ##
 
-- Added text and emoji variation selectors.
+- Replaced XML parsing with a shallower approach. When tagging an XML
+  file, we do no longer have to keep the whole file in memory.
+- Minor improvements regarding URLs and emojis.
 
 ## Version 1.3.1, 2018-03-27 ##
 
