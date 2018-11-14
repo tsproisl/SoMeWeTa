@@ -1,5 +1,9 @@
 # CHANGELOG #
 
+## Version ? ##
+
+- Added text and emoji variation selectors.
+
 ## Version 1.3.1, 2018-03-27 ##
 
 Bugfix: Sentence boundaries are correctly recognized when reading an
