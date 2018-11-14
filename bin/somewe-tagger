@@ -144,7 +144,7 @@ def main():
         asptagger.load_prior_model(args.prior)
     if args.train:
         if args.xml:
-            (words, tags, lengths), elements = utils.read_xml(args.CORPUS, tagged=True)
+            words, tags, lengths = utils.read_tagged_xml(args.CORPUS)
         else:
             words, tags, lengths = utils.read_corpus(args.CORPUS, tagged=True)
         asptagger.train(words, tags, lengths)
@@ -155,11 +155,11 @@ def main():
         if args.xml:
             if args.parallel > 1:
                 logging.warning("Parallel tagging of XML files is currently not supported.")
-            (words, lengths), elements = utils.read_xml(args.CORPUS, tagged=False)
-            corpus_size = sum(lengths)
-            tagged_sentences = asptagger.tag(words, lengths)
-            tagged_tokens = list(itertools.chain.from_iterable(tagged_sentences))
-            print(utils.recreate_xml(tagged_tokens, elements))
+            corpus_size = 0
+            for words, length, lines, word_indexes in utils.iter_xml(args.CORPUS, tagged=False):
+                corpus_size += length
+                sentence = asptagger.tag_sentence(words)
+                print("\n".join(utils.add_pos_to_xml(sentence, lines, word_indexes)), "\n", sep="")
         else:
             if args.parallel > 1:
                 corpus_size = parallel_tagging(args, asptagger)
@@ -174,7 +174,7 @@ def main():
     elif args.evaluate:
         asptagger.load(args.evaluate)
         if args.xml:
-            (words, tags, lengths), elements = utils.read_xml(args.CORPUS, tagged=True)
+            words, tags, lengths = utils.read_tagged_xml(args.CORPUS)
         else:
             words, tags, lengths = utils.read_corpus(args.CORPUS, tagged=True)
         accuracy, accuracy_iv, accuracy_oov, coarse_accuracy, coarse_accuracy_iv, coarse_accuracy_oov = asptagger.evaluate(words, tags, lengths)
@@ -183,7 +183,7 @@ def main():
             print("Accuracy on mapped tagset: %.2f%%; IV: %.2f%%; OOV: %.2f%%" % (coarse_accuracy * 100, coarse_accuracy_iv * 100, coarse_accuracy_oov * 100))
     elif args.crossvalidate:
         if args.xml:
-            (words, tags, lengths), elements = utils.read_xml(args.CORPUS, tagged=True)
+            words, tags, lengths = utils.read_tagged_xml(args.CORPUS)
         else:
             words, tags, lengths = utils.read_corpus(args.CORPUS, tagged=True)
         sentence_ranges = list(zip((a - b for a, b in zip(itertools.accumulate(lengths), lengths)), lengths))

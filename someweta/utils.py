@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 
 import collections
-import itertools
+import html
 import json
-import logging
 import math
-import re
-import warnings
 import xml.etree.ElementTree as ET
 
 
@@ -87,24 +84,24 @@ def get_sentences(fh, tagged=True):
 def read_corpus(fh, tagged=True):
     """Return a list of sentences, each consisting of a list of tokens."""
     words, tags, lengths = [], [], []
-    for sentence in get_sentences(fh, tagged):
-        if tagged:
-            w, t = sentence
-            lengths.append(len(w))
+    if tagged:
+        for w, t, l in iter_corpus(fh, tagged):
             words.extend(w)
             tags.extend(t)
-        else:
-            lengths.append(len(sentence))
-            words.extend(sentence)
-    if tagged:
+            lengths.append(l)
         return words, tags, lengths
     else:
+        for w, l in iter_corpus(fh, tagged):
+            words.extend(w)
+            lengths.append(l)
         return words, lengths
 
 
 def iter_corpus(fh, tagged=True):
-    """"""
-    words, tags, length = [], [], 0
+    """Yield one sentence at a time, each consisting of a list of
+    tokens.
+
+    """
     for sentence in get_sentences(fh, tagged):
         if tagged:
             words, tags = sentence
@@ -153,46 +150,42 @@ def parse_xml(xml, is_file=True):
     return elements
 
 
-def read_xml(xml, tagged=True, is_file=True):
-    elements = parse_xml(xml, is_file)
-    elem_text = (e.text.split("\n") for e in elements)
-    elem_text = (e[1:] if e[0] == "" else e for e in elem_text)
-    elem_text = ("\n".join(e) for e in elem_text)
-    whole_text = "".join(elem_text)
-    return read_corpus(whole_text.split("\n"), tagged), elements
-
-
-def recreate_xml(tagged_tokens, elements):
-    """Introduce the tags from tagged_tokens into the elements and create
-    string with XML.
+def read_tagged_xml(xml):
+    """Return a list of sentences, each consisting of a list of tokens. If
+    tagged=False, also return the original lines and the indexes of
+    the words.
 
     """
-    agenda = list(reversed(tagged_tokens))
-    for element in elements:
-        original_tokens = element.text.split("\n")
-        output = []
-        for ot in original_tokens:
-            if ot == "":
-                output.append(ot)
-            elif len(agenda) > 0 and agenda[-1][0] == ot:
-                tt = agenda.pop()
-                output.append("\t".join(tt))
-            else:
-                warnings.warn("Cannot match tagged tokens with XML input.")
-        if len(output) > 0:
-            tagged_text = "\n".join(output)
+    words, tags, lengths = [], [], []
+    for w, t, l in iter_xml(xml, tagged=True):
+        words.extend(w)
+        tags.extend(t)
+        lengths.append(l)
+    return words, tags, lengths
+
+
+def iter_xml(xml, tagged=True):
+    """Yield one sentence at a time. If tagged=False, also return the
+    original lines and the indexes of the words.
+
+    """
+    for sentence in get_sentences(xml, tagged=False):
+        word_indexes = [i for i, line in enumerate(sentence) if not (line.startswith("<") and line.endswith(">"))]
+        if tagged:
+            words, tags = zip(*[sentence[i].split("\t", 2) for i in word_indexes])
         else:
-            tagged_text = "\n"
-            warnings.warn("Output should not be empty.")
-        if element.type == "text":
-            element.element.text = tagged_text
-        elif element.type == "tail":
-            element.element.tail = tagged_text
-    try:
-        assert len(agenda) == 0
-    except AssertionError:
-        warnings.warn("AssertionError: %d tokens left over" % len(agenda))
-    xml = ET.tostring(elements[0].element, encoding="unicode")
-    if xml[-1] != "\n":
-        xml += "\n"
-    return xml
+            words = [sentence[i] for i in word_indexes]
+        words = [html.unescape(w) for w in words]
+        length = len(words)
+        if tagged:
+            yield words, tags, length
+        else:
+            yield words, length, sentence, word_indexes
+
+
+def add_pos_to_xml(tagged_sentence, lines, word_indexes):
+    """Add part-of-speech tags to original lines of XML file."""
+    words, tags = zip(*tagged_sentence)
+    for idx, tag in zip(word_indexes, tags):
+        lines[idx] += "\t%s" % tag
+    return lines
