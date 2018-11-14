@@ -5,7 +5,6 @@ import collections
 import functools
 import gzip
 import json
-import logging
 import math
 import re
 
