@@ -17,9 +17,9 @@ kinds of written German discourse, for example chats, forums, wiki
 talk pages, tweets, blog comments, social networks, SMS and WhatsApp
 dialogues.
 
-In addition, we also provide models trained on German and English
-newspaper texts. For both languages, SoMeWeTa achieves highly
-competitive results close to the current state of the art.
+In addition, we also provide models trained on German, English and
+French newspaper texts. For all three languages, SoMeWeTa achieves
+highly competitive results close to the current state of the art.
 
 More detailed documentation is available `here
 <https://github.com/tsproisl/SoMeWeTa>`_.
