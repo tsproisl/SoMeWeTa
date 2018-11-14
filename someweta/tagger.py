@@ -29,7 +29,7 @@ class ASPTagger(AveragedStructuredPerceptron):
         self.word_to_vec = word_to_vec
         self.email = re.compile(r"^[[:alnum:].%+-]+(?:@| \[?at\]? )[[:alnum:].-]+(?:\.| \[?dot\]? )[[:alpha:]]{2,}$", re.IGNORECASE)
         self.xmltag = re.compile(r"^</?[^>]+>$")
-        self.url = re.compile(r"^(?:(?:(?:https?|ftp|svn)://|(?:https?://)?www\.).+)|(?:[\w./-]+\.(?:de|com|org|net|edu|info|jpg|png|gif|log|txt)(?:-\w+)?)$", re.IGNORECASE)
+        self.url = re.compile(r"^(?:(?:(?:https?|ftp|svn)://|(?:https?://)?www\.).+)|(?:[\w./-]+\.(?:de|com|org|net|edu|info|gov|jpg|png|gif|log|txt|xlsx?|docx?|pptx?|pdf)(?:-\w+)?)$", re.IGNORECASE)
         self.mention = re.compile(r"^@\w+$")
         self.hashtag = re.compile(r"^#\w+$")
         self.action_word = re.compile(r"^[*+][^*]+[*]$")
