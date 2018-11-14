@@ -66,7 +66,7 @@ class ASPTagger(AveragedStructuredPerceptron):
                                    r"|".join([re.escape(_) for _ in emoticon_list]) +
                                    r"$", re.VERBOSE)
         # Unicode emoticons and other symbols
-        self.emoji = re.compile(r"^[\u2600-\u27BF\U0001F300-\U0001f64f\U0001F680-\U0001F6FF\U0001F900-\U0001F9FF]$")
+        self.emoji = re.compile(r"^[\u2600-\u27BF\uFE0E\uFE0F\U0001F300-\U0001f64f\U0001F680-\U0001F6FF\U0001F900-\U0001F9FF]$")
 
     def train(self, words, tags, lengths):
         """"""
