@@ -43,6 +43,8 @@ setup(
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
+        'Natural Language :: English',
+        'Natural Language :: French',
         'Natural Language :: German',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3',
