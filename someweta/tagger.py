@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import base64
+import collections
 import functools
 import gzip
 import json
@@ -20,12 +21,6 @@ class ASPTagger(AveragedStructuredPerceptron):
     """
     def __init__(self, beam_size, iterations, lexicon=None, mapping=None, brown_clusters=None, word_to_vec=None, ignore_tag=None):
         super().__init__(beam_size=beam_size, beam_history=2, iterations=iterations, latent_features=None, ignore_target=ignore_tag)
-        # if prior_vocabulary is None:
-        #     self.vocabulary = set()
-        # elif isinstance(prior_vocabulary, set):
-        #     self.vocabulary = prior_vocabulary
-        # else:
-        #     self.vocabulary = set(prior_vocabulary)
         self.vocabulary = set()
         self.lexicon = lexicon
         self.mapping = mapping
@@ -76,8 +71,14 @@ class ASPTagger(AveragedStructuredPerceptron):
 
     def train(self, words, tags, lengths):
         """"""
+        lower_words = [w.lower() for w in words]
+        self.latent_features = functools.partial(self._get_latent_features, lower_words)
         self.vocabulary.update(set(words))
-        self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in words])
+        # self.vocabulary.update(set(lower_words))
+        # <OOV>
+        # # vocabulary = all lower case word forms except hapax legomena
+        # self.vocabulary.update(set(k for k, v in collections.Counter(lower_words).items() if v > 1))
+        # </OOV>
         X = self._get_static_features(words, lengths)
         self.fit(X, tags, lengths)
 
@@ -125,6 +126,9 @@ class ASPTagger(AveragedStructuredPerceptron):
                 if self.ignore_target is not None and g == self.ignore_target:
                     continue
                 total += 1
+                # <OOV>
+                # if w.lower() in self.vocabulary:
+                # </OOV>
                 if w in self.vocabulary:
                     total_iv += 1
                     if g == p:
@@ -219,6 +223,9 @@ class ASPTagger(AveragedStructuredPerceptron):
         lexicon = self.lexicon
         brown_clusters = self.brown_clusters
         word_to_vec = self.word_to_vec
+        # <OOV>
+        # vocabulary = self.vocabulary
+        # </OOV>
         features = []
         start = 0
         for length in lengths:
@@ -239,9 +246,27 @@ class ASPTagger(AveragedStructuredPerceptron):
                 local_features.append("W_loglength: %d" % round(math.log(len(word))))
                 # current word
                 local_features.append("W_word: %s" % w)
+                # <OOV>
+                # if w in vocabulary:
+                #     local_features.append("W_word: %s" % w)
+                # else:
+                #     local_features.append("W_word: OOV")
+                # </OOV>
                 # next words
                 local_features.append("N1_word: %s" % n1)
+                # <OOV>
+                # if n1 in vocabulary:
+                #     local_features.append("N1_word: %s" % n1)
+                # else:
+                #     local_features.append("N1_word: OOV")
+                # </OOV>
                 local_features.append("N2_word: %s" % n2)
+                # <OOV>
+                # if n2 in vocabulary:
+                #     local_features.append("N2_word: %s" % n2)
+                # else:
+                #     local_features.append("N2_word: OOV")
+                # </OOV>
                 # affixes
                 local_features.append("W_prefix: %s" % w[:3])
                 local_features.append("W_suffix: %s" % w[-3:])
@@ -296,18 +321,39 @@ class ASPTagger(AveragedStructuredPerceptron):
 
     def _get_latent_features(self, words, start, beam, i):
         """"""
+        # <OOV>
+        # vocabulary = self.vocabulary
+        # </OOV>
         features = []
         global_i = start + i
         tags = ["<START-2>", "<START-1>"] + beam
         j = i + 2
         if i >= 1:
             features.append("P1_word, P1_pos: %s, %s" % (words[global_i - 1], tags[j - 1]))
+            # <OOV>
+            # if words[global_i - 1] in vocabulary:
+            #     features.append("P1_word, P1_pos: %s, %s" % (words[global_i - 1], tags[j - 1]))
+            # else:
+            #     features.append("P1_word, P1_pos: OOV, %s" % tags[j - 1])
+            # </OOV>
         if i >= 2:
             features.append("P2_word, P2_pos: %s, %s" % (words[global_i - 2], tags[j - 2]))
+            # <OOV>
+            # if words[global_i - 2] in vocabulary:
+            #     features.append("P2_word, P2_pos: %s, %s" % (words[global_i - 2], tags[j - 2]))
+            # else:
+            #     features.append("P2_word, P2_pos: OOV, %s" % tags[j - 2])
+            # </OOV>
         features.append("P1_pos: %s" % tags[j - 1])
         features.append("P2_pos: %s" % tags[j - 2])
         features.append("P2_pos, P1_pos: %s, %s" % (tags[j - 2], tags[j - 1]))
         features.append("P1_pos, W_word: %s, %s" % (tags[j - 1], words[global_i]))
+        # <OOV>
+        # if words[global_i] in vocabulary:
+        #     features.append("P1_pos, W_word: %s, %s" % (tags[j - 1], words[global_i]))
+        # else:
+        #     features.append("P1_pos, W_word: %s, OOV" % tags[j - 1])
+        # </OOV>
         return features
 
     @staticmethod
