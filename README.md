@@ -7,6 +7,7 @@
       * [Training the tagger](#training-the-tagger)
       * [Evaluating a model](#evaluating-a-model)
       * [Performing cross-validation](#performing-cross-validation)
+	  * [Using the module](#using-the-module)
   * [Model files](#model-files)
       * [German newspaper texts](#german_newspaper)
       * [German web and social media texts](#german_wsm)
@@ -179,6 +180,27 @@ cross-validation on an XML file. The tagger assumes that each XML tag
 is on a separate line:
 
     somewe-tagger --xml --crossvalidate <file>
+
+
+### Using the module ###
+
+To incorporate the tagger into your own Python project, you have to
+import `someweta.ASPTagger`, create an `ASPTagger` object, load a
+pretrained model and call the `tag_sentence` method:
+
+    from someweta import ASPTagger
+	
+    model = "german_web_social_media_2017-12-20.model"
+    sentences = [["Wow", ",", "super", "Tool", "!", ";)"],
+                 ["der", "beste", "Betreuer", "?", "->", "Prof", "Smith", "!", ":)"]]
+    
+	# future versions will have sensible default values
+    asptagger = ASPTagger(beam_size=5, iterations=10)
+    asptagger.load(model)
+    
+    for sentence in sentences:
+        tagged_sentence = asptagger.tag_sentence(sentence)
+        print("\n".join(["\t".join(t) for t in tagged_sentence]), "\n", sep="")
 
 
 ## Model files ##
