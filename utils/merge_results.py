@@ -5,7 +5,11 @@ import statistics
 
 accuracies = re.compile(r"^Accuracy: (?P<acc>\d\d.\d\d)%; IV: (?P<iv>\d\d.\d\d)%; OOV: (?P<oov>\d\d.\d\d)%$")
 
-files = [open("results.%d.txt" % i) for i in range(10)]
+# files = [open("results.%d.txt" % i) for i in range(10)]
+# files = [open("tigtueb_oov_results.%d.txt" % i) for i in range(10)]
+# files = [open("empirist+add+brown+morphy_results.%d.txt" % i) for i in range(10)]
+# files = [open("tiger_fixed_results.%d.txt" % i) for i in range(10)]
+files = [open("tiger_results.%d.txt" % i) for i in range(10)]
 contents = [f.readlines() for f in files]
 aligned_lines = zip(*contents)
 for lines in aligned_lines:
