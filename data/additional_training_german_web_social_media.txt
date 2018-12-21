@@ -199,6 +199,27 @@ der	ART
 SPD	NE
 !	$.
 
+Super	ADJA
+Einsatz	NN
+der	ART
+Wahlkämpfenden	NN
+,	$,
+trotzdem	PAV
+ein	ART
+vernichtendes	ADJD
+Ergebnis	NN
+.	$.
+
+super	ADJA
+stimmung	NN
+,	$,
+klasse	ADJA
+gespräche	NN
+,	$,
+inzwischen	ADV
+5	CARD
+neumitglier	NN
+
 Klasse	ADJD
 war's	VAPPER
 !	$.
