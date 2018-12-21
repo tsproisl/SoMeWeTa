@@ -208,7 +208,7 @@ pretrained model and call the `tag_sentence` method:
 | Model                                      | tagset       | est. accuracy |
 |--------------------------------------------|--------------|---------------|
 | [German newspaper](#german_newspaper)      | STTS (TIGER) |        98.02% |
-| [German web and social media](#german_wsm) | STTS\_IBK    |        91.42% |
+| [German web and social media](#german_wsm) | STTS\_IBK    |        91.43% |
 | [English newspaper](#english_newspaper)    | Penn         |        97.25% |
 | [French newspaper](#french_newspaper)      | FTB-29       |        97.71% |
 
@@ -228,8 +228,8 @@ in a mean accuracy plus or minus two standard deviations of 98.02%
 ±0.32.
 
 [Download
-model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_2017-09-14.model)
-(115 MB) – Note that the model is provided for research purposes only.
+model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_2018-12-21.model)
+(114 MB) – Note that the model is provided for research purposes only.
 For further information, please refer to the licenses of the
 individual resources that were used in the creation of the model.
 
@@ -237,7 +237,7 @@ individual resources that were used in the creation of the model.
 ### German web and social media texts <a id="german_wsm"> ###
 
 This model uses a [variant of the above
-model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_for_empirist_2017-12-20.model)
+model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_for_empirist_2018-12-21.model)
 as prior and is trained on the entire [data from the EmpiriST 2015
 shared task](https://sites.google.com/site/empirist2015/home/gold),
 i.e. both the training and the test data, as well as a little bit of
@@ -245,19 +245,19 @@ additional training data (cf. the data directory of this repository).
 It uses the same additional sources of information as the prior model.
 
 A variant of this model that only uses the training part of the
-EmpiriST 2015 data achieves a mean accuracy of 91.42% on the two test
+EmpiriST 2015 data achieves a mean accuracy of 91.43% on the two test
 sets:
 
 | Corpus | all words   | known words | unknown words |
 |--------|-------------|-------------|---------------|
-| CMC    | 89.08 ±0.25 | 90.95 ±0.27 | 77.41 ±1.14   |
-| Web    | 93.77 ±0.26 | 95.34 ±0.25 | 83.31 ±0.63   |
+| CMC    | 89.10 ±0.21 | 90.99 ±0.22 | 77.30 ±1.19   |
+| Web    | 93.76 ±0.27 | 95.37 ±0.24 | 83.20 ±1.09   |
 
 As of December 2017, those figures represent the state of the art on
 the EmpiriST data.
 
 [Download
-model](http://corpora.linguistik.uni-erlangen.de/someweta/german_web_social_media_2017-12-20.model)
+model](http://corpora.linguistik.uni-erlangen.de/someweta/german_web_social_media_2018-12-21.model)
 (115 MB) – Note that the model is provided for research purposes only.
 For further information, please refer to the licenses of the
 individual resources that were used in the creation of the model.
