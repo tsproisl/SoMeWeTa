@@ -186,3 +186,16 @@ akafwa@gmail.com	EML
 #120DB	HST
 https://t.co/gK8gO5H6hZ	URL
 
+Super	ADJA
+Arbeit	NN
+von	APPR
+der	ART
+Polizei	NN
+
+Läuft	VFIN
+super	ADJD
+bei	APPR
+der	ART
+SPD	NE
+!	$.
+
