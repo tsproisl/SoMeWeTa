@@ -199,3 +199,15 @@ der	ART
 SPD	NE
 !	$.
 
+Klasse	ADJD
+war's	VAPPER
+!	$.
+
+Klasse	ADJA
+Frage	NN
+,	$,
+ganz	PTKIFG
+schlechte	ADJA
+Antwort	NN
+.	$.
+
