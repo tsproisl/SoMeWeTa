@@ -207,7 +207,7 @@ pretrained model and call the `tag_sentence` method:
 
 | Model                                      | tagset       | est. accuracy |
 |--------------------------------------------|--------------|---------------|
-| [German newspaper](#german_newspaper)      | STTS (TIGER) |        97.98% |
+| [German newspaper](#german_newspaper)      | STTS (TIGER) |        98.02% |
 | [German web and social media](#german_wsm) | STTS\_IBK    |        91.42% |
 | [English newspaper](#english_newspaper)    | Penn         |        97.25% |
 | [French newspaper](#french_newspaper)      | FTB-29       |        97.71% |
@@ -224,7 +224,7 @@ wordclasses [extracted](http://www.danielnaber.de/morphologie/) from
 
 To estimate the accuracy of this model, we performed a 10-fold
 cross-validation on the TIGER corpus with the same settings, resulting
-in a mean accuracy plus or minus two standard deviations of 97.98%
+in a mean accuracy plus or minus two standard deviations of 98.02%
 ±0.32.
 
 [Download
