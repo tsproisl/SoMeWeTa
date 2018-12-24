@@ -208,7 +208,7 @@ pretrained model and call the `tag_sentence` method:
 | Model                                      | tagset       | est. accuracy |
 |--------------------------------------------|--------------|---------------|
 | [German newspaper](#german_newspaper)      | STTS (TIGER) |        98.02% |
-| [German web and social media](#german_wsm) | STTS\_IBK    |        91.43% |
+| [German web and social media](#german_wsm) | STTS\_IBK    |        91.41% |
 | [English newspaper](#english_newspaper)    | Penn         |        97.25% |
 | [French newspaper](#french_newspaper)      | FTB-29       |        97.71% |
 
@@ -245,13 +245,13 @@ additional training data (cf. the data directory of this repository).
 It uses the same additional sources of information as the prior model.
 
 A variant of this model that only uses the training part of the
-EmpiriST 2015 data achieves a mean accuracy of 91.43% on the two test
+EmpiriST 2015 data achieves a mean accuracy of 91.41% on the two test
 sets:
 
 | Corpus | all words   | known words | unknown words |
 |--------|-------------|-------------|---------------|
-| CMC    | 89.10 ±0.21 | 90.99 ±0.22 | 77.30 ±1.19   |
-| Web    | 93.76 ±0.27 | 95.37 ±0.24 | 83.20 ±1.09   |
+| CMC    | 89.06 ±0.35 | 90.96 ±0.30 | 77.19 ±1.30   |
+| Web    | 93.75 ±0.20 | 95.34 ±0.22 | 83.26 ±0.76   |
 
 As of December 2017, those figures represent the state of the art on
 the EmpiriST data.
