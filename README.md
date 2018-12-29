@@ -332,3 +332,16 @@ individual resources that were used in the creation of the model.
     Evaluation (LREC 2018). Miyazaki: European Language Resources
     Association (ELRA), 665–670.
     [PDF](http://www.lrec-conf.org/proceedings/lrec2018/pdf/49.pdf).
+
+## Citation ##
+
+	InProceedings{proisl2018someweta,
+	  author    = {Thomas Proisl, Peter Uhrig},
+	  title     = {SoMeWeTa: A Part-of-Speech Tagger for German Social Media and Web Texts},
+	  booktitle = {In: Proceedings of the Eleventh International Conference on Language Resources and Evaluation (LREC 2018)},
+	  year      = {2018},
+	  address   = {Miyazaki},
+	  publisher = {European Language Resources Association (ELRA)},
+	  pages     = {665–670},
+	  url       = {http://www.lrec-conf.org/proceedings/lrec2018/pdf/49.pdf}
+	}
