@@ -335,7 +335,7 @@ individual resources that were used in the creation of the model.
 
 ## Citation ##
 
-	InProceedings{proisl2018someweta,
+	@InProceedings{proisl2018someweta,
 	  author    = {Thomas Proisl, Peter Uhrig},
 	  title     = {SoMeWeTa: A Part-of-Speech Tagger for German Social Media and Web Texts},
 	  booktitle = {In: Proceedings of the Eleventh International Conference on Language Resources and Evaluation (LREC 2018)},
