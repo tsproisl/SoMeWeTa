@@ -339,7 +339,7 @@ individual resources that were used in the creation of the model.
           booktitle = {Proceedings of the Eleventh International Conference on Language Resources and Evaluation ({LREC} 2018)},
           year      = {2018},
           address   = {Miyazaki},
-          publisher = {European Language Resources Association},
+          publisher = {European Language Resources Association {ELRA}},
           pages     = {665--670},
           url       = {http://www.lrec-conf.org/proceedings/lrec2018/pdf/49.pdf},
         }
