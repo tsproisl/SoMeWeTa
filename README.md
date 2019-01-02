@@ -332,16 +332,14 @@ individual resources that were used in the creation of the model.
     Evaluation (LREC 2018). Miyazaki: European Language Resources
     Association (ELRA), 665–670.
     [PDF](http://www.lrec-conf.org/proceedings/lrec2018/pdf/49.pdf).
-
-## Citation ##
-
-    @InProceedings{Proisl_LREC:2018,
-      author    = {Proisl, Thomas},
-      title     = {{SoMeWeTa}: {A} Part-of-Speech Tagger for {G}erman Social Media and Web Texts},
-      booktitle = {Proceedings of the Eleventh International Conference on Language Resources and Evaluation ({LREC} 2018)},
-      year      = {2018},
-      address   = {Miyazaki},
-      publisher = {European Language Resources Association},
-      pages     = {665--670},
-      url       = {http://www.lrec-conf.org/proceedings/lrec2018/pdf/49.pdf},
-    }
+    
+        @InProceedings{Proisl_LREC:2018,
+          author    = {Proisl, Thomas},
+          title     = {{SoMeWeTa}: {A} Part-of-Speech Tagger for {G}erman Social Media and Web Texts},
+          booktitle = {Proceedings of the Eleventh International Conference on Language Resources and Evaluation ({LREC} 2018)},
+          year      = {2018},
+          address   = {Miyazaki},
+          publisher = {European Language Resources Association},
+          pages     = {665--670},
+          url       = {http://www.lrec-conf.org/proceedings/lrec2018/pdf/49.pdf},
+        }
