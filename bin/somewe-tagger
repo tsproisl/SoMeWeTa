@@ -3,6 +3,7 @@
 import argparse
 import itertools
 import logging
+import math
 import multiprocessing
 import os
 import statistics
@@ -192,12 +193,17 @@ def main():
             accs = pool.map(evaluate_fold, zip(range(10), itertools.repeat(args.beam_size), itertools.repeat(args.iterations), itertools.repeat(lexicon), itertools.repeat(mapping), itertools.repeat(brown_clusters), itertools.repeat(word_to_vec), itertools.repeat(words), itertools.repeat(tags), itertools.repeat(lengths), itertools.repeat(sentence_ranges), itertools.repeat(div), itertools.repeat(mod)))
         accuracies, accuracies_iv, accuracies_oov, coarse_accuracies, coarse_accuracies_iv, coarse_accuracies_oov = zip(*accs)
         mean_accuracy = statistics.mean(accuracies)
-        double_stdev = 2 * statistics.stdev(accuracies)
-        print("Mean accuracy: %.2f%% ±%.2f" % (mean_accuracy * 100, double_stdev * 100))
+        # 2.26 is the approximate value of the 97.5 percentile point
+        # of the t distribution with 9 degrees of freedom. We use the
+        # t distribution instead of the standard normal distribution
+        # (= 1.96) because the population standard deviation is
+        # unknown and because we have a small sample size (10).
+        confidence = 2.26 * statistics.stdev(accuracies) / math.sqrt(10)
+        print("Mean accuracy and 95%% confidence interval: %.2f%% ±%.2f" % (mean_accuracy * 100, confidence * 100))
         if coarse_accuracies[0] is not None:
             coarse_mean_accuracy = statistics.mean(coarse_accuracies)
-            coarse_double_stdev = 2 * statistics.stdev(coarse_accuracies)
-            print("Mean accuracy on mapped tagset: %.2f%% ±%.2f" % (coarse_mean_accuracy * 100, coarse_double_stdev * 100))
+            coarse_confidence = 2.26 * statistics.stdev(coarse_accuracies) / math.sqrt(10)
+            print("Mean accuracy and 95%% confidence interval on mapped tagset: %.2f%% ±%.2f" % (coarse_mean_accuracy * 100, coarse_confidence * 100))
 
 
 if __name__ == "__main__":
