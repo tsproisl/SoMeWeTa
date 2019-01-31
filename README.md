@@ -224,8 +224,7 @@ wordclasses [extracted](http://www.danielnaber.de/morphologie/) from
 
 To estimate the accuracy of this model, we performed a 10-fold
 cross-validation on the TIGER corpus with the same settings, resulting
-in a mean accuracy plus or minus two standard deviations of 98.02%
-±0.32.
+in a 95% confidence interval of 98.02% ±0.11.
 
 [Download
 model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_2018-12-21.model)
@@ -250,8 +249,8 @@ sets:
 
 | Corpus | all words   | known words | unknown words |
 |--------|-------------|-------------|---------------|
-| CMC    | 89.06 ±0.35 | 90.96 ±0.30 | 77.19 ±1.30   |
-| Web    | 93.75 ±0.20 | 95.34 ±0.22 | 83.26 ±0.76   |
+| CMC    | 89.06 ±0.36 | 90.96 ±0.31 | 77.19 ±1.33   |
+| Web    | 93.75 ±0.21 | 95.34 ±0.23 | 83.26 ±0.78   |
 
 As of December 2017, those figures represent the state of the art on
 the EmpiriST data.
@@ -313,8 +312,8 @@ cross-validation on the French Treebank using the same settings:
 
 | tagset           | accuracy    |
 |------------------|-------------|
-| 29 tags          | 97.71 ±0.36 |
-| 15 tags (mapped) | 98.21 ±0.30 |
+| 29 tags          | 97.71 ±0.13 |
+| 15 tags (mapped) | 98.22 ±0.11 |
 
 
 [Download
