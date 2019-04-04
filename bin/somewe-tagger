@@ -71,37 +71,55 @@ def evaluate_fold(args):
     return accuracy, accuracy_iv, accuracy_oov, coarse_accuracy, coarse_accuracy_iv, coarse_accuracy_oov
 
 
-def fill_input_queue(input_queue, corpus, processes, sentinel):
+def fill_input_queue(input_queue, corpus, processes, sentinel, xml=False):
     """"""
     corpus_size = 0
-    for i, (words, length) in enumerate(utils.iter_corpus(corpus, tagged=False)):
-        corpus_size += length
-        input_queue.put((i, words))
+    if xml:
+        for i, (words, length, lines, word_indexes) in enumerate(utils.iter_xml(corpus, tagged=False)):
+            corpus_size += length
+            input_queue.put((i, words, lines, word_indexes))
+    else:
+        for i, (words, length) in enumerate(utils.iter_corpus(corpus, tagged=False)):
+            corpus_size += length
+            input_queue.put((i, words))
     for proc in range(processes):
         input_queue.put(sentinel)
     input_queue.put(corpus_size)
 
 
-def process_input_queue(func, input_queue, output_queue, sentinel):
+def process_input_queue(func, input_queue, output_queue, sentinel, xml=False):
     """"""
     while True:
         data = input_queue.get()
         if isinstance(data, Sentinel):
             break
-        i, words = data
-        result = func(words)
-        output_queue.put((i, result))
+        if xml:
+            i, words, lines, word_indexes = data
+            result = func(words)
+            output_queue.put((i, result, lines, word_indexes))
+        else:
+            i, words = data
+            result = func(words)
+            output_queue.put((i, result))
     output_queue.put(sentinel)
 
 
-def parallel_tagging(args, asptagger):
+def parallel_tagging(args, asptagger, xml=False):
     """"""
+    def output_result(data, xml):
+        if xml:
+            i, result, lines, word_indexes = data
+            print("\n".join(utils.add_pos_to_xml(result, lines, word_indexes)), "\n", sep="")
+        else:
+            i, result = data
+            print("\n".join(["\t".join(t) for t in results]), "\n", sep="")
+
     sentinel = Sentinel()
     processes = min(args.parallel, multiprocessing.cpu_count())
     input_queue = multiprocessing.Queue(maxsize=processes * 100)
     output_queue = multiprocessing.Queue(maxsize=processes * 100)
-    producer = threading.Thread(target=fill_input_queue, args=(input_queue, args.CORPUS, processes, sentinel))
-    with multiprocessing.Pool(processes=processes, initializer=process_input_queue, initargs=(asptagger.tag_sentence, input_queue, output_queue, sentinel)):
+    producer = threading.Thread(target=fill_input_queue, args=(input_queue, args.CORPUS, processes, sentinel, xml))
+    with multiprocessing.Pool(processes=processes, initializer=process_input_queue, initargs=(asptagger.tag_sentence, input_queue, output_queue, sentinel, xml)):
         producer.start()
         observed_sentinels = 0
         current = 0
@@ -114,14 +132,14 @@ def parallel_tagging(args, asptagger):
                     break
                 else:
                     continue
-            i, results = data
+            i = data[0]
             if i == current:
-                print("\n".join(["\t".join(t) for t in results]), "\n", sep="")
+                output_result(data, xml)
                 current += 1
             else:
-                cached_results[i] = results
+                cached_results[i] = data
             while current in cached_results:
-                print("\n".join(["\t".join(t) for t in cached_results[current]]), "\n", sep="")
+                output_result(cached_results[current], xml)
                 del cached_results[current]
                 current += 1
         corpus_size = input_queue.get()
@@ -155,12 +173,13 @@ def main():
         t0 = time.perf_counter()
         if args.xml:
             if args.parallel > 1:
-                logging.warning("Parallel tagging of XML files is currently not supported.")
-            corpus_size = 0
-            for words, length, lines, word_indexes in utils.iter_xml(args.CORPUS, tagged=False):
-                corpus_size += length
-                sentence = asptagger.tag_sentence(words)
-                print("\n".join(utils.add_pos_to_xml(sentence, lines, word_indexes)), "\n", sep="")
+                corpus_size = parallel_tagging(args, asptagger, xml=True)
+            else:
+                corpus_size = 0
+                for words, length, lines, word_indexes in utils.iter_xml(args.CORPUS, tagged=False):
+                    corpus_size += length
+                    sentence = asptagger.tag_sentence(words)
+                    print("\n".join(utils.add_pos_to_xml(sentence, lines, word_indexes)), "\n", sep="")
         else:
             if args.parallel > 1:
                 corpus_size = parallel_tagging(args, asptagger)
