@@ -2,6 +2,7 @@
 
 ## Version ?.?.? ##
 
+- Added support for parallel tagging of XML input.
 - Fix calculation of confidence interval when reporting
   crossvalidation results.
 
