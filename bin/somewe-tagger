@@ -40,6 +40,7 @@ def arguments():
     parser.add_argument("-b", "--beam-size", type=int, default=5, help="Size of the search beam; default: 5")
     parser.add_argument("--parallel", type=int, default=1, metavar="N", help="Run N worker processes (up to the number of CPUs) to speed up tagging.")
     parser.add_argument("-x", "--xml", action="store_true", help="The input is an XML file. We assume that each tag is on a separate line. Otherwise the format is the same as for regular files with respect to tag and sentence delimiters.")
+    parser.add_argument("--progress", action="store_true", help="Show progress when tagging a file.")
     parser.add_argument("CORPUS", type=argparse.FileType("r"),
                         help="""Input corpus. Path to a file or "-" for STDIN. Format for training,
                              evaluation and cross-validation: One
@@ -112,7 +113,7 @@ def parallel_tagging(args, asptagger, xml=False):
             print("\n".join(utils.add_pos_to_xml(result, lines, word_indexes)), "\n", sep="")
         else:
             i, result = data
-            print("\n".join(["\t".join(t) for t in results]), "\n", sep="")
+            print("\n".join(["\t".join(t) for t in result]), "\n", sep="")
 
     sentinel = Sentinel()
     processes = min(args.parallel, multiprocessing.cpu_count())
@@ -147,9 +148,29 @@ def parallel_tagging(args, asptagger, xml=False):
         return corpus_size
 
 
+def get_number_of_tokens(queue, filename, xml):
+    """"""
+    n = 0
+    with open(filename) as f:
+        if xml:
+            for words, length, lines, word_indexes in utils.iter_xml(f, tagged=False):
+                n += length
+        else:
+            for words, length in utils.iter_corpus(f, tagged=False):
+                n += length
+    queue.put(n)
+
+
 def main():
     args = arguments()
     lexicon, mapping, brown_clusters, word_to_vec = None, None, None, None
+    if args.progress:
+        if args.tag:
+            n_queue = multiprocessing.Queue()
+            p = multiprocessing.Process(target=get_number_of_tokens, args=(n_queue, args.CORPUS.name, args.xml))
+            p.start()
+        else:
+            logging.warning("Currently, the --progress option is only available for tagging, i.e. in combination with --tag.")
     if args.mapping and (args.tag or args.evaluate or args.crossvalidate):
         mapping = utils.read_mapping(args.mapping)
     if args.lexicon and (args.train or args.crossvalidate):
@@ -170,6 +191,9 @@ def main():
         asptagger.save(args.train)
     elif args.tag:
         asptagger.load(args.tag)
+        if args.progress:
+            n = n_queue.get()
+            p.join()
         t0 = time.perf_counter()
         if args.xml:
             if args.parallel > 1:
