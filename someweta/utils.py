@@ -5,6 +5,7 @@ import html
 import json
 import math
 import xml.etree.ElementTree as ET
+from time import time
 
 
 def read_lexicon(filename):
@@ -189,3 +190,97 @@ def add_pos_to_xml(tagged_sentence, lines, word_indexes):
     for idx, tag in zip(word_indexes, tags):
         lines[idx] += "\t%s" % tag
     return lines
+
+
+def int2str(eta):
+    """ returns an appropriately formatted version of the number of seconds provided """
+    if eta < 2:
+        eta = 1000 * eta        # milliseconds
+        if eta >= 1:
+            return "{:01} ms".format(int(eta))
+        else:
+            return "<1 ms"
+
+    nr_days = int(eta // (60 * 60 * 24))
+    nr_hours = int(eta // (60 * 60) % 24)
+    if nr_days > 0:
+        return "{:01} days, {:01} hours".format(nr_days, nr_hours)
+    else:
+        nr_minutes = int(eta // 60 % 60)
+        if nr_hours > 12:
+            return "{:01} hours, {:01} minutes".format(nr_hours, nr_minutes)
+        else:
+            nr_seconds = int(eta % 60)
+            return "{:02}:{:02}:{:02}".format(nr_hours, nr_minutes, nr_seconds)
+
+
+class Progress(object):
+    """
+    Class for showing progress in for-loops
+    (1) initialize before loop
+    (2) .update every loop
+    (3) .finalize after loop
+    optional parameters for initialization:
+    - length of loop (will calculate approximate ETA)
+    - refresh rate (default: every 100 lines)
+    """
+    def __init__(self, length=None, rate=100):
+        self.c = 0
+        self.rate = rate
+        when = time()
+        self.start_glob = when
+        self.avg_glob = 0
+        self.start_rate = when
+        self.avg_rate = 0
+        self.d = length
+        self.eta = 0
+
+    # aliases
+    def up(self):
+        self.update()
+
+    def fine(self):
+        self.finalize()
+
+    # methods
+    def update(self):
+        self.c += 1
+
+        if self.c % self.rate == 0:
+            when = time()
+            self.avg_glob = (when-self.start_glob)/self.c
+            self.bundle_rate = (when-self.start_rate)
+            self.start_rate = when
+
+            if self.d is not None:
+                self.eta = (self.d - self.c) * self.avg_glob
+                msg = "%d%% (%d/%d). average: %s (%s per %d items). ETA: %s" % (
+                    int(self.c/self.d*100),
+                    self.c,
+                    self.d,
+                    int2str(self.avg_glob),
+                    int2str(self.bundle_rate),
+                    self.rate,
+                    int2str(self.eta)
+                )
+                trail = " ".join("" for _ in range(80-len(msg)))
+                print(msg + trail, end="\r")
+
+            else:
+                msg = "%d. average per item: %s. average per %s items: %s." % (
+                    self.c,
+                    int2str(self.avg_glob),
+                    self.rate,
+                    int2str(self.bundle_rate)
+                )
+                trail = " ".join("" for _ in range(80-len(msg)))
+                print(msg + trail, end="\r")
+
+        if self.c == self.d:
+            self.finalize()
+
+    def finalize(self):
+        total_time = time()-self.start_glob
+        msg = "done. processed %d items in %s" % (self.c, int2str(total_time))
+        trail = " ".join("" for _ in range(80-len(msg)))
+        print(msg + trail)
