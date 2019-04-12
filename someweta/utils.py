@@ -230,6 +230,7 @@ class Progress(object):
         self.rate = rate
         when = time.time()
         self.start_glob = when
+        self.avg_glob = 0
         self.start_rate = when
         self.d = length
         self.eta = 0
