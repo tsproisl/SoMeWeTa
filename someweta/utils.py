@@ -4,6 +4,7 @@ import collections
 import html
 import json
 import math
+import sys
 import time
 import xml.etree.ElementTree as ET
 
@@ -264,7 +265,7 @@ class Progress(object):
                     int2str(self.eta)
                 )
                 trail = " ".join("" for _ in range(80-len(msg)))
-                print(msg + trail, end="\r")
+                print(msg + trail, end="\r", file=sys.stderr)
 
             else:
                 msg = "%d. average per item: %s. average per %s items: %s." % (
@@ -274,7 +275,7 @@ class Progress(object):
                     int2str(self.bundle_rate)
                 )
                 trail = " ".join("" for _ in range(80-len(msg)))
-                print(msg + trail, end="\r")
+                print(msg + trail, end="\r", file=sys.stderr)
 
         if self.c == self.d:
             self.finalize()
@@ -283,4 +284,4 @@ class Progress(object):
         total_time = time.time()-self.start_glob
         msg = "done. processed %d items in %s" % (self.c, int2str(total_time))
         trail = " ".join("" for _ in range(80-len(msg)))
-        print(msg + trail)
+        print(msg + trail, file=sys.stderr)
