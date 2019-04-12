@@ -4,8 +4,8 @@ import collections
 import html
 import json
 import math
+import time
 import xml.etree.ElementTree as ET
-from time import time
 
 
 def read_lexicon(filename):
@@ -227,7 +227,7 @@ class Progress(object):
     def __init__(self, length=None, rate=100):
         self.c = 0
         self.rate = rate
-        when = time()
+        when = time.time()
         self.start_glob = when
         self.avg_glob = 0
         self.start_rate = when
@@ -247,7 +247,7 @@ class Progress(object):
         self.c += 1
 
         if self.c % self.rate == 0:
-            when = time()
+            when = time.time()
             self.avg_glob = (when-self.start_glob)/self.c
             self.bundle_rate = (when-self.start_rate)
             self.start_rate = when
@@ -280,7 +280,7 @@ class Progress(object):
             self.finalize()
 
     def finalize(self):
-        total_time = time()-self.start_glob
+        total_time = time.time()-self.start_glob
         msg = "done. processed %d items in %s" % (self.c, int2str(total_time))
         trail = " ".join("" for _ in range(80-len(msg)))
         print(msg + trail)
