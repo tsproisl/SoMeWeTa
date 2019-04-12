@@ -100,6 +100,8 @@ The tagger assumes that each XML tag is on a separate line:
 
     somewe-tagger --xml --tag <model> <file>
 
+When called with the `--progress` option, SoMeWeTa displays tagging
+progress, average and current tagging speed and remaining time.
 
 ### Training the tagger ###
 
