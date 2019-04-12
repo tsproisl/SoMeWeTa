@@ -257,7 +257,7 @@ class Progress(object):
 
             if self.d is not None:
                 self.eta = (self.d - self.c) * self.avg_glob
-                msg = "%3d%% (%d/%d). avg: %d tokens/s. cur: %d tokens/s. ETA: %s" % (
+                msg = "%3d%% (%d/%d). avg: %5d tokens/s. cur: %5d tokens/s. ETA: %s" % (
                     int(self.c / self.d * 100),
                     self.c,
                     self.d,
@@ -266,7 +266,7 @@ class Progress(object):
                     int2str(self.eta)
                 )
             else:
-                msg = " %d tokens. average: %d tokens/s. current: %d tokens/s." % (
+                msg = "%d tokens. average: %5d tokens/s. current: %5d tokens/s." % (
                     self.c,
                     self.global_speed,
                     self.current_speed,
