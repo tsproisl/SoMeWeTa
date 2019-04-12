@@ -158,6 +158,12 @@ def get_number_of_tokens(queue, corpus, xml):
         corpus.seek(0)
     except io.UnsupportedOperation:
         logging.info("Input stream is not seekable, cannot determine ETA.")
+        logging.info("If you want SoMeWeTa to estimate the remaining time, please provide the input as a regular file.")
+        queue.put(None)
+        return
+    except ValueError:
+        logging.info("Input stream is not seekable, cannot determine ETA.")
+        logging.info("If you want SoMeWeTa to estimate the remaining time, please provide the input as a regular file.")
         queue.put(None)
         return
     if xml:
