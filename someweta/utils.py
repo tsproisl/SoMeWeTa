@@ -230,11 +230,11 @@ class Progress(object):
         self.rate = rate
         when = time.time()
         self.start_glob = when
-        self.avg_glob = 0
         self.start_rate = when
-        self.avg_rate = 0
         self.d = length
         self.eta = 0
+        self.last = 0
+        self.max_msg_length = 0
 
     # aliases
     def up(self):
@@ -244,44 +244,43 @@ class Progress(object):
         self.finalize()
 
     # methods
-    def update(self):
-        self.c += 1
+    def update(self, increment=1):
+        self.c += increment
 
-        if self.c % self.rate == 0:
+        if self.c >= self.last + self.rate:
             when = time.time()
-            self.avg_glob = (when-self.start_glob)/self.c
-            self.bundle_rate = (when-self.start_rate)
+            self.global_speed = self.c / (when - self.start_glob)
+            self.current_speed = (self.c - self.last) / (when - self.start_rate)
             self.start_rate = when
+            self.last = self.c
 
             if self.d is not None:
                 self.eta = (self.d - self.c) * self.avg_glob
-                msg = "%d%% (%d/%d). average: %s (%s per %d items). ETA: %s" % (
-                    int(self.c/self.d*100),
+                msg = "%3d%% (%d/%d). avg: %d tokens/s. cur: %d tokens/s. ETA: %s" % (
+                    int(self.c / self.d * 100),
                     self.c,
                     self.d,
-                    int2str(self.avg_glob),
-                    int2str(self.bundle_rate),
-                    self.rate,
+                    self.global_speed,
+                    self.current_speed,
                     int2str(self.eta)
                 )
-                trail = " ".join("" for _ in range(80-len(msg)))
-                print(msg + trail, end="\r", file=sys.stderr)
-
             else:
-                msg = "%d. average per item: %s. average per %s items: %s." % (
+                msg = " %d tokens. average: %d tokens/s. current: %d tokens/s." % (
                     self.c,
-                    int2str(self.avg_glob),
-                    self.rate,
-                    int2str(self.bundle_rate)
+                    self.global_speed,
+                    self.current_speed,
                 )
-                trail = " ".join("" for _ in range(80-len(msg)))
-                print(msg + trail, end="\r", file=sys.stderr)
+            msg_length = len(msg)
+            if msg_length < 79:
+                msg = " " * (79 - msg_length) + msg
+            msg_length = len(msg)
+            if msg_length > self.max_msg_length:
+                self.max_msg_length = msg_length
+            trail = " " * (self.max_msg_length - msg_length)
+            print(msg + trail, end="\r", file=sys.stderr)
 
         if self.c == self.d:
             self.finalize()
 
     def finalize(self):
-        total_time = time.time()-self.start_glob
-        msg = "done. processed %d items in %s" % (self.c, int2str(total_time))
-        trail = " ".join("" for _ in range(80-len(msg)))
-        print(msg + trail, file=sys.stderr)
+        print(" " * self.max_msg_length, end="\r", file=sys.stderr)
