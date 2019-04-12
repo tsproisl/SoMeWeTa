@@ -1,9 +1,11 @@
 # CHANGELOG #
 
-## Version ?.?.? ##
+## Version 1.5.0 ##
 
 - Added support for parallel tagging of XML input.
-- Fix calculation of confidence interval when reporting
+- New option --progress for showing tagging progress and remaining
+  time.
+- Fixed calculation of confidence interval when reporting
   crossvalidation results.
 
 ## Version 1.4.0, 2018-11-14 ##
