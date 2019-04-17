@@ -10,15 +10,15 @@
 from os import path
 from setuptools import setup
 
+from someweta import __version__
+
 here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.rst')) as fh:
     long_description = fh.read()
 
-version = "1.5.0"
-
 setup(
     name='SoMeWeTa',
-    version=version,
+    version=__version__,
     author='Thomas Proisl',
     author_email='thomas.proisl@fau.de',
     packages=[
@@ -28,7 +28,7 @@ setup(
         'bin/somewe-tagger',
     ],
     url="https://github.com/tsproisl/SoMeWeTa",
-    download_url='https://github.com/tsproisl/SoMeWeTa/archive/v%s.tar.gz' % version,
+    download_url='https://github.com/tsproisl/SoMeWeTa/archive/v%s.tar.gz' % __version__,
     license='GNU General Public License v3 or later (GPLv3+)',
     description='A part-of-speech tagger with support for domain adaptation and external resources.',
     long_description=long_description,
