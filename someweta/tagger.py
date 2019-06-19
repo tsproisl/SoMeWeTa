@@ -27,7 +27,7 @@ class ASPTagger(AveragedStructuredPerceptron):
             self.mapping[self.ignore_target] = self.ignore_target
         self.brown_clusters = brown_clusters
         self.word_to_vec = word_to_vec
-        self.email = re.compile(r"^[[:alnum:].%+-]+(?:@| \[?at\]? )[[:alnum:].-]+(?:\.| \[?dot\]? )[[:alpha:]]{2,}$", re.IGNORECASE)
+        self.email = re.compile(r"^[\w.%+-]+(?:@| \[?at\]? )[\w.-]+(?:\.| \[?dot\]? )[a-z]{2,}$", re.IGNORECASE)
         self.xmltag = re.compile(r"^</?[^>]+>$")
         self.url = re.compile(r"^(?:(?:(?:https?|ftp|svn)://|(?:https?://)?www\.).+)|(?:[\w./-]+\.(?:de|com|org|net|edu|info|gov|jpg|png|gif|log|txt|xlsx?|docx?|pptx?|pdf)(?:-\w+)?)$", re.IGNORECASE)
         self.mention = re.compile(r"^@\w+$")
