@@ -1,6 +1,11 @@
 # CHANGELOG #
 
-## Version 1.5.0 ##
+## Version 1.5.1, 2019-06-19 ##
+
+- Got rid of FutureWarning about possible nested sets in regular
+  expression.
+
+## Version 1.5.0, 2019-04-12 ##
 
 - Added support for parallel tagging of XML input.
 - New option --progress for showing tagging progress and remaining
