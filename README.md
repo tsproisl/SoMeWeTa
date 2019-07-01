@@ -192,7 +192,7 @@ pretrained model and call the `tag_sentence` method:
 
     from someweta import ASPTagger
 	
-    model = "german_web_social_media_2017-12-20.model"
+    model = "german_web_social_media_2018-12-21.model"
     sentences = [["Ein", "Satz", "ist", "eine", "Liste", "von", "Tokens", "."],
                  ["Zeitfliegen", "mögen", "einen", "Pfeil", "."]]
     
