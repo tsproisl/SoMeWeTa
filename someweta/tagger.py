@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 
 import base64
-import collections
 import functools
 import gzip
 import json
 import math
-import re
 
 import numpy as np
+import regex as re
 
 from someweta.averaged_structured_perceptron import AveragedStructuredPerceptron
 
@@ -47,8 +46,8 @@ class ASPTagger(AveragedStructuredPerceptron):
         emoticon_set = set(["(-.-)", "(T_T)", "(♥_♥)", ")':", ")-:",
                             "(-:", ")=", ")o:", ")x", ":'C", ":/", ":<",
                             ":C", ":[", "=(", "=)", "=D", "=P", ">:",
-                            "D':", "D:", "\:", "]:", "x(", "^^", "o.O",
-                            "oO", "\O/", "\m/", ":;))", "_))", "*_*",
+                            "D':", "D:", "\\:", "]:", "x(", "^^", "o.O",
+                            "oO", "\\O/", "\\m/", ":;))", "_))", "*_*",
                             "._.", ":wink:", ">_<", "*<:-)", ":!:",
                             ":;-))"])
         emoticon_list = sorted(emoticon_set, key=len, reverse=True)
@@ -66,7 +65,9 @@ class ASPTagger(AveragedStructuredPerceptron):
                                    r"|".join([re.escape(_) for _ in emoticon_list]) +
                                    r"$", re.VERBOSE)
         # Unicode emoticons and other symbols
-        self.emoji = re.compile(r"^[\u2600-\u27BF\uFE0E\uFE0F\U0001F300-\U0001f64f\U0001F680-\U0001F6FF\U0001F900-\U0001F9FF]$")
+        self.unicode_flags = re.compile(r"\p{Regional_Indicator}{2}")
+        # self.emoji = re.compile(r"^[\u2600-\u27BF\uFE0E\uFE0F\U0001F300-\U0001f64f\U0001F680-\U0001F6FF\U0001F900-\U0001F9FF]$")
+        self.emoji = re.compile(r"[\p{Extended_Pictographic}\p{Emoji_Presentation}\uFE0F]")
 
     def train(self, words, tags, lengths):
         """"""
