@@ -36,6 +36,7 @@ setup(
     long_description=long_description,
     install_requires=[
         "numpy",
+        "regex>=2019.02.18",
     ],
     python_requires='>=3.4',
     classifiers=[
