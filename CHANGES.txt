@@ -1,5 +1,13 @@
 # CHANGELOG #
 
+## Version 1.6.0, 2019-07-02 ##
+
+- New method tag_xml_sentence for simplified processing of SoMaJo's
+  output for XML files.
+- Updated regular expressions for emojis (taken from SoMaJo).
+- Fixed a bug where SoMeWeTa could not be installed when numpy was not
+  already there.
+
 ## Version 1.5.1, 2019-06-19 ##
 
 - Got rid of FutureWarning about possible nested sets in regular
