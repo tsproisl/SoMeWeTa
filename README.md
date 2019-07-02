@@ -7,12 +7,12 @@
       * [Training the tagger](#training-the-tagger)
       * [Evaluating a model](#evaluating-a-model)
       * [Performing cross-validation](#performing-cross-validation)
-	  * [Using the module](#using-the-module)
+      * [Using the module](#using-the-module)
   * [Model files](#model-files)
       * [German newspaper texts](#german_newspaper)
       * [German web and social media texts](#german_wsm)
       * [English newspaper texts](#english_newspaper)
-	  * [French newspaper texts](#french_newspaper)
+      * [French newspaper texts](#french_newspaper)
   * [References](#references)
 
 
@@ -117,7 +117,7 @@ background corpus, then use this model as prior when training the
 in-domain model:
 
     somewe-tagger --train <model> --prior <background_model> <file>
-	
+
 SoMeWeTa can make use of additional sources of information. You can
 use the `--brown` option to provide a file with Brown clusters (the
 `paths` file produced by
@@ -127,11 +127,11 @@ information. The lexicon should consist of lines with tab-separated
 token-value pairs, e.g.:
 
     welcome	ADJ
-	welcome	INTJ
-	welcome	NOUN
-	welcome	VERB
-	work	NOUN
-	work	VERB
+    welcome	INTJ
+    welcome	NOUN
+    welcome	VERB
+    work	NOUN
+    work	VERB
 
 It is also possible to train the tagger on partially annotated data.
 To do this, assign a pseudo-tag to each unannotated token and tell
@@ -196,13 +196,38 @@ pretrained model and call the `tag_sentence` method:
     sentences = [["Ein", "Satz", "ist", "eine", "Liste", "von", "Tokens", "."],
                  ["Zeitfliegen", "mögen", "einen", "Pfeil", "."]]
     
-	# future versions will have sensible default values
-    asptagger = ASPTagger(beam_size=5, iterations=10)
+    asptagger = ASPTagger()
     asptagger.load(model)
     
     for sentence in sentences:
         tagged_sentence = asptagger.tag_sentence(sentence)
         print("\n".join(["\t".join(t) for t in tagged_sentence]), "\n", sep="")
+
+
+Here is an example for using SoMaJo and SoMeWeTa in combination,
+performing tokenization, sentence splitting and part-of-speech
+tagging:
+
+
+    import somajo
+    import someweta
+    
+    filename = "test.txt"
+    model = "german_web_social_media_2018-12-21.model"
+    
+    asptagger = someweta.ASPTagger()
+    asptagger.load(model)
+    
+    # See https://github.com/tsproisl/SoMaJo#using-the-module
+    tokenizer = somajo.Tokenizer(split_camel_case=False, token_classes=False, extra_info=False)
+    sentence_splitter = somajo.SentenceSplitter(is_tuple=False)
+    
+    tokenized_paragraphs = tokenizer.tokenize_file(filename)
+    for paragraph in tokenized_paragraphs:
+        sentences = sentence_splitter.split(paragraph)
+        for sentence in sentences:
+            tagged_sentence = asptagger.tag_sentence(sentence)
+            print("\n".join("\t".join(t) for t in tagged_sentence), "\n", sep="")
 
 
 ## Model files ##
