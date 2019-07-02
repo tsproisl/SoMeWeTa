@@ -3,6 +3,7 @@
 import base64
 import functools
 import gzip
+import html
 import json
 import math
 
@@ -106,6 +107,22 @@ class ASPTagger(AveragedStructuredPerceptron):
             return list(zip(sentence, tags, (self.mapping[lt] for lt in tags)))
         else:
             return list(zip(sentence, tags))
+
+    def tag_xml_sentence(self, sentence):
+        """Tag a sentence that contains XML tags in addition to the word
+        tokens. For example the output of SoMaJo's tokenize_xml and
+        split_xml methods.
+
+        """
+        word_indexes = [i for i, line in enumerate(sentence) if not (line.startswith("<") and line.endswith(">"))]
+        words = [sentence[i] for i in word_indexes]
+        words = [html.unescape(w) for w in words]
+        tagged = self.tag_sentence(words)
+        tags = {i: t[1:] for i, t in zip(word_indexes, tagged)}
+        tagged_xml = []
+        for idx, x in enumerate(sentence):
+            tagged_xml.append((x,) + tags.get(idx, ()))
+        return tagged_xml
 
     def evaluate(self, words, tags, lengths):
         """"""
