@@ -136,3 +136,97 @@
 1860_7	gönnen	gönnen	_	VVINF	_	_	_	0	_	--	_	_	_	_
 1860_8	’	--	_	$(	_	_	_	7	_	--	_	_	_	_
 
+1987_1	»	--	_	$(	_	_	_	2	_	--	_	_	_	_
+1987_2	Bajuwaren-Staat	Bajuwaren-Staat	_	NN	_	case=nom|number=sg|gender=masc	_	0	_	--	_	_	_	_
+1987_3	«	--	_	$(	_	_	_	2	_	--	_	_	_	_
+1987_4	in	in	_	APPR	_	_	_	2	_	MNR	_	_	_	_
+1987_5	Deutschland	Deutschland	_	NE	_	case=dat|number=sg|gender=neut	_	4	_	NK	_	_	_	_
+
+1994_1	»	--	_	$(	_	_	_	2	_	--	_	_	_	_
+1994_2	Hauptattraktion	Hauptattraktion	_	NN	_	case=nom|number=sg|gender=fem	_	10	_	PD	_	_	_	_
+1994_3	«	--	_	$(	_	_	_	2	_	--	_	_	_	_
+1994_4	des	der	_	ART	_	case=gen|number=sg|gender=masc	_	8	_	NK	_	_	_	_
+1994_5	neuen	neu	_	ADJA	_	case=gen|number=sg|gender=masc|degree=pos	_	8	_	NK	_	_	_	_
+1994_6	»	--	_	$(	_	_	_	8	_	--	_	_	_	_
+1994_7	bayerischen	bayerisch	_	ADJA	_	case=gen|number=sg|gender=masc|degree=pos	_	8	_	NK	_	_	_	_
+1994_8	Parks	Park	_	NN	_	case=gen|number=sg|gender=masc	_	2	_	AG	_	_	_	_
+1994_9	«	--	_	$(	_	_	_	8	_	--	_	_	_	_
+1994_10	sei	sein	_	VAFIN	_	number=sg|person=3|tense=pres|mood=subj	_	0	_	--	_	_	_	_
+1994_11	Mittenwald	Mittenwald	_	NE	_	case=nom|number=sg|gender=neut	_	10	_	SB	_	_	_	_
+1994_12	.	--	_	$.	_	_	_	10	_	--	_	_	_	_
+
+2045_1	Schon	schon	_	ADV	_	_	_	2	_	MO	_	_	_	_
+2045_2	lässt	lassen	_	VVFIN	_	number=sg|person=3|tense=pres|mood=ind	_	0	_	--	_	_	_	_
+2045_3	Söder	Söder	_	NE	_	case=nom|number=sg|gender=masc	_	2	_	SB	_	_	_	_
+2045_4	seinen	sein	_	PPOSAT	_	case=acc|number=sg|gender=masc	_	5	_	NK	_	_	_	_
+2045_5	Minister	Minister	_	NN	_	case=acc|number=sg|gender=masc	_	2	_	OA	_	_	_	_
+2045_6	Scheuer	Scheuer	_	NE	_	case=nom|number=sg|gender=masc	_	5	_	NK	_	_	_	_
+2045_7	vor	vor	_	APPR	_	_	_	14	_	OP	_	_	_	_
+2045_8	einer	ein	_	ART	_	case=dat|number=sg|gender=fem	_	12	_	NK	_	_	_	_
+2045_9	›	--	_	$(	_	_	_	12	_	--	_	_	_	_
+2045_10	beträchtlichen	beträchtlich	_	ADJA	_	case=dat|number=sg|gender=fem|degree=pos	_	12	_	NK	_	_	_	_
+2045_11	wirtschaftlichen	wirtschaftlich	_	ADJA	_	case=dat|number=sg|gender=fem|degree=pos	_	12	_	NK	_	_	_	_
+2045_12	Mautkatastrophe	Mautkatastrophe	_	NN	_	case=dat|number=sg|gender=fem	_	7	_	NK	_	_	_	_
+2045_13	‹	--	_	$(	_	_	_	12	_	--	_	_	_	_
+2045_14	warnen	warnen	_	VVINF	_	_	_	2	_	OC	_	_	_	_
+2045_15	.	--	_	$.	_	_	_	2	_	--	_	_	_	_
+
+2097_1	›	--	_	$(	_	_	_	4	_	--	_	_	_	_
+2097_2	Unser	unser	_	PPOSAT	_	case=nom|number=sg|gender=neut	_	3	_	NK	_	_	_	_
+2097_3	Anliegen	Anliegen	_	NN	_	case=nom|number=sg|gender=neut	_	4	_	SB	_	_	_	_
+2097_4	darf	dürfen	_	VMFIN	_	number=sg|person=3|tense=pres|mood=ind	_	12	_	OC	_	_	_	_
+2097_5	nicht	nicht	_	PTKNEG	_	_	_	4	_	NG	_	_	_	_
+2097_6	verschleppt	verschleppen	_	VVPP	_	_	_	9	_	OC	_	_	_	_
+2097_7	oder	oder	_	KON	_	_	_	6	_	CD	_	_	_	_
+2097_8	ignoriert	ignorieren	_	VVPP	_	_	_	7	_	CJ	_	_	_	_
+2097_9	werden	werden	_	VAINF	_	_	_	4	_	OC	_	_	_	_
+2097_10	‹	--	_	$(	_	_	_	4	_	--	_	_	_	_
+2097_11	,	--	_	$,	_	_	_	12	_	--	_	_	_	_
+2097_12	sagte	sagen	_	VVFIN	_	number=sg|person=3|tense=past|mood=ind	_	0	_	--	_	_	_	_
+2097_13	Kramp-Karrenbauer	Kramp-Karrenbauer	_	NE	_	case=nom|number=sg|gender=fem	_	12	_	SB	_	_	_	_
+2097_14	.	--	_	$.	_	_	_	12	_	--	_	_	_	_
+
+2180_1	«	--	_	$(	_	_	_	2	_	--	_	_	_	_
+2180_2	Versöhnung	Versöhnung	_	NN	_	case=nom|number=sg|gender=fem	_	0	_	--	_	_	_	_
+2180_3	auf	auf	_	APPR	_	_	_	2	_	MNR	_	_	_	_
+2180_4	französisch	französisch	_	ADJD	_	degree=pos	_	3	_	NK	_	_	_	_
+2180_5	mit	mit	_	APPR	_	_	_	2	_	MNR	_	_	_	_
+2180_6	Umarmung	Umarmung	_	NN	_	case=dat|number=sg|gender=fem	_	5	_	NK	_	_	_	_
+2180_7	und	und	_	KON	_	_	_	6	_	CD	_	_	_	_
+2180_8	Kuss	Kuss	_	NN	_	case=dat|number=sg|gender=masc	_	7	_	CJ	_	_	_	_
+2180_9	»	--	_	$(	_	_	_	2	_	--	_	_	_	_
+
+2470_1	Das	der	_	PDS	_	case=nom|number=sg|gender=neut	_	2	_	SB	_	_	_	_
+2470_2	stank	stinken	_	VVFIN	_	number=sg|person=3|tense=past|mood=ind	_	0	_	--	_	_	_	_
+2470_3	«	--	_	$(	_	_	_	2	_	--	_	_	_	_
+2470_4	und	und	_	KON	_	_	_	2	_	CD	_	_	_	_
+2470_5	wird	werden	_	VAFIN	_	number=sg|person=3|tense=pres|mood=ind	_	4	_	CJ	_	_	_	_
+2470_6	auch	auch	_	ADV	_	_	_	8	_	MO	_	_	_	_
+2470_7	weiter	weiter	_	ADV	_	_	_	8	_	MO	_	_	_	_
+2470_8	stinken	stinken	_	VVINF	_	_	_	5	_	OC	_	_	_	_
+2470_9	»	--	_	$(	_	_	_	2	_	--	_	_	_	_
+2470_10	.	--	_	$.	_	_	_	2	_	--	_	_	_	_
+
+2595_1	‹	--	_	$(	_	_	_	3	_	--	_	_	_	_
+2595_2	Die	der	_	PDS	_	case=nom|number=pl|gender=*	_	3	_	SB	_	_	_	_
+2595_3	wollen	wollen	_	VMFIN	_	number=pl|person=3|tense=pres|mood=ind	_	0	_	--	_	_	_	_
+2595_4	,	--	_	$,	_	_	_	3	_	--	_	_	_	_
+2595_5	dass	dass	_	KOUS	_	_	_	7	_	CP	_	_	_	_
+2595_6	du	du	_	PPER	_	case=nom|number=sg|gender=*|person=2	_	7	_	SB	_	_	_	_
+2595_7	hüpfst	hüpfen	_	VVFIN	_	number=sg|person=2|tense=pres|mood=ind	_	3	_	OC	_	_	_	_
+2595_8	und	und	_	KON	_	_	_	7	_	CD	_	_	_	_
+2595_9	springst	springen	_	VVFIN	_	number=sg|person=2|tense=pres|mood=ind	_	8	_	CJ	_	_	_	_
+2595_10	›	--	_	$(	_	_	_	3	_	--	_	_	_	_
+
+2790_1	Bereits	bereits	_	ADV	_	_	_	6	_	MO	_	_	_	_
+2790_2	eine	ein	_	ART	_	case=nom|number=sg|gender=fem	_	6	_	NK	_	_	_	_
+2790_3	‹	--	_	$(	_	_	_	6	_	--	_	_	_	_
+2790_4	enorm	enorm	_	ADJD	_	degree=pos	_	5	_	MO	_	_	_	_
+2790_5	große	groß	_	ADJA	_	case=nom|number=sg|gender=fem|degree=pos	_	6	_	NK	_	_	_	_
+2790_6	Menge	Menge	_	NN	_	case=nom|number=sg|gender=fem	_	8	_	SB	_	_	_	_
+2790_7	›	--	_	$(	_	_	_	6	_	--	_	_	_	_
+2790_8	sei	sein	_	VAFIN	_	number=sg|person=3|tense=pres|mood=subj	_	0	_	--	_	_	_	_
+2790_9	versenkt	versenken	_	VVPP	_	_	_	10	_	OC	_	_	_	_
+2790_10	worden	werden	_	VAPP	_	_	_	8	_	OC	_	_	_	_
+2790_11	.	--	_	$.	_	_	_	8	_	--	_	_	_	_
+
