@@ -49,16 +49,10 @@ Geschuldet	VVPP
 🙉	EMOIMG
 👀	EMOIMG
 
-🏳	EMOIMG
-🌈	EMOIMG
-👩	EMOIMG
-❤	EMOIMG
-👩	EMOIMG
-👨	EMOIMG
-❤	EMOIMG
-👨	EMOIMG
-🏳	EMOIMG
-🌈	EMOIMG
+🏳‍🌈	EMOIMG
+👩‍❤‍👩	EMOIMG
+👨‍❤‍👨	EMOIMG
+🏳‍🌈	EMOIMG
 https://t.co/0C37OnNoCq	URL
 
 Malick	NE
@@ -231,4 +225,40 @@ ganz	PTKIFG
 schlechte	ADJA
 Antwort	NN
 .	$.
+
+Den	ART
+Vortrag	NN
+_	$(
+muessen	VMFIN
+_	$(
+wir	PPER
+unbedingt	ADV
+jetzt	ADV
+dann	ADV
+angehen	VVINF
+.	$.
+
+@peterpeters99	ADR
+@TSG1909	ADR
+@sandra2519691	ADR
+@KathaSchulze	ADR
+Ekel	NN
+?	$.
+https://t.co/TPuK8RYib5	URL
+
+#Grüne	HST
+Zukunftsblindheit	NN
+🤔	EMOIMG
+😬	EMOIMG
+#Einwanderung	HST
+#Groko	HST
+#Neuwahlen	HST
+#BTW18	HST
+#LtwHe	HST
+#ltwhe18	HST
+#ltwby	HST
+#ltwby18	HST
+#Flüchtlinge	HST
+…	$(
+https://t.co/Cef73EEXrX	URL
 
