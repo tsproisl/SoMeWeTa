@@ -31,7 +31,7 @@ def arguments():
     group.add_argument("--evaluate", type=os.path.abspath, help="Evaluate the performance of the specified model on the input corpus")
     group.add_argument("--crossvalidate", action="store_true", help="Evaluate tagger performance via 10-fold cross-validation on the input corpus")
     parser.add_argument("--brown", type=argparse.FileType("r"), help="""Brown clusters (paths output file
-                        produced by wcluster (https://github.com/percyliang/brown-cluster); optional and only for
+                        produced by wcluster (https://github.com/percyliang/brown-cluster)); optional and only for
                         training or cross-validation""")
     parser.add_argument("--w2v", type=argparse.FileType("r"), help="Word2Vec vectors; optional and only for training or cross-validation")
     parser.add_argument("--lexicon", type=os.path.abspath, help="Additional full-form lexicon; optional and only for training or cross-validation")
@@ -44,8 +44,8 @@ def arguments():
     parser.add_argument("-x", "--xml", action="store_true", help="The input is an XML file. We assume that each tag is on a separate line. Otherwise the format is the same as for regular files with respect to tag and sentence delimiters.")
     parser.add_argument("--progress", action="store_true", help="Show progress when tagging a file.")
     parser.add_argument("-v", "--version", action="version", version="SoMeWeTa %s" % __version__, help="Output version information and exit.")
-    parser.add_argument("CORPUS", type=argparse.FileType("r"),
-                        help="""Input corpus. Path to a file or "-" for STDIN. Format for training,
+    parser.add_argument("CORPUS", type=argparse.FileType("r", encoding="utf-8"),
+                        help="""Input corpus (UTF-8-encoded). Path to a file or "-" for STDIN. Format for training,
                              evaluation and cross-validation: One
                              token-pos pair per line, separated by a
                              tab; sentences delimited by an empty
