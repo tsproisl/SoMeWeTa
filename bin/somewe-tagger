@@ -13,6 +13,7 @@ import time
 
 from someweta import utils
 from someweta import ASPTagger
+from someweta.version import __version__
 
 logging.basicConfig(format='%(message)s', level=logging.DEBUG)
 
@@ -42,6 +43,7 @@ def arguments():
     parser.add_argument("--parallel", type=int, default=1, metavar="N", help="Run N worker processes (up to the number of CPUs) to speed up tagging.")
     parser.add_argument("-x", "--xml", action="store_true", help="The input is an XML file. We assume that each tag is on a separate line. Otherwise the format is the same as for regular files with respect to tag and sentence delimiters.")
     parser.add_argument("--progress", action="store_true", help="Show progress when tagging a file.")
+    parser.add_argument("-v", "--version", action="version", version="SoMeWeTa %s" % __version__, help="Output version information and exit.")
     parser.add_argument("CORPUS", type=argparse.FileType("r"),
                         help="""Input corpus. Path to a file or "-" for STDIN. Format for training,
                              evaluation and cross-validation: One
