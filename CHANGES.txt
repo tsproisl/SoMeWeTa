@@ -1,5 +1,9 @@
 # CHANGELOG #
 
+## Version ??? ##
+
+- New option -v/--version to output version information.
+
 ## Version 1.6.0, 2019-07-02 ##
 
 - New method tag_xml_sentence for simplified processing of SoMaJo's
