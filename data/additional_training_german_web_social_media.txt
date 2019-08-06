@@ -262,3 +262,131 @@ Zukunftsblindheit	NN
 …	$(
 https://t.co/Cef73EEXrX	URL
 
+@Fern_Schreiber	ADR
+Falsch	ADJD
+,	$,
+weil	KOUS
+irgendwas	PIS
+auch	ADV
+mal	PTKMA
+_	$(
+freiwillig	ADJD
+_	$(
+richtig	ADJD
+gemacht	VVPP
+werden	VAINF
+können	VMINF
+muss	VMFIN
+.	$.
+
+@MichaelBaleanu	ADR
+@raqueleven	ADR
+@MichaelBaleanu	ADR
+:	$(
+Das	ART
+_	$(
+gewollte	ADJA
+_	$(
+Kind	NN
+ist	VAFIN
+hier	ADV
+nicht	PTKNEG
+Thema	NN
+.	$.
+
+RT	NN
+@amenthes_de	ADR
+:	$(
+@aeroTELEGRAPH	ADR
+Das	PDS
+hier	ADV
+zeigt	VVFIN
+_	$(
+ein	ART
+Drittel	NN
+_	$(
+von	APPR
+"	$(
+wir	PPER
+respektieren	VVFIN
+Ihre	PPOSAT
+Privatsphäre	NN
+"	$(
+.	$.
+
+wer	PWS
+unter	APPR
+dreissig	CARD
+kann	VMFIN
+sich	PRF
+denn	PTKMA
+noch	ADV
+_	$(
+sein	PPOSAT
+_	$(
+auto	NN
+leisten	VVINF
+?	$.
+
+Daniel	NE
+Kilmister	NE
+via	APPR
+Instagram	NE
+❤	EMOIMG
+https://t.co/LI7O8zXFS9	URL
+
+Das	PDS
+mach	VVFIN
+ich	PPER
+😅	EMOIMG
+
+Ich	PPER
+beneide	VVFIN
+dich	PPER
+nicht	PTKNEG
+😜	EMOIMG
+
+Die	ART
+armen	ADJA
+Ladies	NN
+aus	APPR
+🇷🇺	EMOIMG
+
+Der	ART
+Tweet	NN
+war	VAFIN
+zuerst	ADV
+da	ADV
+🤷🏼‍♂️	EMOIMG
+
++	XY
+🇺🇦️	EMOIMG
+Wahlen	NN
+,	$,
+Wahlen	NN
+,	$,
+Wahlen	NN
+🇺🇦️	EMOIMG
++	XY
+
+Ich	PPER
+würde	VAFIN
+ihn	PPER
+wählen	VVINF
+🤗	EMOIMG
+https://t.co/JWTY32aHlb	URL
+
+Ich	PPER
+auch	ADV
+mit	APPR
+dir	PPER
+😘	EMOIMG
+❤️	EMOIMG
+
+Wie	PWAV
+krank	ADJD
+🤯	EMOIMG
+aber	KON
+geil	ADJD
+😩	EMOIMG
+
