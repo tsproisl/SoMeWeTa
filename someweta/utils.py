@@ -256,7 +256,7 @@ class Progress(object):
             self.last = self.c
 
             if self.d is not None:
-                self.eta = (self.d - self.c) * self.avg_glob
+                self.eta = (self.d - self.c) / self.global_speed
                 msg = "%3d%% (%d/%d). avg: %5d tokens/s. cur: %5d tokens/s. ETA: %s" % (
                     int(self.c / self.d * 100),
                     self.c,
