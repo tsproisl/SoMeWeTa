@@ -1,5 +1,11 @@
 # CHANGELOG #
 
+## Version ???, ??? ##
+
+- Sanity-check input: Warn if there are extremely long sentences (≥
+  500 words) in the input as this might indicate missing sentence
+  boundaries.
+
 ## Version 1.6.1, 2019-10-02 ##
 
 - New option -v/--version to output version information.
