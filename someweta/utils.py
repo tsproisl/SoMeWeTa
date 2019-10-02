@@ -3,6 +3,7 @@
 import collections
 import html
 import json
+import logging
 import math
 import sys
 import time
@@ -58,8 +59,9 @@ def read_word2vec_clusters(fh):
     return word_to_vec
 
 
-def get_sentences(fh, tagged=True):
+def get_sentences(fh, tagged=True, warn_threshold=500):
     """A generator over the sentence in `filename`."""
+    sentence_counter = 1
     sentence = []
     for line in fh:
         line = line.strip()
@@ -70,11 +72,14 @@ def get_sentences(fh, tagged=True):
             else:
                 yield sentence
             sentence = []
+            sentence_counter += 1
         else:
             if tagged:
                 sentence.append(line.split("\t", 2))
             else:
                 sentence.append(line)
+            if len(sentence) == warn_threshold:
+                logging.warn("Sentence %d is extremely long (≥ %d words) – Are you sure that the input sentences are delimited by an empty line?" % (sentence_counter, warn_threshold))
     if len(sentence) > 0:
         if tagged:
             words, tags = zip(*sentence)
