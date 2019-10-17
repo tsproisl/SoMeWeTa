@@ -1,10 +1,12 @@
 # CHANGELOG #
 
-## Version ???, ??? ##
+## Version 1.6.2, 2019-10-17 ##
 
 - Sanity-check input: Warn if there are extremely long sentences (≥
   500 words) in the input as this might indicate missing sentence
   boundaries.
+- Use np.frombuffer() instead of np.fromstring() to fix a
+  DeprecationWarning.
 
 ## Version 1.6.1, 2019-10-02 ##
 
