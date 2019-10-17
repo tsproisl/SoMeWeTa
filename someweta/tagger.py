@@ -209,10 +209,10 @@ class ASPTagger(AveragedStructuredPerceptron):
             f.write("[\n".encode())
             for feat in features[:-1]:
                 f.write('"'.encode())
-                f.write(base64.b85encode(self.weights[feat].tostring()))
+                f.write(base64.b85encode(self.weights[feat].tobytes()))
                 f.write('",\n'.encode())
             f.write('"'.encode())
-            f.write(base64.b85encode(self.weights[features[-1]].tostring()))
+            f.write(base64.b85encode(self.weights[features[-1]].tobytes()))
             f.write('"\n]\n'.encode())
             f.write("]\n".encode())
 
@@ -222,7 +222,7 @@ class ASPTagger(AveragedStructuredPerceptron):
             model = json.loads(f.read().decode())
             vocabulary, self.lexicon, self.brown_clusters, self.word_to_vec, self.target_mapping, self.target_size, features, weights = model
             self.vocabulary = set(vocabulary)
-            self.weights = {f: np.fromstring(base64.b85decode(w), np.float64) for f, w in zip(features, weights)}
+            self.weights = {f: np.frombuffer(base64.b85decode(w), np.float64).copy() for f, w in zip(features, weights)}
 
     def load_prior_model(self, prior):
         """"""
@@ -233,7 +233,7 @@ class ASPTagger(AveragedStructuredPerceptron):
             self.target_size = model[5]
             features = model[6]
             weights = model[7]
-            self.prior_weights = {f: np.fromstring(base64.b85decode(w), np.float64) for f, w in zip(features, weights)}
+            self.prior_weights = {f: np.frombuffer(base64.b85decode(w), np.float64).copy() for f, w in zip(features, weights)}
 
     def _get_static_features(self, words, lengths):
         """"""
