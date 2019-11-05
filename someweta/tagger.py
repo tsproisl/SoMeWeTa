@@ -29,7 +29,13 @@ class ASPTagger(AveragedStructuredPerceptron):
         self.word_to_vec = word_to_vec
         self.email = re.compile(r"^[\w.%+-]+(?:@| \[?at\]? )[\w.-]+(?:\.| \[?dot\]? )[a-z]{2,}$", re.IGNORECASE)
         self.xmltag = re.compile(r"^</?[^>]+>$")
-        self.url = re.compile(r"^(?:(?:(?:https?|ftp|svn)://|(?:https?://)?www\.).+)|(?:[\w./-]+\.(?:de|com|org|net|edu|info|gov|jpg|png|gif|log|txt|xlsx?|docx?|pptx?|pdf)(?:-\w+)?)$", re.IGNORECASE)
+        self.url = re.compile(r"^" +
+                              r"(?:(?:(?:https?|ftp|svn)://|(?:https?://)?www\.).+)" +  # anything that starts with http, https, ftp, svn or www
+                              r"|" +
+                              r"(?:[\w./-]+\.(?:de|com|org|net|edu|info|gov|jpg|png|gif|log|txt|xlsx?|docx?|pptx?|pdf)(?:-\w+)?)" +  # anything with those TLDs or file extensions
+                              r"|" +
+                              r"(?:/?[rlu](?:/\w+)+/?)" +  # a Reddit link
+                              r"$", re.IGNORECASE)
         self.mention = re.compile(r"^@\w+$")
         self.hashtag = re.compile(r"^#\w+$")
         self.action_word = re.compile(r"^[*+][^*]+[*]$")
@@ -51,6 +57,8 @@ class ASPTagger(AveragedStructuredPerceptron):
                             "oO", "\\O/", "\\m/", ":;))", "_))", "*_*",
                             "._.", ":wink:", ">_<", "*<:-)", ":!:",
                             ":;-))"])
+        reddit_emoticons = set(["Ä", "Ö", "Ü"])
+        emoticon_set.update(reddit_emoticons)
         emoticon_list = sorted(emoticon_set, key=len, reverse=True)
         self.emoticon = re.compile(r"""^(?:(?:[:;]|(?<!\d)8)           # a variety of eyes, alt.: [:;8]
                                     [-'oO]?                       # optional nose or tear
