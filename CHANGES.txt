@@ -1,8 +1,12 @@
 # CHANGELOG #
 
-## Version ?.?.?, ????-??-?? ##
+## Version 1.7.0, 2019-11-07 ##
 
+- Added Reddit links and Reddit-specific emoticons
 - Moved command-line interface to cli.py
+- Helper script for tagging multiple files (somewe-tagger-multifile)
+- Postprocessing script for some deterministic tagging decisions in
+  STTS_IBK, e.g. URLs, Emoticons, etc. (STTS_IBK_postprocessor)
 
 ## Version 1.6.2, 2019-10-17 ##
 
