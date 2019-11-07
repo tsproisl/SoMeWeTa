@@ -48,7 +48,7 @@ def process_xml(fh, asptagger):
 def process_tsv(fh, asptagger):
     """"""
     for words, tags, length in utils.iter_corpus(fh, tagged=True):
-        sentence = [[w, t]  for w, t in zip(words, tags)]
+        sentence = [[w, t] for w, t in zip(words, tags)]
         sentence = _process(asptagger, sentence)
         print("\n".join(["\t".join(t) for t in sentence]))
         print()
