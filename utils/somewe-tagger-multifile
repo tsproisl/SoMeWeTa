@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-import functools
-import itertools
 import logging
-import multiprocessing
 import os
 import time
 
@@ -22,6 +19,8 @@ def arguments():
     parser.add_argument("--mapping", type=os.path.abspath, help="Additional mapping to coarser tagset; optional and only for tagging, evaluating or cross-validation")
     parser.add_argument("-b", "--beam-size", type=int, default=5, help="Size of the search beam; default: 5")
     parser.add_argument("-x", "--xml", action="store_true", help="The input is an XML file. We assume that each tag is on a separate line. Otherwise the format is the same as for regular files with respect to tag and sentence delimiters.")
+    parser.add_argument("--output-prefix", type=str, default="", help="Prefix of output files; default: \"\" (no prefix)")
+    parser.add_argument("--output-suffix", type=str, default=".tagged", help="Suffix of output files; default: \".tagged\"")
     parser.add_argument("-v", "--version", action="version", version="SoMeWeTa %s" % __version__, help="Output version information and exit.")
     parser.add_argument("TEXTS", type=os.path.abspath, nargs="+", help="""Paths to
                                                          input texts (UTF-8-encoded). Format for
@@ -30,29 +29,27 @@ def arguments():
     return parser.parse_args()
 
 
-def tag_xml_file(asptagger, filename):
-    outname = filename + ".tagged"
+def tag_xml_file(asptagger, filename, output_prefix, output_suffix):
+    outname = output_prefix + filename + output_suffix
     corpus_size = 0
-    with open(filename, encoding="utf-8") as fh:
-        with open(outname, mode="w", encoding="utf-8") as out:
-            for words, length, lines, word_indexes in utils.iter_xml(fh, tagged=False):
-                corpus_size += length
-                sentence = asptagger.tag_sentence(words)
-                out.write("\n".join(utils.add_pos_to_xml(sentence, lines, word_indexes)))
-                out.write("\n\n")
+    with open(filename, encoding="utf-8") as fh, open(outname, mode="w", encoding="utf-8") as out:
+        for words, length, lines, word_indexes in utils.iter_xml(fh, tagged=False):
+            corpus_size += length
+            sentence = asptagger.tag_sentence(words)
+            out.write("\n".join(utils.add_pos_to_xml(sentence, lines, word_indexes)))
+            out.write("\n\n")
     return corpus_size
 
 
-def tag_file(asptagger, filename):
-    outname = filename + ".tagged"
+def tag_file(asptagger, filename, output_prefix, output_suffix):
+    outname = output_prefix + filename + output_suffix
     corpus_size = 0
-    with open(filename, encoding="utf-8") as fh:
-        with open(outname, mode="w", encoding="utf-8") as out:
-            for words, length in utils.iter_corpus(fh, tagged=False):
-                corpus_size += length
-                sentence = asptagger.tag_sentence(words)
-                out.write("\n".join(["\t".join(t) for t in sentence]))
-                out.write("\n\n")
+    with open(filename, encoding="utf-8") as fh, open(outname, mode="w", encoding="utf-8") as out:
+        for words, length in utils.iter_corpus(fh, tagged=False):
+            corpus_size += length
+            sentence = asptagger.tag_sentence(words)
+            out.write("\n".join(["\t".join(t) for t in sentence]))
+            out.write("\n\n")
     return corpus_size
 
 
@@ -69,9 +66,9 @@ def main():
     t0 = time.perf_counter()
     for filename in args.TEXTS:
         if args.xml:
-            corpus_size += tag_xml_file(asptagger, filename)
+            corpus_size += tag_xml_file(asptagger, filename, args.output_prefix, args.output_suffix)
         else:
-            corpus_size += tag_file(asptagger, filename)
+            corpus_size += tag_file(asptagger, filename, args.output_prefix, args.output_suffix)
     t1 = time.perf_counter()
     logging.info("Tagged %d tokens in %s (%d tokens/s)" % (corpus_size, utils.int2str(t1 - t0), corpus_size / (t1 - t0)))
 
