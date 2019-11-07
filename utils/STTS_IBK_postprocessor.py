@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+
+import argparse
+
+import regex as re
+
+from someweta import ASPTagger, utils
+
+
+dollar_paren = re.compile(r"^[:„“”‚‘’»«›‹]$")
+
+
+def arguments():
+    """Process command line arguments."""
+    parser = argparse.ArgumentParser(description="Postprocessor for texts annotated with STTS_IBK")
+    parser.add_argument("-x", "--xml", action="store_true", help="The input is an XML file. We assume that each tag is on a separate line. Otherwise the format is the same as for regular files with respect to tag and sentence delimiters.")
+    parser.add_argument("CORPUS", type=argparse.FileType("r", encoding="utf-8"), help="""Tagged input corpus (UTF-8-encoded). Path to a file or "-" for STDIN.""")
+    return parser.parse_args()
+
+
+def _process(asptagger, sentence):
+    for i, (word, tag) in enumerate(sentence):
+        if asptagger.email.search(word):
+            sentence[i][1] = "EML"
+        elif asptagger.xmltag.search(word):
+            sentence[i][1] = "XY"
+        elif asptagger.url.search(word):
+            sentence[i][1] = "URL"
+        elif asptagger.hashtag.search(word):
+            sentence[i][1] = "HST"
+        elif asptagger.emoticon.search(word):
+            sentence[i][1] = "EMOASC"
+        elif asptagger.emoji.search(word):
+            sentence[i][1] = "EMOIMG"
+        elif dollar_paren.search(word):
+            sentence[i][1] = "$("
+    return sentence
+
+
+def process_xml(fh, asptagger):
+    for words, length, lines, word_indexes in utils.iter_xml(fh, tagged=False):
+        sentence = [w.split("\t", 2) for w in words]
+        sentence = _process(asptagger, sentence)
+        print("\n".join(utils.add_pos_to_xml(sentence, lines, word_indexes)))
+        print()
+
+
+def process_tsv(fh, asptagger):
+    """"""
+    for words, tags, length in utils.iter_corpus(fh, tagged=True):
+        sentence = [[w, t]  for w, t in zip(words, tags)]
+        sentence = _process(asptagger, sentence)
+        print("\n".join(["\t".join(t) for t in sentence]))
+        print()
+
+
+def main():
+    args = arguments()
+    asptagger = ASPTagger()
+    if args.xml:
+        process_xml(args.CORPUS, asptagger)
+    else:
+        process_tsv(args.CORPUS, asptagger)
+
+
+if __name__ == "__main__":
+    main()
