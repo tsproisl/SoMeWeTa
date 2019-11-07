@@ -41,7 +41,10 @@ def process_xml(fh, asptagger):
     for words, length, lines, word_indexes in utils.iter_xml(fh, tagged=False):
         sentence = [w.split("\t", 2) for w in words]
         sentence = _process(asptagger, sentence)
-        print("\n".join(utils.add_pos_to_xml(sentence, lines, word_indexes)))
+        _, tags = zip(*sentence)
+        for idx, tag in zip(word_indexes, tags):
+            lines[idx] = "%s\t%s" % (lines[idx].split("\t", 2)[0], tag)
+        print("\n".join(lines))
         print()
 
 
