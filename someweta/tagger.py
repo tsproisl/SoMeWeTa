@@ -60,7 +60,7 @@ class ASPTagger(AveragedStructuredPerceptron):
         reddit_emoticons = set(["Ä", "Ö", "Ü"])
         emoticon_set.update(reddit_emoticons)
         emoticon_list = sorted(emoticon_set, key=len, reverse=True)
-        self.emoticon = re.compile(r"""^(?:(?:[:;]|(?<!\d)8)           # a variety of eyes, alt.: [:;8]
+        self.emoticon = re.compile(r"""^(?:(?:(?:[:;]|(?<!\d)8)           # a variety of eyes, alt.: [:;8]
                                     [-'oO]?                       # optional nose or tear
                                     (?: \)+ | \(+ | [*] | ([DPp])\1*(?!\w)))   # a variety of mouths
                                     """ +
@@ -72,7 +72,7 @@ class ASPTagger(AveragedStructuredPerceptron):
                                    r"\^3"
                                    r"|" +
                                    r"|".join([re.escape(_) for _ in emoticon_list]) +
-                                   r"$", re.VERBOSE)
+                                   r")$", re.VERBOSE)
         # Unicode emoticons and other symbols
         self.unicode_flags = re.compile(r"^\p{Regional_Indicator}{2}$")
         # self.emoji = re.compile(r"^[\u2600-\u27BF\uFE0E\uFE0F\U0001F300-\U0001f64f\U0001F680-\U0001F6FF\U0001F900-\U0001F9FF]$")
