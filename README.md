@@ -190,45 +190,46 @@ To incorporate the tagger into your own Python project, you have to
 import `someweta.ASPTagger`, create an `ASPTagger` object, load a
 pretrained model and call the `tag_sentence` method:
 
-    from someweta import ASPTagger
-	
-    model = "german_web_social_media_2018-12-21.model"
-    sentences = [["Ein", "Satz", "ist", "eine", "Liste", "von", "Tokens", "."],
-                 ["Zeitfliegen", "mögen", "einen", "Pfeil", "."]]
-    
-    asptagger = ASPTagger()
-    asptagger.load(model)
-    
-    for sentence in sentences:
-        tagged_sentence = asptagger.tag_sentence(sentence)
-        print("\n".join(["\t".join(t) for t in tagged_sentence]), "\n", sep="")
+```python
+from someweta import ASPTagger
 
+model = "german_web_social_media_2018-12-21.model"
+sentences = [["Ein", "Satz", "ist", "eine", "Liste", "von", "Tokens", "."],
+             ["Zeitfliegen", "mögen", "einen", "Pfeil", "."]]
+
+asptagger = ASPTagger()
+asptagger.load(model)
+
+for sentence in sentences:
+    tagged_sentence = asptagger.tag_sentence(sentence)
+    print("\n".join(["\t".join(t) for t in tagged_sentence]), "\n", sep="")
+```
 
 Here is an example for using SoMaJo and SoMeWeTa in combination,
 performing tokenization, sentence splitting and part-of-speech
 tagging:
 
+```python
+import somajo
+import someweta
 
-    import somajo
-    import someweta
-    
-    filename = "test.txt"
-    model = "german_web_social_media_2018-12-21.model"
-    
-    asptagger = someweta.ASPTagger()
-    asptagger.load(model)
-    
-    # See https://github.com/tsproisl/SoMaJo#using-the-module
-    tokenizer = somajo.Tokenizer(split_camel_case=False, token_classes=False, extra_info=False)
-    sentence_splitter = somajo.SentenceSplitter(is_tuple=False)
-    
-    tokenized_paragraphs = tokenizer.tokenize_file(filename)
-    for paragraph in tokenized_paragraphs:
-        sentences = sentence_splitter.split(paragraph)
-        for sentence in sentences:
-            tagged_sentence = asptagger.tag_sentence(sentence)
-            print("\n".join("\t".join(t) for t in tagged_sentence), "\n", sep="")
+filename = "test.txt"
+model = "german_web_social_media_2018-12-21.model"
 
+asptagger = someweta.ASPTagger()
+asptagger.load(model)
+
+# See https://github.com/tsproisl/SoMaJo#using-the-module
+tokenizer = somajo.Tokenizer(split_camel_case=False, token_classes=False, extra_info=False)
+sentence_splitter = somajo.SentenceSplitter(is_tuple=False)
+
+tokenized_paragraphs = tokenizer.tokenize_file(filename)
+for paragraph in tokenized_paragraphs:
+    sentences = sentence_splitter.split(paragraph)
+    for sentence in sentences:
+        tagged_sentence = asptagger.tag_sentence(sentence)
+        print("\n".join("\t".join(t) for t in tagged_sentence), "\n", sep="")
+```
 
 ## Model files ##
 
@@ -358,14 +359,16 @@ individual resources that were used in the creation of the model.
     Evaluation (LREC 2018). Miyazaki: European Language Resources
     Association (ELRA), 665–670.
     [PDF](http://www.lrec-conf.org/proceedings/lrec2018/pdf/49.pdf).
-    
-        @InProceedings{Proisl_LREC:2018,
-          author    = {Proisl, Thomas},
-          title     = {{SoMeWeTa}: {A} Part-of-Speech Tagger for {G}erman Social Media and Web Texts},
-          booktitle = {Proceedings of the Eleventh International Conference on Language Resources and Evaluation ({LREC} 2018)},
-          year      = {2018},
-          address   = {Miyazaki},
-          publisher = {European Language Resources Association {ELRA}},
-          pages     = {665--670},
-          url       = {http://www.lrec-conf.org/proceedings/lrec2018/pdf/49.pdf},
-        }
+
+	```bibtex
+    @InProceedings{Proisl_LREC:2018,
+      author    = {Proisl, Thomas},
+      title     = {{SoMeWeTa}: {A} Part-of-Speech Tagger for {G}erman Social Media and Web Texts},
+      booktitle = {Proceedings of the Eleventh International Conference on Language Resources and Evaluation ({LREC} 2018)},
+      year      = {2018},
+      address   = {Miyazaki},
+      publisher = {European Language Resources Association {ELRA}},
+      pages     = {665--670},
+      url       = {http://www.lrec-conf.org/proceedings/lrec2018/pdf/49.pdf},
+    }
+	```
