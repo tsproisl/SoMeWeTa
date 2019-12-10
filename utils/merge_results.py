@@ -28,6 +28,7 @@ for lines in aligned_lines:
         stdev_oov = statistics.stdev(oov)
         # print("| %.2f ±%.2f | %.2f ±%.2f | %.2f ±%.2f |" % (avg_acc, 2 * stdev_acc, avg_iv, 2 * stdev_iv, avg_oov, 2 * stdev_oov))
         print("& %.2f ±%.2f & %.2f ±%.2f & %.2f ±%.2f" % (avg_acc, 2 * stdev_acc, avg_iv, 2 * stdev_iv, avg_oov, 2 * stdev_oov))
+        # print("& %.2f ±%.2f & %.2f ±%.2f & %.2f ±%.2f" % (avg_acc, 2.05 * stdev_acc, avg_iv, 2.05 * stdev_iv, avg_oov, 2.05 * stdev_oov))
     else:
         print(lines[0].rstrip())
 
