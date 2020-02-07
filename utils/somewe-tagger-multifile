@@ -30,7 +30,7 @@ def arguments():
 
 
 def tag_xml_file(asptagger, filename, output_prefix, output_suffix):
-    outname = output_prefix + filename + output_suffix
+    outname = output_prefix + os.path.basename(filename) + output_suffix
     corpus_size = 0
     with open(filename, encoding="utf-8") as fh, open(outname, mode="w", encoding="utf-8") as out:
         for words, length, lines, word_indexes in utils.iter_xml(fh, tagged=False):
@@ -42,7 +42,7 @@ def tag_xml_file(asptagger, filename, output_prefix, output_suffix):
 
 
 def tag_file(asptagger, filename, output_prefix, output_suffix):
-    outname = output_prefix + filename + output_suffix
+    outname = output_prefix + os.path.basename(filename) + output_suffix
     corpus_size = 0
     with open(filename, encoding="utf-8") as fh, open(outname, mode="w", encoding="utf-8") as out:
         for words, length in utils.iter_corpus(fh, tagged=False):
@@ -65,6 +65,7 @@ def main():
     corpus_size = 0
     t0 = time.perf_counter()
     for filename in args.TEXTS:
+        logging.info("Tagging %s" % filename)
         if args.xml:
             corpus_size += tag_xml_file(asptagger, filename, args.output_prefix, args.output_suffix)
         else:
