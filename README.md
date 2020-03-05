@@ -1,5 +1,7 @@
 # SoMeWeTa #
 
+[![PyPI](https://img.shields.io/pypi/v/SoMeWeTa)](https://pypi.org/project/SoMeWeTa/)
+
   * [Introduction](#introduction)
   * [Installation](#installation)
   * [Usage](#usage)
