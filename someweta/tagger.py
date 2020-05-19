@@ -39,7 +39,7 @@ class ASPTagger(AveragedStructuredPerceptron):
         self.mention = re.compile(r"^@\w+$")
         self.hashtag = re.compile(r"^#\w+$")
         self.action_word = re.compile(r"^[*+][^*]+[*]$")
-        self.punctuation = re.compile(r'^[](){}.!?…<>%‰€$£₤¥°@~*„“”‚‘"\'`´»«›‹,;:/*+=&%§~#^−–-]+$')
+        self.punctuation = re.compile(r'^[][(){},;:.!?…„“”‚‘’"\'`´»«›‹/−–-]+$')
         self.ordinal = re.compile(r"^(?:\d+\.)+$")
         self.number = re.compile(r"""(?<!\w)
                                 (?:[−+-]?              # optional sign

@@ -7,7 +7,7 @@ import regex as re
 from someweta import ASPTagger, utils
 
 
-dollar_paren = re.compile(r"^[:„“”‚‘’»«›‹*]$")
+dollar_paren = re.compile(r"^[][(){},…„“”‚‘’\"'`´»«›‹/−–-]$")
 
 
 def arguments():
