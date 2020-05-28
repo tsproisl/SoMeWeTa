@@ -559,3 +559,116 @@ Tee	NN
 fertig	ADJD
 .	$.
 
+ich	PPER
+will	VMFIN
+Frühling	NN
+Ä	EMOASC
+
+Ä	EMOASC
+
+Es	PPER
+geht	VVFIN
+nicht	PTKNEG
+um	APPR
+die	ART
+Größe	NN
+,	$,
+sondern	KON
+was	PWS
+man	PIS
+damit	PAV
+anstellt	VVFIN
+Ä	EMOASC
+
+A	NN
+/	$(
+Ä	NN
+in	APPR
+Elsass	NE
+/	$(
+Elsässer	NE
+ist	VAFIN
+kurz	ADJD
+,	$,
+ergo	ADV
+ss	NE
+,	$,
+nicht	PTKNEG
+ß	NN
+.	$.
+
+Überraschung	NN
+schreibt	VVFIN
+man	PPER
+mit	APPR
+Ü	NN
+!	$.
+
+Ü	EMOASC
+
+Muss	VMFIN
+ein	ART
+MEGA	ADJA
+Gefühl	NN
+sein	VAINF
+Ü	EMOASC
+
+Werden	VAFIN
+wir	PPER
+Ü	EMOASC
+
+Ö	EMOASC
+
+Habe	VAFIN
+eine	ART
+Träne	NN
+für	APPR
+den	ART
+Dummy	NN
+verdrückt	VVFIN
+Ö	EMOASC
+
+Vielleicht	ADV
+ist	VAFIN
+es	PPER
+in	APPR
+Ö	NE
+anders	ADV
+.	$.
+
+Es	PPER
+hat	VAFIN
+/r/all	URL
+nicht	PTKNEG
+getoppt	VVPP
+.	$.
+
+Die	ART
+Vorschläge	NN
+von	APPR
+/u/DerUserX	URL
+wurden	VAFIN
+integriert	VVPP
+.	$.
+
+/l/datensindhaesslich	URL
+
+Tritt	VVIMP
+über	PTKVZ
+zur	APPRART
+l/DatenSindWunderscön	URL
+Herrenrasse	NN
+!	$.
+
+Leute	NN
+die	PRELS
+in	APPR
+r/tinder	URL
+unterwegs	ADV
+sind	VAFIN
+wird	VAFIN
+das	PDS
+nicht	PTKNEG
+wundern	VVINF
+.	$.
+
