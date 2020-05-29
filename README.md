@@ -238,7 +238,7 @@ for paragraph in tokenized_paragraphs:
 | Model                                      | tagset       | est. accuracy |
 |--------------------------------------------|--------------|---------------|
 | [German newspaper](#german_newspaper)      | STTS (TIGER) |        98.02% |
-| [German web and social media](#german_wsm) | STTS\_IBK    |        91.41% |
+| [German web and social media](#german_wsm) | STTS\_IBK    |        92.18% |
 | [English newspaper](#english_newspaper)    | Penn         |        97.25% |
 | [French newspaper](#french_newspaper)      | FTB-29       |        97.71% |
 
@@ -247,18 +247,20 @@ for paragraph in tokenized_paragraphs:
 
 This model has been trained on the entire [TIGER
 corpus](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/tiger.html)
-and uses Brown clusters extracted from
-[DECOW14](http://corporafromtheweb.org/decow14/) and coarse
-wordclasses [extracted](http://www.danielnaber.de/morphologie/) from
+and uses Brown clusters (extracted from
+[DECOW16AX](http://corporafromtheweb.org/decow16/),
+[GeRedE](https://github.com/fau-klue/german-reddit-korpus) and a
+collection of German tweets) and coarse wordclasses
+[extracted](http://www.danielnaber.de/morphologie/) from
 [Morphy](http://morphy.wolfganglezius.de/) as additional information.
 
 To estimate the accuracy of this model, we performed a 10-fold
 cross-validation on the TIGER corpus with the same settings, resulting
-in a 95% confidence interval of 98.02% ±0.11.
+in a 95% confidence interval of 98.02% ±0.12.
 
 [Download
-model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_2018-12-21.model)
-(114 MB) – Note that the model is provided for research purposes only.
+model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_2020-05-28.model)
+(111 MB) – Note that the model is provided for research purposes only.
 For further information, please refer to the licenses of the
 individual resources that were used in the creation of the model.
 
@@ -266,28 +268,25 @@ individual resources that were used in the creation of the model.
 ### German web and social media texts <a id="german_wsm"> ###
 
 This model uses a [variant of the above
-model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_for_empirist_2018-12-21.model)
-as prior and is trained on the entire [data from the EmpiriST 2015
-shared task](https://sites.google.com/site/empirist2015/home/gold),
-i.e. both the training and the test data, as well as a little bit of
-additional training data (cf. the data directory of this repository).
-It uses the same additional sources of information as the prior model.
+model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_for_empirist_2020-05-28.model)
+as prior and is trained on the entire [EmpiriST 2.0
+corpus](https://github.com/fau-klue/empirist-corpus), i.e. both the
+training and the test data, as well as a little bit of additional
+training data (cf. the data directory of this repository). It uses the
+same additional sources of information as the prior model.
 
 A variant of this model that only uses the training part of the
-EmpiriST 2015 data achieves a mean accuracy of 91.41% on the two test
+EmpiriST corpus achieves a mean accuracy of 92.18% on the two test
 sets:
 
 | Corpus | all words   | known words | unknown words |
 |--------|-------------|-------------|---------------|
-| CMC    | 89.06 ±0.36 | 90.96 ±0.31 | 77.19 ±1.33   |
-| Web    | 93.75 ±0.21 | 95.34 ±0.23 | 83.26 ±0.78   |
-
-As of December 2017, those figures represent the state of the art on
-the EmpiriST data.
+| CMC    | 90.39 ±0.30 | 92.42 ±0.29 | 77.57 ±1.40   |
+| Web    | 93.96 ±0.16 | 95.56 ±0.17 | 83.40 ±0.69   |
 
 [Download
-model](http://corpora.linguistik.uni-erlangen.de/someweta/german_web_social_media_2018-12-21.model)
-(115 MB) – Note that the model is provided for research purposes only.
+model](http://corpora.linguistik.uni-erlangen.de/someweta/german_web_social_media_2020-05-28.model)
+(112 MB) – Note that the model is provided for research purposes only.
 For further information, please refer to the licenses of the
 individual resources that were used in the creation of the model.
 
