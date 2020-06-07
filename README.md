@@ -222,15 +222,12 @@ asptagger = someweta.ASPTagger()
 asptagger.load(model)
 
 # See https://github.com/tsproisl/SoMaJo#using-the-module
-tokenizer = somajo.Tokenizer(split_camel_case=False, token_classes=False, extra_info=False)
-sentence_splitter = somajo.SentenceSplitter(is_tuple=False)
-
-tokenized_paragraphs = tokenizer.tokenize_file(filename)
-for paragraph in tokenized_paragraphs:
-    sentences = sentence_splitter.split(paragraph)
-    for sentence in sentences:
-        tagged_sentence = asptagger.tag_sentence(sentence)
-        print("\n".join("\t".join(t) for t in tagged_sentence), "\n", sep="")
+tokenizer = somajo.SoMaJo("de_CMC", split_camel_case=False)
+sentences = tokenizer.tokenize_text_file(filename, paragraph_separator="empty_lines")
+for sentence in sentences:
+    tokens = [token.text for token in sentence]
+    tagged_sentence = asptagger.tag_sentence(tokens)
+    print("\n".join("\t".join(t) for t in tagged_sentence), "\n", sep="")
 ```
 
 ## Model files ##
