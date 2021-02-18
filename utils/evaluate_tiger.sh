@@ -14,5 +14,5 @@ time ../bin/somewe-tagger --train tiger+empirist.$RUN.model \
                           --lexicon /data/Thomas/morphy_medium+contractions.txt \
                           <(cat ../data/ignore/empirist_train.txt \
                                 ../data/additional_training_german_web_social_media.txt)
-../bin/somewe-tagger --evaluate tiger+empirist.$RUN.model ../data/ignore/test_cmc_emo.txt >> tiger_results.$RUN.txt
-../bin/somewe-tagger --evaluate tiger+empirist.$RUN.model ../data/ignore/test_web.txt >> tiger_results.$RUN.txt
+../bin/somewe-tagger --evaluate tiger+empirist.$RUN.model ../data/ignore/empirist_test_cmc.txt >> tiger_results.$RUN.txt
+../bin/somewe-tagger --evaluate tiger+empirist.$RUN.model ../data/ignore/empirist_test_web.txt >> tiger_results.$RUN.txt
