@@ -9,6 +9,7 @@ accuracies = re.compile(r"^Accuracy: (?P<acc>\d\d.\d\d)%; IV: (?P<iv>\d\d.\d\d)%
 # files = [open("tigtueb_oov_results.%d.txt" % i) for i in range(10)]
 # files = [open("empirist+add+brown+morphy_results.%d.txt" % i) for i in range(10)]
 # files = [open("tiger_fixed_results.%d.txt" % i) for i in range(10)]
+# files = [open("german_web_social_media.%d.txt" % i) for i in range(20)]
 files = [open("tiger_results.%d.txt" % i) for i in range(10)]
 contents = [f.readlines() for f in files]
 aligned_lines = zip(*contents)
@@ -27,8 +28,10 @@ for lines in aligned_lines:
         avg_oov = statistics.mean(oov)
         stdev_oov = statistics.stdev(oov)
         # print("| %.2f ±%.2f | %.2f ±%.2f | %.2f ±%.2f |" % (avg_acc, 2 * stdev_acc, avg_iv, 2 * stdev_iv, avg_oov, 2 * stdev_oov))
-        print("& %.2f ±%.2f & %.2f ±%.2f & %.2f ±%.2f" % (avg_acc, 2 * stdev_acc, avg_iv, 2 * stdev_iv, avg_oov, 2 * stdev_oov))
-        # print("& %.2f ±%.2f & %.2f ±%.2f & %.2f ±%.2f" % (avg_acc, 2.05 * stdev_acc, avg_iv, 2.05 * stdev_iv, avg_oov, 2.05 * stdev_oov))
+        # 10:
+        print("& %.2f ±%.2f & %.2f ±%.2f & %.2f ±%.2f" % (avg_acc, 2.26 * stdev_acc, avg_iv, 2.26 * stdev_iv, avg_oov, 2.26 * stdev_oov))
+        # 20:
+        # print("& %.2f ±%.2f & %.2f ±%.2f & %.2f ±%.2f" % (avg_acc, 2.09 * stdev_acc, avg_iv, 2.09 * stdev_iv, avg_oov, 2.09 * stdev_oov))
     else:
         print(lines[0].rstrip())
 
