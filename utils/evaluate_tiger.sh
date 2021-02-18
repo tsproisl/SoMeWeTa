@@ -4,13 +4,13 @@ RUN=$1
 
 echo "tiger" > tiger_results.$RUN.txt
 time ../bin/somewe-tagger --train tiger.$RUN.model \
-                          --brown /data/Thomas/decow14_brown.txt \
+                          --brown /data/Thomas/decow16ax+gerede-v1+tweets_brown.txt \
                           --lexicon /data/Thomas/morphy_medium+contractions.txt \
                           <(cut -f2,5 /data/Thomas/tiger_2.2_pav_instead_of_proav.conll09 \
                                       ../data/tiger_additional_quotes.conll09)
 time ../bin/somewe-tagger --train tiger+empirist.$RUN.model \
                           --prior tiger.$RUN.model \
-                          --brown /data/Thomas/decow14_brown.txt \
+                          --brown /data/Thomas/decow16ax+gerede-v1+tweets_brown.txt \
                           --lexicon /data/Thomas/morphy_medium+contractions.txt \
                           <(cat ../data/ignore/empirist_train.txt \
                                 ../data/additional_training_german_web_social_media.txt)
