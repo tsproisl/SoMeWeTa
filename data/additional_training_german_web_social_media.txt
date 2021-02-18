@@ -672,3 +672,46 @@ nicht	PTKNEG
 wundern	VVINF
 .	$.
 
+Das	PDS
+macht	VVFIN
+abern	ADVART
+Unterschied	NN
+
+Das	PDS
+gabs	VVPPER
+vor	APPR
+kurzem	ADJA
+umn	ADVART
+Euro	NN
+.	$.
+
+Was	PWS
+hältste	VVPPER
+von	APPR
+sonem	ADVART
+Mist	NN
+?	$.
+
+Rauchmer	VVPPER
+eine	PWS
+,	$,
+bevors	KOUSPPER
+zu	PTKA
+spät	ADJD
+ist	VAFIN
+?	$.
+
+Kummt	VVFIN
+drauf	PAV
+an	PTKVZ
+obste	KOUSPPER
+die	ART
+Antwort	NN
+weißt	VVFIN
+.	$.
+
+Wo	PWAV
+fliegma	VVPPER
+denn	ADV
+hin	PTKVZ
+?	$.
