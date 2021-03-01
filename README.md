@@ -372,9 +372,9 @@ according to the [UD tokenization
 guidelines](https://universaldependencies.org/u/overview/tokenization.html).
 In particular, the model expects that contracted forms like *parlarmi*
 (*parlar* + *mi*) or *della* (*di* + *la*) are split into their
-constituents. A detailed description and analysis of the model A
-detailed description and analysis of the model is available in [Proisl
-and Lapesa (2020)](http://ceur-ws.org/Vol-2765/paper140.pdf).
+constituents. A detailed description and analysis of the model is
+available in [Proisl and Lapesa
+(2020)](http://ceur-ws.org/Vol-2765/paper140.pdf).
 
 A variant of this model that only uses the training part of the
 KIParla corpus achieves a mean accuracy of 91.79% on the two test
