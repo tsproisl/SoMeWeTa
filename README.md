@@ -445,8 +445,8 @@ individual resources that were used in the creation of the model.
       url       = {http://www.lrec-conf.org/proceedings/lrec2018/pdf/49.pdf},
     }
 	```
-  * If you use the model for **spoken Italien**, please consider also
-    citing the following paper:
+  * If you use the model for **spoken Italian**, please consider
+    citing also the following paper:
   
     Proisl, Thomas, and Gabriella Lapesa. 2020. “KLUMSy@KIPoS:
     Experiments on Part-of-Speech Tagging of Spoken Italian.” In
@@ -466,7 +466,7 @@ individual resources that were used in the creation of the model.
       url       = {http://ceur-ws.org/Vol-2765/paper140.pdf}
     }
     ```
-  * If you use the **Bhojpuri** model, please consider also citing the
+  * If you use the **Bhojpuri** model, please consider citing also the
     following paper:
   
     Proisl, Thomas, Peter Uhrig, Philipp Heinrich, Andreas Blombach,
