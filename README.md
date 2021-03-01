@@ -15,6 +15,8 @@
       * [German web and social media texts](#german_wsm)
       * [English newspaper texts](#english_newspaper)
       * [French newspaper texts](#french_newspaper)
+      * [Spoken Italian](#spoken_italian)
+      * [Bhojpuri](#bhojpuri)
   * [References](#references)
 
 
@@ -47,9 +49,10 @@ and social media texts:
     somajo-tokenizer --split_sentences <file> | somewe-tagger --tag <model> -
 
 In addition to the German web and social media model, we also provide
-models trained on German, English and French newspaper texts. For all
-three languages, SoMeWeTa achieves highly competitive results close to
-the current state of the art.
+models trained on German, English and French newspaper texts, as well
+as models for Bhojpuri and spoken Italian. For all languages, SoMeWeTa
+achieves highly competitive results close to the current state of the
+art.
 
 
 ## Installation ##
@@ -234,10 +237,12 @@ for sentence in sentences:
 
 | Model                                      | tagset       | est. accuracy |
 |--------------------------------------------|--------------|---------------|
-| [German newspaper](#german_newspaper)      | STTS (TIGER) |        98.02% |
-| [German web and social media](#german_wsm) | STTS\_IBK    |        92.18% |
-| [English newspaper](#english_newspaper)    | Penn         |        97.25% |
-| [French newspaper](#french_newspaper)      | FTB-29       |        97.71% |
+| [German newspaper](#german_newspaper)      | STTS (TIGER) | 98.02%        |
+| [German web and social media](#german_wsm) | STTS\_IBK    | 92.18%        |
+| [English newspaper](#english_newspaper)    | Penn         | 97.25%        |
+| [French newspaper](#french_newspaper)      | FTB-29       | 97.71%        |
+| [Spoken Italian](#spoken_italian)          | UD (KIPoS)   | 91.79%        |
+| [Bhojpuri](#bhojpuri)                      | BIS-33       | 92.58%        |
 
 
 ### German newspaper texts <a id="german_newspaper"/> ###
@@ -341,7 +346,6 @@ cross-validation on the French Treebank using the same settings:
 | 29 tags          | 97.71 ±0.13 |
 | 15 tags (mapped) | 98.22 ±0.11 |
 
-
 [Download
 model](http://corpora.linguistik.uni-erlangen.de/someweta/french_newspaper_2018-06-20.model)
 (28 MB) – Note that the model is provided for research purposes only.
@@ -349,13 +353,84 @@ For further information, please refer to the licenses of the
 individual resources that were used in the creation of the model.
 
 
+### Spoken Italian <a id="spoken_italian"> ###
+
+<!-- ten-fold crossvalidation on the whole dataset: 92.50% ±0.92 -->
+
+This model has been pretrained on the union of all Italian corpora in
+the [Universal Dependencies
+project](https://universaldependencies.org/) and then been adapted to
+spoken Italian using [annotated data from the KIParla
+corpus](https://github.com/boscoc/kipos2020). The model uses
+coarse-grained wordclass information from
+[Morph-it!](https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it)
+and Brown clusters extracted from a collection of Italian corpora
+([OpenSubtitles](http://opus.nlpl.eu/OpenSubtitles-v2018.php), Reddit
+posts, [PAISÀ](http://www.corpusitaliano.it/), Wikimedia dumps,
+[OSCAR](https://oscar-corpus.com/)). The input text must be tokenized
+according to the [UD tokenization
+guidelines](https://universaldependencies.org/u/overview/tokenization.html).
+In particular, the model expects that contracted forms like *parlarmi*
+(*parlar* + *mi*) or *della* (*di* + *la*) are split into their
+constituents. A detailed description and analysis of the model A
+detailed description and analysis of the model is available in [Proisl
+and Lapesa (2020)](http://ceur-ws.org/Vol-2765/paper140.pdf).
+
+A variant of this model that only uses the training part of the
+KIParla corpus achieves a mean accuracy of 91.79% on the two test
+sets:
+
+| Corpus   | all words | known words | unknown words |
+|----------|-----------|-------------|---------------|
+| formal   | 92.67     | 93.39       | 67.92         |
+| informal | 90.90     | 91.41       | 75.00         |
+
+[Download
+model](http://corpora.linguistik.uni-erlangen.de/someweta/spoken_italian_2021-02-26.model)
+(43 MB) – Note that the model is provided for research purposes only.
+For further information, please refer to the licenses of the
+individual resources that were used in the creation of the model.
+
+
+### Bhojpuri <a id="bhojpuri"> ###
+
+<!-- ten-fold crossvalidation on the whole dataset: 92.32% ±0.72 -->
+
+This model has been trained on ca. 105,000 tokens of annotated
+Bhojpuri text provided by the organizers of the [NSURL shared task for
+Bhojpuri](http://nsurl.org/2019-2/tasks/task-10-low-level-nlp-tools-for-bhojpuri-language/).
+Additionally, the model uses Brown clusters extracted from text
+collections of related languages (Hindi and Bihari Wikimedia dumps and
+a [Magahi corpus](https://github.com/kmi-linguistics/magahi)). The
+model uses a fine-grained variant of the Bureau of Indian Standards
+(BIS) annotation scheme with 33 tags. A more detailed description of
+the model can be found in [Proisl et al.
+(2019)](https://www.aclweb.org/anthology/2019.nsurl-1.11).
+
+A variant of this model that only uses the training part of the
+dataset achieves an accuracy of 92.58% on the test set:
+
+| All words | known words | unknown words |
+|-----------|-------------|---------------|
+| 92.58     | 94.57       | 75.09         |
+
+[Download
+model](http://corpora.linguistik.uni-erlangen.de/someweta/bhojpuri_2021-02-26.model)
+(3,7 MB) – Note that the model is provided for research purposes only.
+For further information, please refer to the licenses of the
+individual resources that were used in the creation of the model.
+
+
 ## References ##
 
-  * Proisl, Thomas (2018): “SoMeWeTa: A Part-of-Speech Tagger for
-    German Social Media and Web Texts.” In: Proceedings of the
+  * If you use **SoMeWeTa** for academic research, please consider
+    citing the following paper:
+  
+    Proisl, Thomas. 2018. “SoMeWeTa: A Part-of-Speech Tagger for
+    German Social Media and Web Texts.” In *Proceedings of the
     Eleventh International Conference on Language Resources and
-    Evaluation (LREC 2018). Miyazaki: European Language Resources
-    Association (ELRA), 665–670.
+    Evaluation (LREC 2018)*, 665–670. Miyazaki: European Language
+    Resources Association (ELRA).
     [PDF](http://www.lrec-conf.org/proceedings/lrec2018/pdf/49.pdf).
 
 	```bibtex
@@ -370,3 +445,48 @@ individual resources that were used in the creation of the model.
       url       = {http://www.lrec-conf.org/proceedings/lrec2018/pdf/49.pdf},
     }
 	```
+  * If you use the model for **spoken Italien**, please consider also
+    citing the following paper:
+  
+    Proisl, Thomas, and Gabriella Lapesa. 2020. “KLUMSy@KIPoS:
+    Experiments on Part-of-Speech Tagging of Spoken Italian.” In
+    *Proceedings of the 7th Evaluation Campaign of Natural Language
+    Processing and Speech Tools for Italian (EVALITA 2020)*.
+    CEUR-WS.org. [PDF](http://ceur-ws.org/Vol-2765/paper140.pdf).
+
+    ```bibtex
+    @InProceedings{Proisl_Lapesa_EVALITA:2020,
+      author    = {Proisl, Thomas and Lapesa, Gabriella},
+      title     = {{KLUMSy@KIPoS}: Experiments on Part-of-Speech Tagging of Spoken {I}talian},
+      booktitle = {Proceedings of the 7th Evaluation Campaign of Natural Language Processing and Speech Tools for {I}talian ({EVALITA} 2020)},
+      year      = {2020},
+      editor    = {Basile, Valerio and Croce, Danilo and Di Maro, Maria and Passaro, Lucia C.},
+      address   = {Online},
+      publisher = {CEUR-WS.org},
+      url       = {http://ceur-ws.org/Vol-2765/paper140.pdf}
+    }
+    ```
+  * If you use the **Bhojpuri** model, please consider also citing the
+    following paper:
+  
+    Proisl, Thomas, Peter Uhrig, Philipp Heinrich, Andreas Blombach,
+    Sefora Mammarella, Natalie Dykes, and Besim Kabashi. 2019.
+    “The_Illiterati: Part-of-Speech Tagging for Magahi and Bhojpuri
+    Without Even Knowing the Alphabet.” In *Proceedings of the First
+    International Workshop on NLP Solutions for Under Resourced
+    Languages (NSURL 2019)*, 73–79. Trento: Association for
+    Computational Linguistics.
+    [PDF](https://www.aclweb.org/anthology/2019.nsurl-1.11).
+
+    ```bibtex
+    @InProceedings{Proisl_et_al_NSURL:2019,
+      author    = {Proisl, Thomas and Uhrig, Peter and Heinrich, Philipp and Blombach, Andreas and Mammarella, Sefora and Dykes, Natalie and Kabashi, Besim},
+      title     = {{T}he\_{I}lliterati: Part-of-Speech Tagging for {M}agahi and {B}hojpuri without Even Knowing the Alphabet},
+      booktitle = {Proceedings of the First International Workshop on {NLP} Solutions for Under Resourced Languages ({NSURL} 2019)},
+      year      = {2019},
+      pages     = {73--79},
+      address   = {Trento},
+      publisher = {Association for Computational Linguistics},
+      url       = {https://www.aclweb.org/anthology/2019.nsurl-1.11}
+    }
+    ```

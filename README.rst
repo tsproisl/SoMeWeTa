@@ -18,8 +18,9 @@ talk pages, tweets, blog comments, social networks, SMS and WhatsApp
 dialogues.
 
 In addition, we also provide models trained on German, English and
-French newspaper texts. For all three languages, SoMeWeTa achieves
-highly competitive results close to the current state of the art.
+French newspaper texts, as well as models for Bhojpuri and spoken
+Italian. For all languages, SoMeWeTa achieves highly competitive
+results close to the current state of the art.
 
 More detailed documentation is available `here
 <https://github.com/tsproisl/SoMeWeTa>`_.
