@@ -56,7 +56,7 @@ class ASPTagger(AveragedStructuredPerceptron):
                             ">:", "\\:", "]:", "x(", "^^", "o.O",
                             "\\O/", "\\m/", ":;))", "_))", "*_*",
                             "._.", ">_<", "*<:-)", ":!:", ":;-))",
-                            "x'D", ":^)"])
+                            "x'D", ":^)", "<3"])
         reddit_emoticons = set(["Ä", "Ö", "Ü"])
         emoticon_set.update(reddit_emoticons)
         # From https://textfac.es/
