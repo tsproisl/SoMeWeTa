@@ -41,7 +41,7 @@ class ASPTagger(AveragedStructuredPerceptron):
         self.action_word = re.compile(r"^[*+][^*]+[*]$")
         self.punctuation = re.compile(r'^[][(){},;:.!?…„“”‚‘’"\'`´»«›‹/−–-]+$')
         self.ordinal = re.compile(r"^(?:\d+\.)+$")
-        self.number = re.compile(r"""(?<!\w)
+        self.number = re.compile(r"""^
                                 (?:[−+-]?              # optional sign
                                   \d*                  # optional digits before decimal point
                                   [.,]?                # optional decimal point
@@ -49,7 +49,7 @@ class ASPTagger(AveragedStructuredPerceptron):
                                   (?:[eE][−+-]?\d+)?   # optional exponent
                                   |
                                   \d+[\d.,]*\d+)
-                                (?![.,]?\d)""", re.VERBOSE)
+                                $""", re.VERBOSE)
         emoticon_set = set(["(-.-)", "(T_T)", "(♥_♥)", ")':", ")-:",
                             "(-:", ")=", ")o:", ")x", ":'C", ":/",
                             ":<", ":C", ":[", "=(", "=)", "=D", "=P",
