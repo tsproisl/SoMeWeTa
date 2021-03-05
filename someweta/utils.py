@@ -192,7 +192,10 @@ def iter_xml(xml, tagged=True):
 
 def add_pos_to_xml(tagged_sentence, lines, word_indexes):
     """Add part-of-speech tags to original lines of XML file."""
-    words, tags = zip(*tagged_sentence)
+    if len(word_indexes) > 0:
+        words, tags = zip(*tagged_sentence)
+    else:
+        tags = []
     for idx, tag in zip(word_indexes, tags):
         lines[idx] += "\t%s" % tag
     return lines
