@@ -1,5 +1,11 @@
 # CHANGELOG #
 
+## Version 1.7.2, 2021-03-05 ##
+
+- Bugfix: Do not choke on chunks of XML that do not contain actual
+  word tokens (usually at the end of a file).
+- Updated regular expressions for emojis, emoticons, numbers and URLs.
+
 ## Version 1.7.1, 2019-11-07 ##
 
 - Fixed an XML-related bug in STTS_IBK_postprocessor
