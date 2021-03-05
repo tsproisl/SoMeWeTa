@@ -99,7 +99,7 @@ class ASPTagger(AveragedStructuredPerceptron):
         # Unicode emoticons and other symbols
         self.unicode_flags = re.compile(r"^\p{Regional_Indicator}{2}$")
         # self.emoji = re.compile(r"^[\u2600-\u27BF\uFE0E\uFE0F\U0001F300-\U0001f64f\U0001F680-\U0001F6FF\U0001F900-\U0001F9FF]$")
-        self.emoji = re.compile(r"[\p{Extended_Pictographic}\p{Emoji_Presentation}\uFE0F]")
+        self.emoji = re.compile(r"[\p{Extended_Pictographic}\p{Emoji_Presentation}\uFE0F\u2600-\u27BF]")
 
     def train(self, words, tags, lengths):
         """"""
