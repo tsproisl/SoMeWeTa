@@ -32,7 +32,7 @@ class ASPTagger(AveragedStructuredPerceptron):
         self.url = re.compile(r"^" +
                               r"(?:(?:(?:https?|ftp|svn)://|(?:https?://)?www\.).+)" +  # anything that starts with http, https, ftp, svn or www
                               r"|" +
-                              r"(?:[\w./-]+\.(?:de|com|org|net|edu|info|gov|jpg|png|gif|log|txt|xlsx?|docx?|pptx?|pdf)(?:-\w+)?)" +  # anything with those TLDs or file extensions
+                              r"(?:[\w./-]+\.(?:de|at|ch|com|org|net|edu|info|gov|jpg|png|gif|log|txt|xlsx?|docx?|pptx?|pdf)(?:-\w+)?)" +  # anything with those TLDs or file extensions
                               r"|" +
                               r"(?:/?[rlu](?:/\w+)+/?)" +  # a Reddit link
                               r"$", re.IGNORECASE)
