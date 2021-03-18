@@ -106,23 +106,13 @@ def process_input_queue(func, input_queue, output_queue, sentinel, xml=False):
     output_queue.put(sentinel)
 
 
-def parallel_tagging(args, asptagger, progress=None, xml=False):
+def parallel_tagging(corpus, asptagger, parallel, xml=False):
     """"""
-    def output_result(data, xml, progress):
-        if xml:
-            i, result, lines, word_indexes = data
-            print("\n".join(utils.add_pos_to_xml(result, lines, word_indexes)), "\n", sep="")
-        else:
-            i, result = data
-            print("\n".join(["\t".join(t) for t in result]), "\n", sep="")
-        if progress is not None:
-            progress.update(len(result))
-
     sentinel = Sentinel()
-    processes = min(args.parallel, multiprocessing.cpu_count())
+    processes = min(parallel, multiprocessing.cpu_count())
     input_queue = multiprocessing.Queue(maxsize=processes * 100)
     output_queue = multiprocessing.Queue(maxsize=processes * 100)
-    producer = threading.Thread(target=fill_input_queue, args=(input_queue, args.CORPUS, processes, sentinel, xml))
+    producer = threading.Thread(target=fill_input_queue, args=(input_queue, corpus, processes, sentinel, xml))
     with multiprocessing.Pool(processes=processes, initializer=process_input_queue, initargs=(asptagger.tag_sentence, input_queue, output_queue, sentinel, xml)):
         producer.start()
         observed_sentinels = 0
@@ -137,18 +127,26 @@ def parallel_tagging(args, asptagger, progress=None, xml=False):
                 else:
                     continue
             i = data[0]
-            if i == current:
-                output_result(data, xml, progress)
-                current += 1
-            else:
-                cached_results[i] = data
+            cached_results[i] = data[1:]
             while current in cached_results:
-                output_result(cached_results[current], xml, progress)
+                yield cached_results[current]
                 del cached_results[current]
                 current += 1
         corpus_size = input_queue.get()
         producer.join()
-        return corpus_size
+        # return corpus_size
+
+
+def single_core_tagging(corpus, asptagger, xml=False):
+    """"""
+    if xml:
+        for words, length, lines, word_indexes in utils.iter_xml(corpus, tagged=False):
+            sentence = asptagger.tag_sentence(words)
+            yield sentence, lines, word_indexes
+    else:
+        for words, length in utils.iter_corpus(corpus, tagged=False):
+            sentence = asptagger.tag_sentence(words)
+            yield (sentence,)
 
 
 def get_number_of_tokens(queue, corpus, xml):
@@ -212,28 +210,22 @@ def main():
             p.join()
             prog = utils.Progress(length=n, rate=1000)
         t0 = time.perf_counter()
-        if args.xml:
-            if args.parallel > 1:
-                corpus_size = parallel_tagging(args, asptagger, prog, xml=True)
-            else:
-                corpus_size = 0
-                for words, length, lines, word_indexes in utils.iter_xml(args.CORPUS, tagged=False):
-                    corpus_size += length
-                    sentence = asptagger.tag_sentence(words)
-                    print("\n".join(utils.add_pos_to_xml(sentence, lines, word_indexes)), "\n", sep="")
-                    if args.progress:
-                        prog.update(length)
+        corpus_size = 0
+        if args.parallel > 1:
+            tagged = parallel_tagging(args.CORPUS, asptagger, args.parallel, xml=args.xml)
         else:
-            if args.parallel > 1:
-                corpus_size = parallel_tagging(args, asptagger, prog)
+            tagged = single_core_tagging(args.CORPUS, asptagger, xml=args.xml)
+        for output in tagged:
+            if args.xml:
+                sentence, lines, word_indexes = output
+                print("\n".join(utils.add_pos_to_xml(sentence, lines, word_indexes)), "\n", sep="")
             else:
-                corpus_size = 0
-                for words, length in utils.iter_corpus(args.CORPUS, tagged=False):
-                    corpus_size += length
-                    sentence = asptagger.tag_sentence(words)
-                    print("\n".join(["\t".join(t) for t in sentence]), "\n", sep="")
-                    if args.progress:
-                        prog.update(length)
+                sentence, = output
+                print("\n".join(["\t".join(t) for t in sentence]), "\n", sep="")
+            length = len(sentence)
+            corpus_size += length
+            if args.progress:
+                prog.update(length)
         if args.progress:
             prog.finalize()
         t1 = time.perf_counter()
