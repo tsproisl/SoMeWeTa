@@ -6,6 +6,7 @@ import gzip
 import html
 import json
 import math
+import sys
 
 import numpy as np
 import regex as re
@@ -249,6 +250,56 @@ class ASPTagger(AveragedStructuredPerceptron):
 
     def load(self, filename):
         """"""
+        # Try an optimised ijson-based loading algorithm if we're on a python
+        # where dict iteration order is guaranteed (3.7+ any interpreter, or
+        # 3.6+ cpython specifically)
+        if sys.version_info >= (3, 7) or (sys.version_info >= (3, 6, 0, 'final') and sys.implementation.name == 'cpython'):
+            try:
+                import ijson
+                with gzip.open(filename, 'rb') as f:
+                    parser = ijson.parse(f)
+                    (prefix, event, value) = next(parser)
+                    assert event == 'start_array'
+                    # vocabulary - need to load JSON array into a Python set
+                    (prefix, event, value) = next(parser)
+                    assert event == 'start_array'
+                    self.vocabulary = set()
+                    (prefix, event, value) = next(parser)
+                    while event == 'string':
+                        self.vocabulary.add(value)
+                        (prefix, event, value) = next(parser)
+
+                    # the simple parts where we don't need to change the default type
+                    item_iter = ijson.items(parser, 'item')
+                    self.lexicon = next(item_iter)
+                    self.brown_clusters = next(item_iter)
+                    self.word_to_vec = next(item_iter)
+                    self.target_mapping = next(item_iter)
+                    self.target_size = next(item_iter)
+
+                    # features and weights - first load the list of features (the
+                    # keys), then apply the parallel list of weights
+                    self.weights = {}
+                    (prefix, event, value) = next(parser)
+                    assert event == 'start_array'
+                    (prefix, event, value) = next(parser)
+                    while event == 'string':
+                        self.weights[value] = 0
+                        (prefix, event, value) = next(parser)
+
+                    # now actual weights are in the same order as keys
+                    (prefix, event, value) = next(parser)
+                    assert event == 'start_array'
+                    for k in self.weights:
+                        (prefix, event, value) = next(parser)
+                        assert event == 'string'
+                        self.weights[k] = np.frombuffer(base64.b85decode(value), np.float64).copy()
+                    return
+
+            except ImportError:
+                pass
+
+        # older Python, or ijson not available - fall back to standard json parser
         with gzip.open(filename, 'rb') as f:
             model = json.loads(f.read().decode())
             vocabulary, self.lexicon, self.brown_clusters, self.word_to_vec, self.target_mapping, self.target_size, features, weights = model
