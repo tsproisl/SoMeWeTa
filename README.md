@@ -72,6 +72,17 @@ In the new directory, run the following command:
     python3 setup.py install
 
 
+### Optional dependency
+
+If your Python version has insertion ordered dictionaries (for CPython
+this means version 3.6 and later, for any other Python implementation
+this means 3.7 and later), you can drastically reduce the amount of
+memory needed for loading a tagger model by installing the
+[ijson](https://pypi.org/project/ijson/) library:
+
+    pip3 install ijson
+
+
 ## Usage ##
 
 You can use the tagger as a standalone program from the command line.
