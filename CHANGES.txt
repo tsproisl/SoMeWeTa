@@ -1,5 +1,12 @@
 # CHANGELOG #
 
+## Version 1.7.3, 2021-03-18 ##
+
+- Use less memory when loading a model if the ijson library is present
+  and the Python version is at least 3.7 (at least 3.6 for CPython)
+  (issue #9).
+- Restructured code for parallel tagging (issue #8).
+
 ## Version 1.7.2, 2021-03-05 ##
 
 - Bugfix: Do not choke on chunks of XML that do not contain actual
