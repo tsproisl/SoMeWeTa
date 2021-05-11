@@ -186,7 +186,7 @@ von	APPR
 der	ART
 Polizei	NN
 
-Läuft	VFIN
+Läuft	VVFIN
 super	ADJD
 bei	APPR
 der	ART
