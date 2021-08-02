@@ -63,7 +63,8 @@ def get_sentences(fh, tagged=True, warn_threshold=500):
     """A generator over the sentence in `filename`."""
     sentence_counter = 1
     sentence = []
-    for line in fh:
+    sentence_start = 1
+    for i, line in enumerate(fh, start=1):
         line = line.strip()
         if line == "":
             if tagged:
@@ -73,13 +74,14 @@ def get_sentences(fh, tagged=True, warn_threshold=500):
                 yield sentence
             sentence = []
             sentence_counter += 1
+            sentence_start = i + 1
         else:
             if tagged:
                 sentence.append(line.split("\t", 2))
             else:
                 sentence.append(line)
             if len(sentence) == warn_threshold:
-                logging.warn("Sentence %d is extremely long (≥ %d words) – Are you sure that the input sentences are delimited by an empty line?" % (sentence_counter, warn_threshold))
+                logging.warn(f"Sentence {sentence_counter} (line {sentence_start}) is extremely long (≥ {warn_threshold}) – Are you sure that the input sentences are delimited by an empty line?")
     if len(sentence) > 0:
         if tagged:
             words, tags = zip(*sentence)
