@@ -34,13 +34,14 @@ def arguments():
     parser.add_argument("--w2v", type=argparse.FileType("r"), help="Word2Vec vectors; optional and only for training or cross-validation")
     parser.add_argument("--lexicon", type=os.path.abspath, help="Additional full-form lexicon; optional and only for training or cross-validation")
     parser.add_argument("--mapping", type=os.path.abspath, help="Additional mapping to coarser tagset; optional and only for tagging, evaluating or cross-validation")
-    parser.add_argument("--ignore-tag", help="Ignore this tag (useful for partial annotation); optional and only for training, evaluating or cross-validation")
+    parser.add_argument("--ignore-tag", type=str, help="Ignore this tag (useful for partial annotation); optional and only for training, evaluating or cross-validation")
     parser.add_argument("--prior", type=os.path.abspath, help="Prior weights, i.e. a model trained on another corpus; optional and only for training or cross-validation")
     parser.add_argument("-i", "--iterations", type=int, default=10, help="Only for training or cross-validation: Number of iterations; default: 10")
     parser.add_argument("-b", "--beam-size", type=int, default=5, help="Size of the search beam; default: 5")
     parser.add_argument("--parallel", type=int, default=1, metavar="N", help="Run N worker processes (up to the number of CPUs) to speed up tagging.")
     parser.add_argument("-x", "--xml", action="store_true", help="The input is an XML file. We assume that each tag is on a separate line. Otherwise the format is the same as for regular files with respect to tag and sentence delimiters.")
-    parser.add_argument("--sentence_tag", "--sentence-tag", type=str, help="Tag name for sentence boundaries (e.g. --sentence_tag s). Use this option, if input sentences are delimited by XML tags (e.g. <s>…</s>) instead of empty lines. Implies -x/--xml.")
+    parser.add_argument("--sentence-tag", "--sentence_tag", type=str, help="Tag name for sentence boundaries (e.g. --sentence-tag s). Use this option, if input sentences are delimited by XML tags (e.g. <s>…</s>) instead of empty lines. Implies -x/--xml.")
+    parser.add_argument("--use-nfkc", action="store_true", help="Convert input to NFKC before feeding it to the tagger. This only affects the internal representation of the data.")
     parser.add_argument("--progress", action="store_true", help="Show progress when tagging a file.")
     parser.add_argument("-v", "--version", action="version", version="SoMeWeTa %s" % __version__, help="Output version information and exit.")
     parser.add_argument("CORPUS", type=argparse.FileType("r", encoding="utf-8"),
@@ -55,8 +56,8 @@ def arguments():
 
 
 def evaluate_fold(args):
-    i, beam_size, iterations, lexicon, mapping, brown_clusters, word_to_vec, words, tags, lengths, sentence_ranges, div, mod = args
-    asptagger = ASPTagger(beam_size, iterations, lexicon, mapping, brown_clusters, word_to_vec)
+    i, beam_size, iterations, lexicon, mapping, brown_clusters, word_to_vec, ignore_tag, use_nfkc, words, tags, lengths, sentence_ranges, div, mod = args
+    asptagger = ASPTagger(beam_size, iterations, lexicon, mapping, brown_clusters, word_to_vec, ignore_tag, use_nfkc)
     test_ranges = sentence_ranges[i * div + min(i, mod):(i + 1) * div + min(i + 1, mod)]
     test_start = test_ranges[0][0]
     test_end = test_ranges[-1][0] + test_ranges[-1][1]
@@ -195,7 +196,7 @@ def main():
         word_to_vec = utils.read_word2vec_vectors(args.w2v)
     if args.sentence_tag is not None:
         args.xml = True
-    asptagger = ASPTagger(args.beam_size, args.iterations, lexicon, mapping, brown_clusters, word_to_vec, args.ignore_tag)
+    asptagger = ASPTagger(args.beam_size, args.iterations, lexicon, mapping, brown_clusters, word_to_vec, args.ignore_tag, args.use_nfkc)
     if args.prior and (args.train or args.crossvalidate):
         asptagger.load_prior_model(args.prior)
     if args.train:
@@ -253,7 +254,7 @@ def main():
         sentence_ranges = list(zip((a - b for a, b in zip(itertools.accumulate(lengths), lengths)), lengths))
         div, mod = divmod(len(sentence_ranges), 10)
         with multiprocessing.Pool() as pool:
-            accs = pool.map(evaluate_fold, zip(range(10), itertools.repeat(args.beam_size), itertools.repeat(args.iterations), itertools.repeat(lexicon), itertools.repeat(mapping), itertools.repeat(brown_clusters), itertools.repeat(word_to_vec), itertools.repeat(words), itertools.repeat(tags), itertools.repeat(lengths), itertools.repeat(sentence_ranges), itertools.repeat(div), itertools.repeat(mod)))
+            accs = pool.map(evaluate_fold, zip(range(10), itertools.repeat(args.beam_size), itertools.repeat(args.iterations), itertools.repeat(lexicon), itertools.repeat(mapping), itertools.repeat(brown_clusters), itertools.repeat(word_to_vec), itertools.repeat(args.ignore_tag), itertools.repeat(args.use_nfkc), itertools.repeat(words), itertools.repeat(tags), itertools.repeat(lengths), itertools.repeat(sentence_ranges), itertools.repeat(div), itertools.repeat(mod)))
         accuracies, accuracies_iv, accuracies_oov, coarse_accuracies, coarse_accuracies_iv, coarse_accuracies_oov = zip(*accs)
         mean_accuracy = statistics.mean(accuracies)
         # 2.26 is the approximate value of the 97.5 percentile point

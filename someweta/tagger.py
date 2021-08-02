@@ -7,6 +7,7 @@ import html
 import json
 import math
 import sys
+import unicodedata
 
 import numpy as np
 import regex as re
@@ -19,8 +20,9 @@ class ASPTagger(AveragedStructuredPerceptron):
     perceptron.
 
     """
-    def __init__(self, beam_size=5, iterations=10, lexicon=None, mapping=None, brown_clusters=None, word_to_vec=None, ignore_tag=None):
+    def __init__(self, beam_size=5, iterations=10, lexicon=None, mapping=None, brown_clusters=None, word_to_vec=None, ignore_tag=None, use_nfkc=False):
         super().__init__(beam_size=beam_size, beam_history=2, iterations=iterations, latent_features=None, ignore_target=ignore_tag)
+        self.use_nfkc = use_nfkc
         self.vocabulary = set()
         self.lexicon = lexicon
         self.mapping = mapping
@@ -104,21 +106,29 @@ class ASPTagger(AveragedStructuredPerceptron):
 
     def train(self, words, tags, lengths):
         """"""
-        lower_words = [w.lower() for w in words]
+        if self.use_nfkc:
+            feature_words = [unicodedata.normalize("NFKC", w) for w in words]
+        else:
+            feature_words = words
+        lower_words = [w.lower() for w in feature_words]
         self.latent_features = functools.partial(self._get_latent_features, lower_words)
-        self.vocabulary.update(set(words))
+        self.vocabulary.update(set(feature_words))
         # self.vocabulary.update(set(lower_words))
         # <OOV>
         # # vocabulary = all lower case word forms except hapax legomena
         # self.vocabulary.update(set(k for k, v in collections.Counter(lower_words).items() if v > 1))
         # </OOV>
-        X = self._get_static_features(words, lengths)
+        X = self._get_static_features(feature_words, lengths)
         self.fit(X, tags, lengths)
 
     def tag(self, words, lengths):
         """"""
-        self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in words])
-        X = self._get_static_features(words, lengths)
+        if self.use_nfkc:
+            feature_words = [unicodedata.normalize("NFKC", w) for w in words]
+        else:
+            feature_words = words
+        self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in feature_words])
+        X = self._get_static_features(feature_words, lengths)
         tags = self.predict(X, lengths)
         start = 0
         for length, local_tags in zip(lengths, tags):
@@ -132,8 +142,12 @@ class ASPTagger(AveragedStructuredPerceptron):
     def tag_sentence(self, sentence):
         """"""
         sentence_length = [len(sentence)]
-        self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in sentence])
-        X = self._get_static_features(sentence, sentence_length)
+        if self.use_nfkc:
+            feature_words = [unicodedata.normalize("NFKC", w) for w in sentence]
+        else:
+            feature_words = sentence
+        self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in feature_words])
+        X = self._get_static_features(feature_words, sentence_length)
         tags = list(self.predict(X, sentence_length))[0]
         if self.mapping is not None:
             return list(zip(sentence, tags, (self.mapping[lt] for lt in tags)))
@@ -158,8 +172,12 @@ class ASPTagger(AveragedStructuredPerceptron):
 
     def evaluate(self, words, tags, lengths):
         """"""
-        self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in words])
-        X = self._get_static_features(words, lengths)
+        if self.use_nfkc:
+            feature_words = [unicodedata.normalize("NFKC", w) for w in words]
+        else:
+            feature_words = words
+        self.latent_features = functools.partial(self._get_latent_features, [w.lower() for w in feature_words])
+        X = self._get_static_features(feature_words, lengths)
         # accuracy = self.score(X, tags, lengths)
         # return accuracy
         predicted = self.predict(X, lengths)
