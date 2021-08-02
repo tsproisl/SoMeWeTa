@@ -40,6 +40,7 @@ def arguments():
     parser.add_argument("-b", "--beam-size", type=int, default=5, help="Size of the search beam; default: 5")
     parser.add_argument("--parallel", type=int, default=1, metavar="N", help="Run N worker processes (up to the number of CPUs) to speed up tagging.")
     parser.add_argument("-x", "--xml", action="store_true", help="The input is an XML file. We assume that each tag is on a separate line. Otherwise the format is the same as for regular files with respect to tag and sentence delimiters.")
+    parser.add_argument("--sentence_tag", "--sentence-tag", type=str, help="Tag name for sentence boundaries (e.g. --sentence_tag s). Use this option, if input sentences are delimited by XML tags (e.g. <s>…</s>) instead of empty lines. Implies -x/--xml.")
     parser.add_argument("--progress", action="store_true", help="Show progress when tagging a file.")
     parser.add_argument("-v", "--version", action="version", version="SoMeWeTa %s" % __version__, help="Output version information and exit.")
     parser.add_argument("CORPUS", type=argparse.FileType("r", encoding="utf-8"),
@@ -73,11 +74,11 @@ def evaluate_fold(args):
     return accuracy, accuracy_iv, accuracy_oov, coarse_accuracy, coarse_accuracy_iv, coarse_accuracy_oov
 
 
-def fill_input_queue(input_queue, corpus, processes, sentinel, xml=False):
+def fill_input_queue(input_queue, corpus, processes, sentinel, xml=False, sentence_tag=None):
     """"""
     corpus_size = 0
     if xml:
-        for i, (words, length, lines, word_indexes) in enumerate(utils.iter_xml(corpus, tagged=False)):
+        for i, (words, length, lines, word_indexes) in enumerate(utils.iter_xml(corpus, tagged=False, sentence_tag=sentence_tag)):
             corpus_size += length
             input_queue.put((i, words, lines, word_indexes))
     else:
@@ -106,13 +107,13 @@ def process_input_queue(func, input_queue, output_queue, sentinel, xml=False):
     output_queue.put(sentinel)
 
 
-def parallel_tagging(corpus, asptagger, parallel, xml=False):
+def parallel_tagging(corpus, asptagger, parallel, xml=False, sentence_tag=None):
     """"""
     sentinel = Sentinel()
     processes = min(parallel, multiprocessing.cpu_count())
     input_queue = multiprocessing.Queue(maxsize=processes * 100)
     output_queue = multiprocessing.Queue(maxsize=processes * 100)
-    producer = threading.Thread(target=fill_input_queue, args=(input_queue, corpus, processes, sentinel, xml))
+    producer = threading.Thread(target=fill_input_queue, args=(input_queue, corpus, processes, sentinel, xml, sentence_tag))
     with multiprocessing.Pool(processes=processes, initializer=process_input_queue, initargs=(asptagger.tag_sentence, input_queue, output_queue, sentinel, xml)):
         producer.start()
         observed_sentinels = 0
@@ -137,10 +138,10 @@ def parallel_tagging(corpus, asptagger, parallel, xml=False):
         # return corpus_size
 
 
-def single_core_tagging(corpus, asptagger, xml=False):
+def single_core_tagging(corpus, asptagger, xml=False, sentence_tag=None):
     """"""
     if xml:
-        for words, length, lines, word_indexes in utils.iter_xml(corpus, tagged=False):
+        for words, length, lines, word_indexes in utils.iter_xml(corpus, tagged=False, sentence_tag=sentence_tag):
             sentence = asptagger.tag_sentence(words)
             yield sentence, lines, word_indexes
     else:
@@ -149,7 +150,7 @@ def single_core_tagging(corpus, asptagger, xml=False):
             yield (sentence,)
 
 
-def get_number_of_tokens(queue, corpus, xml):
+def get_number_of_tokens(queue, corpus, xml, sentence_tag):
     """"""
     n = 0
     try:
@@ -165,7 +166,7 @@ def get_number_of_tokens(queue, corpus, xml):
         queue.put(None)
         return
     if xml:
-        for words, length, lines, word_indexes in utils.iter_xml(corpus, tagged=False):
+        for words, length, lines, word_indexes in utils.iter_xml(corpus, tagged=False, sentence_tag=sentence_tag):
             n += length
     else:
         for words, length in utils.iter_corpus(corpus, tagged=False):
@@ -180,7 +181,7 @@ def main():
     if args.progress:
         if args.tag:
             n_queue = multiprocessing.Queue()
-            p = multiprocessing.Process(target=get_number_of_tokens, args=(n_queue, args.CORPUS, args.xml))
+            p = multiprocessing.Process(target=get_number_of_tokens, args=(n_queue, args.CORPUS, args.xml, args.sentence_tag))
             p.start()
         else:
             logging.warning("Currently, the --progress option is only available for tagging, i.e. in combination with --tag.")
@@ -192,12 +193,14 @@ def main():
         brown_clusters = utils.read_brown_clusters(args.brown)
     if args.w2v and (args.train or args.crossvalidate):
         word_to_vec = utils.read_word2vec_vectors(args.w2v)
+    if args.sentence_tag is not None:
+        args.xml = True
     asptagger = ASPTagger(args.beam_size, args.iterations, lexicon, mapping, brown_clusters, word_to_vec, args.ignore_tag)
     if args.prior and (args.train or args.crossvalidate):
         asptagger.load_prior_model(args.prior)
     if args.train:
         if args.xml:
-            words, tags, lengths = utils.read_tagged_xml(args.CORPUS)
+            words, tags, lengths = utils.read_tagged_xml(args.CORPUS, args.sentence_tag)
         else:
             words, tags, lengths = utils.read_corpus(args.CORPUS, tagged=True)
         asptagger.train(words, tags, lengths)
@@ -212,13 +215,15 @@ def main():
         t0 = time.perf_counter()
         corpus_size = 0
         if args.parallel > 1:
-            tagged = parallel_tagging(args.CORPUS, asptagger, args.parallel, xml=args.xml)
+            tagged = parallel_tagging(args.CORPUS, asptagger, args.parallel, xml=args.xml, sentence_tag=args.sentence_tag)
         else:
-            tagged = single_core_tagging(args.CORPUS, asptagger, xml=args.xml)
+            tagged = single_core_tagging(args.CORPUS, asptagger, xml=args.xml, sentence_tag=args.sentence_tag)
         for output in tagged:
             if args.xml:
                 sentence, lines, word_indexes = output
-                print("\n".join(utils.add_pos_to_xml(sentence, lines, word_indexes)), "\n", sep="")
+                print("\n".join(utils.add_pos_to_xml(sentence, lines, word_indexes)))
+                if args.sentence_tag is None:
+                    print()
             else:
                 sentence, = output
                 print("\n".join(["\t".join(t) for t in sentence]), "\n", sep="")
@@ -233,7 +238,7 @@ def main():
     elif args.evaluate:
         asptagger.load(args.evaluate)
         if args.xml:
-            words, tags, lengths = utils.read_tagged_xml(args.CORPUS)
+            words, tags, lengths = utils.read_tagged_xml(args.CORPUS, args.sentence_tag)
         else:
             words, tags, lengths = utils.read_corpus(args.CORPUS, tagged=True)
         accuracy, accuracy_iv, accuracy_oov, coarse_accuracy, coarse_accuracy_iv, coarse_accuracy_oov = asptagger.evaluate(words, tags, lengths)
@@ -242,7 +247,7 @@ def main():
             print("Accuracy on mapped tagset: %.2f%%; IV: %.2f%%; OOV: %.2f%%" % (coarse_accuracy * 100, coarse_accuracy_iv * 100, coarse_accuracy_oov * 100))
     elif args.crossvalidate:
         if args.xml:
-            words, tags, lengths = utils.read_tagged_xml(args.CORPUS)
+            words, tags, lengths = utils.read_tagged_xml(args.CORPUS, args.sentence_tag)
         else:
             words, tags, lengths = utils.read_corpus(args.CORPUS, tagged=True)
         sentence_ranges = list(zip((a - b for a, b in zip(itertools.accumulate(lengths), lengths)), lengths))

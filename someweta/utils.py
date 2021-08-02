@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import collections
+import functools
 import html
 import json
 import logging
@@ -90,6 +91,36 @@ def get_sentences(fh, tagged=True, warn_threshold=500):
             yield sentence
 
 
+def get_xml_sentences(fh, sentence_tag, warn_threshold=500):
+    """A generator over the sentence in `filename`."""
+    eos = f"</{sentence_tag}>"
+    sentence_counter = 1
+    sentence = []
+    sentence_start = 1
+    at_end = False
+    for i, line in enumerate(fh, start=1):
+        line = line.strip()
+        if line == eos:
+            sentence.append(line)
+            at_end = True
+            continue
+        if at_end:
+            if line.startswith("</"):
+                sentence.append(line)
+            else:
+                yield sentence
+                sentence = [line]
+                sentence_counter += 1
+                sentence_start = i
+                at_end = False
+        else:
+            sentence.append(line)
+            if len(sentence) == warn_threshold:
+                logging.warn(f"Sentence {sentence_counter} (line {sentence_start}) is extremely long (≥ {warn_threshold}) – Are you sure that the input sentences end with '{eos}' on a separate line?")
+    if len(sentence) > 0:
+        yield sentence
+
+
 def read_corpus(fh, tagged=True):
     """Return a list of sentences, each consisting of a list of tokens."""
     words, tags, lengths = [], [], []
@@ -159,26 +190,29 @@ def parse_xml(xml, is_file=True):
     return elements
 
 
-def read_tagged_xml(xml):
+def read_tagged_xml(xml, sentence_tag=None):
     """Return a list of sentences, each consisting of a list of tokens. If
     tagged=False, also return the original lines and the indexes of
     the words.
 
     """
     words, tags, lengths = [], [], []
-    for w, t, l in iter_xml(xml, tagged=True):
+    for w, t, l in iter_xml(xml, tagged=True, sentence_tag=sentence_tag):
         words.extend(w)
         tags.extend(t)
         lengths.append(l)
     return words, tags, lengths
 
 
-def iter_xml(xml, tagged=True):
+def iter_xml(xml, tagged=True, sentence_tag=None):
     """Yield one sentence at a time. If tagged=False, also return the
     original lines and the indexes of the words.
 
     """
-    for sentence in get_sentences(xml, tagged=False):
+    getter = functools.partial(get_sentences, tagged=False)
+    if sentence_tag is not None:
+        getter = functools.partial(get_xml_sentences, sentence_tag=sentence_tag)
+    for sentence in getter(xml):
         word_indexes = [i for i, line in enumerate(sentence) if not (line.startswith("<") and line.endswith(">"))]
         if tagged:
             words, tags = zip(*[sentence[i].split("\t", 2) for i in word_indexes])
