@@ -1,5 +1,17 @@
 # CHANGELOG #
 
+## Version 1.8.0, 2021-08-03 ##
+
+- Add option --use-nfkc to the command line interface and option
+  use_nfkc to the constructor of ASPTagger (issue #11). If this option
+  is used, the internal representation of the input data uses Unicode
+  normalization form NFKC. This can be useful for social media input
+  that misuses mathematical symbols for their typographic effects
+  (e.g. “𝕴𝖒𝖕𝖋𝖆𝖚𝖘𝖜𝖊𝖎𝖘” instead of “Impfausweis”).
+- Add option --sentence-tag to specify an XML tag in the input data
+  that marks sentence boundaries (issue #12). This is particularly
+  useful in combination with the --sentence-tag option of SoMaJo.
+
 ## Version 1.7.3, 2021-03-18 ##
 
 - Use less memory when loading a model if the ijson library is present
