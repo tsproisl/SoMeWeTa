@@ -272,7 +272,7 @@ cross-validation on the TIGER corpus with the same settings, resulting
 in a 95% confidence interval of 98.02% ±0.12.
 
 [Download
-model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_2020-05-28.model)
+model](https://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_2020-05-28.model)
 (111 MB) – Note that the model is provided for research purposes only.
 For further information, please refer to the licenses of the
 individual resources that were used in the creation of the model.
@@ -281,7 +281,7 @@ individual resources that were used in the creation of the model.
 ### German web and social media texts <a id="german_wsm"> ###
 
 This model uses a [variant of the above
-model](http://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_for_empirist_2020-05-28.model)
+model](https://corpora.linguistik.uni-erlangen.de/someweta/german_newspaper_for_empirist_2020-05-28.model)
 as prior and is trained on the entire [EmpiriST 2.0
 corpus](https://github.com/fau-klue/empirist-corpus), i.e. both the
 training and the test data, as well as a little bit of additional
@@ -298,7 +298,7 @@ sets:
 | Web    | 93.96 ±0.16 | 95.56 ±0.17 | 83.40 ±0.69   |
 
 [Download
-model](http://corpora.linguistik.uni-erlangen.de/someweta/german_web_social_media_2020-05-28.model)
+model](https://corpora.linguistik.uni-erlangen.de/someweta/german_web_social_media_2020-05-28.model)
 (112 MB) – Note that the model is provided for research purposes only.
 For further information, please refer to the licenses of the
 individual resources that were used in the creation of the model.
@@ -324,7 +324,7 @@ development and test sets:
 | test (22–24) | 97.25 ±0.02 | 97.42 ±0.03 | 91.05 ±0.29   |
 
 [Download
-model](http://corpora.linguistik.uni-erlangen.de/someweta/english_newspaper_2017-09-15.model)
+model](https://corpora.linguistik.uni-erlangen.de/someweta/english_newspaper_2017-09-15.model)
 (38 MB) – Note that the model is provided for research purposes only.
 For further information, please refer to the licenses of the
 individual resources that were used in the creation of the model.
@@ -358,7 +358,7 @@ cross-validation on the French Treebank using the same settings:
 | 15 tags (mapped) | 98.22 ±0.11 |
 
 [Download
-model](http://corpora.linguistik.uni-erlangen.de/someweta/french_newspaper_2018-06-20.model)
+model](https://corpora.linguistik.uni-erlangen.de/someweta/french_newspaper_2018-06-20.model)
 (28 MB) – Note that the model is provided for research purposes only.
 For further information, please refer to the licenses of the
 individual resources that were used in the creation of the model.
@@ -397,7 +397,7 @@ sets:
 | informal | 90.90     | 91.41       | 75.00         |
 
 [Download
-model](http://corpora.linguistik.uni-erlangen.de/someweta/spoken_italian_2021-02-26.model)
+model](https://corpora.linguistik.uni-erlangen.de/someweta/spoken_italian_2021-02-26.model)
 (43 MB) – Note that the model is provided for research purposes only.
 For further information, please refer to the licenses of the
 individual resources that were used in the creation of the model.
@@ -426,7 +426,7 @@ dataset achieves an accuracy of 92.58% on the test set:
 | 92.58     | 94.57       | 75.09         |
 
 [Download
-model](http://corpora.linguistik.uni-erlangen.de/someweta/bhojpuri_2021-02-26.model)
+model](https://corpora.linguistik.uni-erlangen.de/someweta/bhojpuri_2021-02-26.model)
 (3,7 MB) – Note that the model is provided for research purposes only.
 For further information, please refer to the licenses of the
 individual resources that were used in the creation of the model.
