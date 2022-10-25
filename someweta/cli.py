@@ -216,6 +216,10 @@ def main():
         t0 = time.perf_counter()
         corpus_size = 0
         if args.parallel > 1:
+            try:
+                multiprocessing.set_start_method("fork")
+            except ValueError:
+                logging.warning(f"Multiprocessing start method 'fork' is not available on your operating system. Using method '{multiprocessing.get_start_method()}' instead. Note that this can lead to a massive overhead when creating the worker processes and to an increased memory usage.")
             tagged = parallel_tagging(args.CORPUS, asptagger, args.parallel, xml=args.xml, sentence_tag=args.sentence_tag)
         else:
             tagged = single_core_tagging(args.CORPUS, asptagger, xml=args.xml, sentence_tag=args.sentence_tag)
