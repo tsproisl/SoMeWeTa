@@ -1,5 +1,12 @@
 # CHANGELOG #
 
+## Version 1.8.1, 2022-10-26 ##
+
+- Prefer the 'fork' method for creating the worker processes for
+  parallel tagging, if it is supported by the operating system. This
+  is much faster than the 'spawn' method that is the default on some
+  non-Linux systems (issue #14).
+
 ## Version 1.8.0, 2021-08-03 ##
 
 - Add option --use-nfkc to the command line interface and option
